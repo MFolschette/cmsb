@@ -1,3 +1,5 @@
 *.aux
+*.toc
+*.backup
 *.log
 2012-05-08-CMSB.pdf
