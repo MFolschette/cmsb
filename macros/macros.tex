@@ -3,6 +3,8 @@
 % Macros générales
 \newcommand{\ie}{\textit{i.e.} }
 
+\def\Pint{\textsc{PINT}}
+
 % Notations générales pour PH
 \newcommand{\PH}{\mathcal{PH}}
 \newcommand{\PHs}{\mathcal{S}}
@@ -51,42 +53,3 @@
 \newcommand{\GEva}[3]{#1 \stackrel{#2}{\longrightarrow} #3}
 \newcommand{\GEval}[3]{#1 \stackrel{#2}{\Longrightarrow} #3}
 \newcommand{\GEget}[2]{\PHget{#1}{#2}}
-
-
-
-% Notations pour le modèle de Thomas (depuis thèse)
-\def\levels{\mathsf{niveaux}}
-\def\levelsA#1#2{\levels_+(#1\rightarrow #2)}
-\def\levelsI#1#2{\levels_-(#1\rightarrow #2)}
-\newcommand{\PHres}{\mathsf{Res}}
-
-% Notations spécifiques au modèle de Thomas
-\newcommand{\Kinconnu}{\emptyset}
-\newcommand{\RRGva}[3]{#1 \stackrel{#2}{\longrightarrow} #3}
-\newcommand{\RRGgi}{\mathcal{G}}
-\newcommand{\RRGreg}[1]{\RRGgi_{#1}}
-\newcommand{\RRGres}[2]{\PHres_{#1}(#2)}
-
-
-
-% Notations spécifiques aux actions conjointes
-\newcommand{\PHfrappeAconjointe}{\rightarrowtail}
-\newcommand{\PHfrappec}[3]{\mbox{$#1\PHfrappeAconjointe#2\PHfrappeB#3$}}
-
-
-
-% Notations spécifiques à ce document
-\newcommand{\A}{}
-\newcommand{\B}{'}
-%\newcommand{\A}{_A}
-%\newcommand{\B}{_B}
-\newcommand{\simule}{\rho}
-\newcommand{\relsimule}{\textcolor{red}{\lesssim}}
-\newcommand{\abstraction}{\alpha}
-\newcommand{\chap}[1]{\textcolor{blue}{\widehat{#1}}}
-
-% Notations spécifiques à la traduction
-\newcommand{\PHsc}{\ensuremath{sc}}
-\newcommand{\PHsca}[1]{\ensuremath{\PHsc^{#1}}}
-\newcommand{\PHfsc}{f_{sc}}
-\newcommand{\PHjouables}{\mathsf{jouables}}
