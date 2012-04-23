@@ -1,4 +1,4 @@
-\documentclass[fleqn]{llncs}
+\documentclass{llncs}
 
 \usepackage[english]{babel}
 \usepackage[utf8]{inputenc}
@@ -64,6 +64,18 @@
 \renewcommand{\emptyset}{\varnothing}
 
 
+\title{xxxx}
+\author{Maxime Folschette\inst{1}, Morgan Magnin\inst{1}, 
+	Lo\"ic Pauleve\inst{2}, Olivier Roux\inst{1}}
+\authorrunning{M. Folschette, et al.}
+\institute{
+LUNAM Universit\'e, \'Ecole Centrale de Nantes, IRCCyN UMR CNRS 6597\\
+(Institut de Recherche en Communications et Cybern\'etique de Nantes)\\
+1 rue de la No\"e - B.P. 92101 - 44321 Nantes Cedex 3, France.\\
+\email{Maxime.Folschette@irccyn.ec-nantes.fr}
+\and
+LIX, \'Ecole Polytechnique, 91128 Palaiseau Cedex, France.
+}
 %\title{}
 %\author{}
 %\date{2012/04/18}
@@ -73,7 +85,13 @@
 
 \begin{document}
 
-\resume{The Process Hitting is a framework that allows to study dynamic models. It allows to model systems from Thomas' modeling using the translation given in [XXX]. We present in this paper a new translation from a Process Hitting model to a Biological Regulatory Network. This translation allows to infer an IG from the given Process Hitting, and using this first result, infer a possibly partial parametrization.}
+\maketitle
+
+\begin{abstract}
+The Process Hitting is a framework that allows to study dynamic models. It allows to model systems from Thomas' modeling using the translation given in [XXX]. We present in this paper a new translation from a Process Hitting model to a Biological Regulatory Network. This translation allows to infer an IG from the given Process Hitting, and using this first result, infer a possibly partial parametrization.
+\end{abstract}
+
+
 
 \section{Introduction}
 
@@ -90,7 +108,11 @@
 
 \todo{Definition: Resources (expressing activators/inhibitors)}
 
+\todo{Give a simple example}
+
 \todo{Definition: Parametrization}
+
+\todo{Continue with the same example}
 
 \todo{The interval semantic is more expressive: explain}
 
@@ -100,6 +122,8 @@
 \resume{The Process Hitting is a new framework that allows to model dynamic systems with an atomistic point of view. In this subsection, we present the definitions of this modeling and mention how static analysis makes it efficient to study large systems. We finally remind the way to translate a BRN to a PH using cooperative sorts.}
 
 \todo{Definition: Process Hitting + dynamics + formalism used after in the article}
+
+\todo{Give a simple example (similar to GRN subsection?)}
 
 \todo{Mention static analysis (fixed points \& reachability)}
 
@@ -112,11 +136,17 @@
 \section{Interaction Graph inference}
 \resume{The Process Hitting can be used to finely model a system by defining cooperations or studying its behavior using the available tools. One can then decide to translate this model back to Thomas' modeling, and the Interaction Graph inference is the first step to perform this. It relies on an exhaustive approach that looks for possible influences of a gene on the others given all possible configurations. This part gives good results.}
 
-In order to infer a complete BRN, one has to find the Interaction Graph first, as some constraints on the Parametrization rely on it. Inferring the Interaction Graph consists in determining the influence of each component on its successors.
+In order to infer a complete BRN, one has to find the Interaction Graph first, as some constraints on the Parametrization rely on it. Inferring the Interaction Graph consists in determining the influence of all components on each of its successors.
 
 \todo{Distinguish components and cooperative sorts}
 
+The nodes of the Interaction Graph can be found by analyzing the sorts of the Process Hitting and distinguishing them from cooperative sorts.
+
+\todo{Start a running example here --- maybe re-use the example of previous section}
+
 \todo{Algorithm to infer IG}
+
+\todo{Illustrate with the example}
 
 \todo{Discuss of errors/inconclusive cases}
 
@@ -126,6 +156,8 @@ In order to infer a complete BRN, one has to find the Interaction Graph first, a
 \resume{The second part of the translation process is to infer the Parametrization. It relies on an exhaustive enumeration of all predecessors of each gene in order to fin attractor processes. The implementation returns a possibly incomplete of all necessary parameters, given the exhaustiveness of the cooperations.} \afaire{The last step consists of the enumeration of all possible configurations, given this set of inferred parameters, and some constraints on the Parametrization.}
 
 \todo{Algorithm to infer parameters}
+
+\todo{Illustrate with the example}
 
 \todo{Discuss of incomplete cooperations $\Rightarrow$ inconclusive cases}
 
