@@ -93,97 +93,23 @@ The Process Hitting is a framework that allows to study dynamic models. It allow
 
 
 
-\section{Introduction}
+\input{parts/intro}
+
+\input{parts/frameworks}
+
+\input{parts/infer-ig}
+
+\input{parts/infer-param}
+
+\input{parts/example}
+
+\input{parts/future-work}
+
+\input{parts/ccl}
 
 
 
-\section{Frameworks}
 
-\subsection{Thomas' modeling}
-\resume{The Thomas' modeling is the historical and widely-used model for the study of dynamical gene systems, and takes the form of a Biological Regulatory Network. In this subsection, we present this tool by defining the Interaction Graph and the Parametrization. We also justify our extension of the latter to use interval parameters instead of integers.}
-
-\todo{Definition: Interaction Graph}
-
-\todo{Definition: Effective levels}
-
-\todo{Definition: Resources (expressing activators/inhibitors)}
-
-\todo{Give a simple example}
-
-\todo{Definition: Parametrization}
-
-\todo{Continue with the same example}
-
-\todo{The interval semantic is more expressive: explain}
-
-\todo{Definition: Dynamics?}
-
-\subsection{The Process Hitting framework}
-\resume{The Process Hitting is a new framework that allows to model dynamic systems with an atomistic point of view. In this subsection, we present the definitions of this modeling and mention how static analysis makes it efficient to study large systems. We finally remind the way to translate a BRN to a PH using cooperative sorts.}
-
-\todo{Definition: Process Hitting + dynamics + formalism used after in the article}
-
-\todo{Give a simple example (similar to GRN subsection?)}
-
-\todo{Mention static analysis (fixed points \& reachability)}
-
-\todo{Definition: Generalized dynamics}
-
-\todo{Refining with cooperative sorts}
-
-
-
-\section{Interaction Graph inference}
-\resume{The Process Hitting can be used to finely model a system by defining cooperations or studying its behavior using the available tools. One can then decide to translate this model back to Thomas' modeling, and the Interaction Graph inference is the first step to perform this. It relies on an exhaustive approach that looks for possible influences of a gene on the others given all possible configurations. This part gives good results.}
-
-In order to infer a complete BRN, one has to find the Interaction Graph first, as some constraints on the Parametrization rely on it. Inferring the Interaction Graph consists in determining the influence of all components on each of its successors.
-
-\todo{Distinguish components and cooperative sorts}
-
-The nodes of the Interaction Graph can be found by analyzing the sorts of the Process Hitting and distinguishing them from cooperative sorts.
-
-\todo{Start a running example here --- maybe re-use the example of previous section}
-
-\todo{Algorithm to infer IG}
-
-\todo{Illustrate with the example}
-
-\todo{Discuss of errors/inconclusive cases}
-
-
-
-\section{Parametrization inference}
-\resume{The second part of the translation process is to infer the Parametrization. It relies on an exhaustive enumeration of all predecessors of each gene in order to fin attractor processes. The implementation returns a possibly incomplete of all necessary parameters, given the exhaustiveness of the cooperations.} \afaire{The last step consists of the enumeration of all possible configurations, given this set of inferred parameters, and some constraints on the Parametrization.}
-
-\todo{Algorithm to infer parameters}
-
-\todo{Illustrate with the example}
-
-\todo{Discuss of incomplete cooperations $\Rightarrow$ inconclusive cases}
-
-\afaire{Enumerate all possible parametrizations}
-
-
-
-\section{Example}
-\resume{In this section we illustrate the functioning of this method with a simple example, and we give some figures about its execution on more substantial examples.}
-
-\todo{Stats on the execution on TCRSIG40 (EGFR20?)}
-
-
-
-\section{Future work}
-\resume{In order to gain some performance in the inference, we may consider several leads. Model reduction by cooperative sorts removal may allow to obtain good results without exhaustive search and with possibly lower complexity. Using the multiplexes semantics would allow to reduce the possible parametrizations and make the cooperations appear in the Interaction Graph. Finally, Other ways of coping with the incomplete cooperations could be found.}
-
-\todo{Cope with cases where cooperations are incomplete}
-
-\todo{Use the multiplexes semantics and infer them for complete cooperations to reduce the number of parameters}
-
-\todo{Other approach: model reduction using projections}
-
-
-
-\section{Conclusion}
 
 
 \end{document}
