@@ -5,11 +5,65 @@ In order to infer a complete BRN, one has to find the Interaction Graph first, a
 
 \todo{Distinguish components and cooperative sorts}
 
-The nodes of the Interaction Graph can be found by analyzing the sorts of the Process Hitting and distinguishing them from cooperative sorts.
+The nodes of the Interaction Graph can be found by analyzing the sorts of the Process Hitting and distinguishing them from cooperative sorts using several rules inspired by the definition of cooperative sorts. for instance, components and cooperative sorts don't have the same behavior regarding the influence of other sorts: components represent the concentration of real entities and therefore cannot miss a process in a bounce. Thus, if we observe such a bounce, we know that the considered sort must be cooperative%; we define the set of sorts that must be cooperative in \ref{must_be_cs}
+. On the other hand, if a sort has strictly less than 4 processes, or if none of its processes is the hitter of an action, then it cannot be used as a cooperative sort.%Furthermore, if a process $a_i$ of a given sort $a$ hits another sort $c$ to make it bounce to a certain process $c_k$, we can consider that $c_k$ represents $a_i$ if and only if $a_i$ does not hit $c_k$.
+Given these observations, we define the set of sorts that must be cooperative (\ref{must_be_cs}) sorts and the set of sorts that must be components (\ref{cannot_be_cs}).
+\begin{align}
+\label{must_be_cs}
+  M &= \{c \in \PHs \mid \exists \PHfrappe{a_i}{c_j}{c_k} \in \PHa, a \in \PHs, a_i \in \PHs_a, c_j, c_k \in \PHs_c, |j - k| > 1\} \\
+\label{cannot_be_cs}
+  M' &= \{c \in \PHs \mid l_c < 3\} \cup \{c \in \PHs \mid \nexists h \in \PHa, \PHhitter(h) = c\}
+%\begin{split}\label{cannot_be_cs_2}
+%  M'' &= \{c \in \PHs \mid \exists a \in \PHs, \exists a_i \PHs_a, \exists \sigma \in \PHs_c, \exists h, h' \in \PHa, \\
+%      & \quad \quad \quad \PHhitter(h) = \PHhitter(h') = a_i \wedge \PHbounce(h) = \PHtarget(h') = c_\sigma\}
+%\end{split} \\
+\end{align}
+Of course, if we have $M \cap M' \neq \emptyset$ then at least one sort has an ambiguous role as it exists in both sets. This case is left inconclusive and the input Process Hitting model should be revised or the cooperative sorts should be differentiated manually. We consider in the following that we have $M \cap M' = \emptyset$.
+
+All sorts in the set $\PHs \setminus M'$ can be seen as potential cooperative sorts. One last criterion to differentiate cooperative sorts is to consider fixed points. If a sort is cooperative, this means that all sub-states of its components predecessors (possibly going though a cooperative sort) must lead to exactly one fixed point in the potentially cooperative sort. If a sub-state gives several fixed points it does not respect the definition, whereas if it gives no fixed point then this sub-state is not represented by a process of the sort. In both cases, the considered sort is not a cooperative sort.
+\afaire{En fait pour être tout à fait juste il faudrait faire un point fixe ici, ce que je n'ai pas fait pour le moment}
+%\begin{align}
+%\label{cooperation}
+%  \forall c \in \PHs, \forall c_\sigma \in \PHs_c, \zeta_{c_\sigma} &= \{a_i \in \PHs_a \mid a \in \PHs, \exists c_{\sigma'} \in \PHs_c, \PHfrappe{a_i}{c_{\sigma'}}{c_\sigma} \in \PHa\} \\
+%\end{align}
 
 \todo{Start a running example here --- maybe re-use the example of previous section}
 
 \todo{Algorithm to infer IG}
+At this point we can divide the set of sorts $\PHs$ into components ($\Gamma$) and cooperative sorts ($\PHs \setminus \Gamma$) that will not appear in the Interaction Graph. In (\ref{ph_direct_predec}) we define the notion of direct predecessors in a Process Hitting by considering the actions between sorts, and we extend it in (\ref{ph_predec}) to a broader notion of predecessor, where we define the influence of sort to another by considering actions and possible cooperative sorts. This latter can be compared to the notion of predecessors of Gene Networks.
+\begin{align}
+\label{ph_direct_predec}
+  \forall b \in \PHs, \PHdirectpredec{b} &= \{a \in \PHs \mid \exists h \in \PHa, \PHsort(\PHhitter(h)) = a \wedge \PHsort(\PHtarget(h)) = b\} \\
+\begin{split}\label{ph_predec}
+  \forall b \in \PHs, \PHpredec{b} &= \{a \in \PHs \mid \exists n \in \mathbb{N}^*, \exists (c^k)_{k \in \llbracket 0 ; n \rrbracket} \in \PHs^{n+1}, \\
+                                   & \quad \quad c^0 = a \wedge c^n = b \wedge c_0 \in \PHdirectpredec{c_1} \\
+                                   & \quad \quad \wedge \forall k \in \llbracket 1 ; n-1 \rrbracket, c^k \in \PHdirectpredec{c^{k+1}} \cap (\PHs\setminus\Gamma)\}
+\end{split}
+\end{align}
+
+We now aim to determine what kind of influence gets each component from its component predecessors. %For this, we consider any possible influence and consider
+Let $b \in \Gamma$ be a component and $a \in \PHpredec{b} \cap \Gamma$ a component that may influence it. We define in (\ref{sub-state_predec}) the set $C$ of possible sub-states for all other component predecessors of $b$.
+\begin{align}
+\label{sub-state_predec}
+  C_{a \rightarrow b} &= \{\PHetat{c^n_i} \in \mathop{\times}_{c^n \in \PHpredecgene{b}} \PHs_{c^n}\}
+\end{align}
+The point of this approach is to understand, in a given sub-state, the influence of $a$ by comparing the focal states of $b$ in each state of $a$. For a given sub-state $\sigma \in C_{a \rightarrow b}$ of component predecessors of $b$ and a given process $a_i \in \PHs_a$ of $a$, we define the context of each predecessor $c \in \PHpredec{b}$ of $b$. This context is only the chosen process for $a$ (\ref{sub-state_a_predec}) and all component predecessors (\ref{sub-state_gene_predec}). In case of a cooperative sort, the context is the process that represents the sub-state of its predecessors (\ref{sub-state_cs_predec}).
+\begin{align}
+\label{sub-state_a_predec}
+  C^{a}_{a_i,\sigma,b} &= a_i \\
+\label{sub-state_gene_predec}
+  \forall c \in \PHpredecgene{b}, C^{c}_{a_i,\sigma,b} &= \PHget{\sigma}{c} \\
+\label{sub-state_cs_predec}
+  \forall \upsilon \in \PHpredeccs{b}, C^{\upsilon}_{a_i,\sigma,b} &= \upsilon_\varsigma \quad \text{where: } \forall c \in \PHdirectpredec{\upsilon}, \PHget{\varsigma}{c} = \PHget{\sigma}{c}
+\end{align}
+
+\todo{Illustrate with the example}
+
+The focal processes of $b$ defined in (\ref{ig_focal_processes}) as the set of processes that are not hit by a firable action in the considered context (\ie an action whose hitter is in this context).
+\begin{align}
+\label{ig_focal_processes}
+  \mathsf{L}_{a_i,\sigma,b} &= \{h \in \PHa \mid C^{\PHsort(\PHhitter(h))}_{a_i,\sigma,b} \neq \PHhitter(h)\} \\
+\end{align}
 
 \todo{Illustrate with the example}
 
