@@ -59,11 +59,53 @@ The point of this approach is to understand, in a given sub-state, the influence
 
 \todo{Illustrate with the example}
 
-The focal processes of $b$ defined in (\ref{ig_focal_processes}) as the set of processes that are not hit by a firable action in the considered context (\ie an action whose hitter is in this context).
+%The set of firable actions in the considered context is defined in (\ref{ig_firable}).
+The focal processes of $b$ are defined in (\ref{ig_focal_processes_notauto}) as the processes that are not the target of a firable action in the considered context. Here, we have to distinguish the case where $b$ is one of its own predecessors: in this case, considering other processes than the neighbors of the selected process is not relevant.
+%\begin{align}
+%\label{ig_firable}
+%  \PHa_{a_i,\sigma,b} &= \{h \in \PHa \mid \PHhitter(h) = C^{\PHsort(\PHhitter(h))}_{a_i,\sigma,b}, \PHsort(\PHtarget(h)) = b\}
+%\end{align}
+\begin{itemize}
+  \item If $b \neq a$:
 \begin{align}
-\label{ig_focal_processes}
-  \mathsf{L}_{a_i,\sigma,b} &= \{h \in \PHa \mid C^{\PHsort(\PHhitter(h))}_{a_i,\sigma,b} \neq \PHhitter(h)\} \\
+\label{ig_focal_processes_notauto}
+  \mathsf{L}_{a_i,\sigma,b} &= \{b_j \in \PHs_b \mid \nexists h \in \PHa, C^{\PHsort(\PHhitter(h))}_{a_i,\sigma,b} = \PHhitter(h), \PHtarget(h) = b_i\}
 \end{align}
+  \item If $b = a$:
+\begin{align}
+\label{ig_focal_processes_auto}
+  \mathsf{L}_{b_i,\sigma,b} &=
+    \left\{\begin{array}{l}
+      \{0\} \quad \text{if } \nexists h \in \PHa, \PHhitter(h) = \PHtarget(h) = b_i \\
+      \{j \in \{+1 ; -1\} \mid \exists h \in \PHa, \PHtarget(h) = b_i\\
+      \quad\quad\quad\quad \wedge \PHbounce(h) = b_{i+j}\} \quad \text{else}
+    \end{array}\right.
+\end{align}
+\end{itemize}
+
+At this point, we need to check that the focal processes found are attractors. The set of focal processes has to verify the following:
+\begin{itemize}
+  \item If $b \neq a$:
+\begin{align}
+\label{ig_attractor_noauto}
+  \forall \PHfrappe{c_i}{b_j}{b_k} \in \PHa, c_i = C^{c}_{a_i,\sigma,b}, \forall b_f \in \mathsf{L}_{a_i,\sigma,b}, |f-k| < |f-j|
+\end{align}
+  \item If $b = a$:
+\begin{align}
+\label{ig_attractor_auto}
+  \mathsf{L}_{b_i,\sigma,b} \neq \{+1 ; -1\}
+\end{align}
+\end{itemize}
+In the case where the focal processes are not attractors, the studied Process Hitting model can't be expressed as a Biological Regulatory Network. Indeed, there exists a state where a component is attracted in two different directions and it is not possible to model such a behavior with Thomas' modeling. This condition also ensures that the sets of focal processes are intervals.
+
+By comparing the focal processes sets obtained, we can determine the sign of the influence of $a$ on $b$. Indeed, let $a_i$, $a_j$ be two processes of $a$ such as $i < j$ \todo{Ordre sur les processus plutôt que sur les $i$ / $j$ ?}, then $a$ activates $b$ in the sub-state $\sigma$ if $\mathsf{L}_{a_i,\sigma,b} <_{[]} \mathsf{L}_{a_j,\sigma,b}$; it inhibits $b$ in the sub-state $\sigma$ if $\mathsf{L}_{a_j,\sigma,b} <_{[]} \mathsf{L}_{a_i,\sigma,b}$, where the relation $<_{[]}$ compares intervals and is defined in (\ref{compare}).
+\begin{align}
+\label{compare}
+  [a_{i,1} ; a_{i,2}] <_{[]} [a_{j,1} ; a_{j,2}] \Leftrightarrow (a_{i,1} < a_{j,1} \wedge a_{i,2} \leq a_{j,2}) \vee (a_{i,1} \leq a_{j,1} \wedge a_{i,2} < a_{j,2})
+\end{align}
+
+\todo{Conclusion: edge + threshold}
+
 
 \todo{Illustrate with the example}
 
