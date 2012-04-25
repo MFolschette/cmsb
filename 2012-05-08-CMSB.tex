@@ -38,7 +38,7 @@
 \newcommand{\ie}{\textit{i.e.} }
 
 
-\title{Concretizing the Process Hitting into Gene Regulatory Networks}
+\title{Concretizing the Process Hitting into Biological Regulatory Networks}
 
 \author{Maxime Folschette\inst{1,2}, Lo\"ic Paulev\'e\inst{3}, Katsumi Inoue\inst{2}, Morgan Magnin\inst{1}, Olivier Roux\inst{1}}
 
@@ -48,7 +48,7 @@ LUNAM Universit\'e, \'Ecole Centrale de Nantes, IRCCyN UMR CNRS 6597\\
 1 rue de la No\"e - B.P. 92101 - 44321 Nantes Cedex 3, France.\\
 \email{Maxime.Folschette@irccyn.ec-nantes.fr}
 \and
-\todo{NII}
+National Institute of Informatics, Tokyo, Japan
 \and
 LIX, \'Ecole Polytechnique, 91128 Palaiseau Cedex, France.
 }
@@ -59,7 +59,31 @@ LIX, \'Ecole Polytechnique, 91128 Palaiseau Cedex, France.
 \maketitle
 
 \begin{abstract}
-The Process Hitting is a framework that allows to study dynamic models. It allows to model systems from Thomas' modeling using the translation given in [XXX]. We present in this paper a new translation from a Process Hitting model to a Biological Regulatory Network. This translation allows to infer an IG from the given Process Hitting, and using this first result, infer a possibly partial parametrization.
+In this paper, we investigate the (abstraction) relationship between the Process Hitting (PH) and
+Ren\'e Thomas' modeling of Biological Regulatory Networks (BRNs).
+
+The PH is a recently introduced framework to model concurrent processes with a specific
+restriction on the causality between actions.
+In particular, the PH is suitable to model BRNs with partial or complete knowledge of
+the cooperations between regulators by defining the most permissive dynamics w.r.t. to these
+constraints.
+Hence, the PH provides a compact over-approximation of dynamics on which very efficient static
+analysis of dynamics properties can be performed (making tractable the formal checking of BRNs with
+thousands of components).
+
+On the other hand, the qualitative modeling of BRNs has been widely adressed using Thomas'
+formalism to describe the possible dynamics, leading to numerous theoretical work and
+practical tools to understand emerging behaviours.
+
+Given a PH model of a BRN, we first address the inference of the underlying Interaction Graph
+between components.
+Then the inference of corresponding Thomas' models is provided using Answer-Set Programming,
+allowing an efficient enumeration of (possibly numerous) compatible parametrization.
+
+In addition of giving a formal link between different approaches for qualitative BRN modeling, 
+this work emphasises the ability of PH to deal with large BRN models with incomplete knownledge on
+cooperations between components, where Thomas' approach fail because of the large amount of possible
+parameters.
 \end{abstract}
 
 
