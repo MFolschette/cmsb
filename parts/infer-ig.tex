@@ -92,6 +92,50 @@ other sorts are well-formed cooperative sorts.
 
 \todo{Start a running example here --- maybe re-use the example of previous section}
 
+\begin{center}
+\begin{tikzpicture}
+% Sortes
+\TSort{(0,3)}{a}{2}{l}
+\TSort{(0,0)}{b}{2}{l}
+\TSetTick{ab}{0}{00}
+\TSetTick{ab}{1}{01}
+\TSetTick{ab}{2}{10}
+\TSetTick{ab}{3}{11}
+\TSort{(3,0.5)}{ab}{4}{r}
+\TSort{(6,1)}{z}{3}{r}
+
+% Actions de màj de ab
+\THit{a_1}{}{ab_0}{.west}{ab_2}
+\THit{a_1}{}{ab_1}{.west}{ab_3}
+\path[bounce,bend left] \TBounce{ab_0}{}{ab_2}{.south} \TBounce{ab_1}{}{ab_3}{.south};
+
+\THit{a_0}{}{ab_2}{.west}{ab_0}
+\THit{a_0}{}{ab_3}{.west}{ab_1}
+\path[bounce,bend right] \TBounce{ab_2}{}{ab_0}{.north} \TBounce{ab_3}{}{ab_1}{.north};
+
+\THit{b_0}{}{ab_3}{.west}{ab_2}
+\THit{b_0}{}{ab_1}{.west}{ab_0}
+\THit{b_1}{}{ab_0}{.west}{ab_1}
+\THit{b_1}{}{ab_2}{.west}{ab_3}
+\path[bounce,bend right] \TBounce{ab_1}{}{ab_0}{.north} \TBounce{ab_3}{}{ab_2}{.north};
+\path[bounce,bend left] \TBounce{ab_0}{}{ab_1}{.south} \TBounce{ab_2}{}{ab_3}{.south};
+
+% Arcs sortant de ab
+\THit{ab_2}{}{z_1}{.north west}{z_2}
+\THit{ab_2}{}{z_0}{.north west}{z_1}
+\path[bounce,bend left] \TBounce{z_1}{}{z_2}{.south} \TBounce{z_0}{}{z_1}{.south};
+\THit{ab_3}{}{z_2}{.south west}{z_1}
+\THit{ab_3}{}{z_0}{.north west}{z_1}
+\path[bounce,bend left] \TBounce{z_2}{bend right}{z_1}{.north} \TBounce{z_0}{}{z_1}{.south};
+\THit{ab_1}{}{z_2}{.south west}{z_1}
+\THit{ab_1}{}{z_1}{.south west}{z_0}
+\path[bounce,bend right] \TBounce{z_2}{}{z_1}{.north} \TBounce{z_1}{}{z_0}{.north};
+\THit{ab_0}{}{z_2}{.south west}{z_1}
+\THit{ab_0}{}{z_1}{.south west}{z_0}
+\path[bounce,bend right] \TBounce{z_2}{}{z_1}{.north} \TBounce{z_1}{}{z_0}{.north};
+\end{tikzpicture}
+\end{center}
+
 \todo{Algorithm to infer IG}
 At this point we can divide the set of sorts $\PHs$ into components ($\Gamma$) and cooperative sorts ($\PHs \setminus \Gamma$) that will not appear in the Interaction Graph. In (\ref{ph_direct_predec}) we define the notion of direct predecessors in a Process Hitting by considering the actions between sorts, and we extend it in (\ref{ph_predec}) to a broader notion of predecessor, where we define the influence of sort to another by considering actions and possible cooperative sorts. This latter can be compared to the notion of predecessors of Gene Networks.
 \begin{align}
