@@ -59,31 +59,23 @@ LIX, \'Ecole Polytechnique, 91128 Palaiseau Cedex, France.
 \maketitle
 
 \begin{abstract}
-In this paper, we investigate the (abstraction) relationship between the Process Hitting (PH) and
-Ren\'e Thomas' modeling of Biological Regulatory Networks (BRNs).
+The Process Hitting (PH) is a recently introduced framework to model concurrent processes with a
+specific restriction on the causality between actions.
+In particular, the PH is suitable to model Biological Regulatory Networks (BRNs) with partial or
+complete knowledge of the cooperations between regulators by defining the most permissive dynamics
+w.r.t. to these constraints.
 
-The PH is a recently introduced framework to model concurrent processes with a specific
-restriction on the causality between actions.
-In particular, the PH is suitable to model BRNs with partial or complete knowledge of
-the cooperations between regulators by defining the most permissive dynamics w.r.t. to these
-constraints.
-Hence, the PH provides a compact over-approximation of dynamics on which very efficient static
-analysis of dynamics properties can be performed (making tractable the formal checking of BRNs with
-thousands of components).
-
-On the other hand, the qualitative modeling of BRNs has been widely adressed using Thomas'
-formalism to describe the possible dynamics, leading to numerous theoretical work and
-practical tools to understand emerging behaviours.
+On the other hand, the qualitative modeling of BRNs has been widely addressed using Ren\'e Thomas'
+formalism, leading to numerous theoretical work and practical tools to understand emerging behaviours.
 
 Given a PH model of a BRN, we first address the inference of the underlying Interaction Graph
 between components.
 Then the inference of corresponding Thomas' models is provided using Answer-Set Programming,
 allowing an efficient enumeration of (possibly numerous) compatible parametrization.
 
-In addition of giving a formal link between different approaches for qualitative BRN modeling, 
-this work emphasises the ability of PH to deal with large BRN models with incomplete knownledge on
-cooperations between components, where Thomas' approach fail because of the large amount of possible
-parameters.
+In addition of giving a formal link between different approaches for qualitative BRNs modeling, 
+this work emphasises the ability of PH to deal with large BRNs with incomplete knowledge on
+cooperations, where Thomas' approach fails because of the combinatoric of possible parameters.
 \end{abstract}
 
 
