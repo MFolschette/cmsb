@@ -29,16 +29,16 @@ All sorts in the set $\PHs \setminus M'$ can be seen as potential cooperative so
 
 ***
 \begin{equation}
-\mathcal A(a, \varsigma) = \{ \PHfrappe{b_i}{a_j}{a_k} \in \mathcal A \mid 
+\PHa(a, \varsigma) = \{ \PHfrappe{b_i}{a_j}{a_k} \in \PHa \mid 
 	b_i \in \varsigma \} %\wedge a_j \in \varsigma \}
 \label{eq:Actx}
 \end{equation}
 
 \begin{definition}[$\focals(a,\ctx)$]
 Let us define the digraph $G = (L_a, V)$ where arcs are the bounces within the sort $a$
-triggered by actions in $\mathcal A(a,\ctx)$:
+triggered by actions in $\PHa(a,\ctx)$:
 \[V = \{(a_j,a_k)\in (S_a \times S_a) \mid 
-			\exists\PHfrappe{b_i}{a_j}{a_k}\in \mathcal A(a,\ctx)\}\enspace.\]
+			\exists\PHfrappe{b_i}{a_j}{a_k}\in \PHa(a,\ctx)\}\enspace.\]
 \[
 \focals(a,\ctx) = 
 \begin{cases}
@@ -52,16 +52,16 @@ From this definition derives that:
 \item if $\focals(a,\ctx)=\emptyset$, there exists a 
 state $s\in L$ with $s[a]\in L_a$ and $\sigma\subset s$
 such that $\forall n\in\mathbb N$ there 
-exists a scenario of length $n+1$ of actions in $\mathcal A(a,\ctx)$ playable in $s$.
+exists a scenario of length $n+1$ of actions in $\PHa(a,\ctx)$ playable in $s$.
 \item if $\focals(a,\ctx)\neq\emptyset$, for all
 state $s\in L$ with $s[a]\in L_a$ and $\sigma\subset s$, for each scenario $\delta$ of actions in
-$\mathcal A(a,\ctx)$ playable in $s$,
+$\PHa(a,\ctx)$ playable in $s$,
 either
 \begin{itemize}
 \item $s\play\delta[a] \in \focals(a,\ctx)$
-\item or, $\exists h\in \mathcal A(a,\ctx)$ playable in $s\play\delta$.
+\item or, $\exists h\in \PHa(a,\ctx)$ playable in $s\play\delta$.
 \end{itemize}
-Moreover the size of $\delta$ is bound by $|\mathcal A(a,\ctx)|$.
+Moreover the size of $\delta$ is bound by $|\PHa(a,\ctx)|$.
 \end{enumerate}
 \begin{property}[Well-formed cooperative sort]
 A sort $\upsilon\in\PHs$ is a well-formed cooperative sort if and only if
@@ -83,7 +83,8 @@ Note: for the sake of simplicity, we do not allow the existence of multiple foca
 A PH is well-formed for BRN inference if and only if each sort $a\in\PHs$ either 
 belongs to $\Gamma$, or is a well-formed cooperative sort;
 and there is no cycle between cooperative sorts
-(the digraph $(\Sigma,\{(a,b)\in(\Sigma\times\Sigma)\mid \{a,b\}\cap\Gamma=\emptyset \})$ is
+(the digraph $(\Sigma,\{(a,b)\in(\Sigma\times\Sigma)\mid \exists \PHfrappe{a_i}{b_j}{b_k}\in\PHa
+\wedge a\neq b\wedge \{a,b\}\cap\Gamma=\emptyset \})$ is
 acyclic).
 \end{property}
 
