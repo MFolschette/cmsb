@@ -49,9 +49,10 @@ triggered by actions in $\mathcal A(L_a,\sigma)$:
 \item if $\focals(L_a,\sigma)=\emptyset$, there exists a 
 state $s\in L$ with $s[a]\in L_a$ and $\sigma\subset s$
 such that $\forall n\in\mathbb N$ there 
-exists a scenario of length $n'>n$ of actions in $\mathcal A(L_a,\sigma)$.
+exists a scenario of length $n+1$ of actions in $\mathcal A(L_a,\sigma)$ playable in $s$.
 \item if $\focals(L_a,\sigma)\neq\emptyset$, for all
-state $s\in L$ with $s[a]\in L_a$ and $\sigma\subset s$, for each scenario $\delta$ playable in $s$
+state $s\in L$ with $s[a]\in L_a$ and $\sigma\subset s$, for each scenario $\delta$ of actions in
+$\mathcal A(L_a,\sigma)$ playable in $s$,
 either
 \begin{itemize}
 \item $s\play\delta[a] \in \focals(L_a,\sigma)$
