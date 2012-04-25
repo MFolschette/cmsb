@@ -3,23 +3,15 @@
 \usepackage[english]{babel}
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
-%\usepackage[top=2cm, bottom=2cm, left=2cm, right=2cm]{geometry} % Marges
 
 \usepackage{amsmath}  % Maths
 \usepackage{amsfonts} % Maths
 \usepackage{amssymb}  % Maths
 \usepackage{stmaryrd} % Maths (crochets doubles)
 
-\usepackage{theorem} % Styles supplémentaires pour théorèmes
 \usepackage{url}     % Mise en forme + liens pour URLs
 \usepackage{array}   % Tableaux évolués
 
-% Police
-%\usepackage{lmodern}
-%\usepackage{libertine}
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \usepackage{tikz}
 \newdimen\pgfex
 \newdimen\pgfem
@@ -35,23 +27,6 @@
 
 
 
-%\tikzstyle{plot}=[every path/.style={-}]
-%\tikzstyle{axe}=[gray,->,>=stealth']
-%\tikzstyle{ticks}=[font=\scriptsize,every node/.style={gray}]
-%\tikzstyle{mean}=[thick]
-%\tikzstyle{interval}=[line width=5pt,red,draw opacity=0.7]
-%\definecolor{lightred}{rgb}{1,0.3,0.3}
-
-%\tikzstyle{hl}=[yellow]
-%\tikzstyle{hl2}=[orange]
-
-%\tikzstyle{every matrix}=[ampersand replacement=\&]
-%\tikzstyle{shorthandoff}=[]
-%\tikzstyle{shorthandon}=[]
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-
-
 % Commandes À FAIRE
 \usepackage{color} % Couleurs du texte
 \newcommand{\afaire}[1]{\textcolor{red}{[À FAIRE~: #1]}}
@@ -59,18 +34,13 @@
 \newcommand{\todo}[1]{\textcolor{darkgreen}{[#1]}}
 
 
-
-% Un vrai symbole pour l'ensemble vide
-%\renewcommand{\emptyset}{\varnothing}
-
 % Id est
 \newcommand{\ie}{\textit{i.e.} }
 
 
-\title{xxxx}
+\title{Concretizing the Process Hitting into Gene Regulatory Networks}
 
 \author{Maxime Folschette\inst{1,2}, Lo\"ic Paulev\'e\inst{3}, Katsumi Inoue\inst{2}, Morgan Magnin\inst{1}, Olivier Roux\inst{1}}
-\authorrunning{M. Folschette, et al.}
 
 \institute{
 LUNAM Universit\'e, \'Ecole Centrale de Nantes, IRCCyN UMR CNRS 6597\\
@@ -100,5 +70,8 @@ The Process Hitting is a framework that allows to study dynamic models. It allow
 \input{parts/example}
 \input{parts/future-work}
 \input{parts/ccl}
+
+\bibliographystyle{splncs}
+\bibliography{biblio}
 
 \end{document}
