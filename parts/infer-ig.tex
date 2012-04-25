@@ -3,7 +3,7 @@
 
 In order to infer a complete BRN, one has to find the Interaction Graph first, as some constraints on the Parametrization rely on it. Inferring the Interaction Graph consists in determining the influence of all components on each of its successors.
 
-\todo{Distinguish components and cooperative sorts}
+\paragraph{Distinguish components and cooperative sorts}
 
 The nodes of the Interaction Graph can be found by analyzing the sorts of the Process Hitting and distinguishing them from cooperative sorts using several rules inspired by the definition of cooperative sorts. for instance, components and cooperative sorts don't have the same behavior regarding the influence of other sorts: components represent the concentration of real entities and therefore cannot miss a process in a bounce. Thus, if we observe such a bounce, we know that the considered sort must be cooperative%; we define the set of sorts that must be cooperative in \ref{must_be_cs}
 . On the other hand, if a sort has strictly less than 4 processes, or if none of its processes is the hitter of an action, then it cannot be used as a cooperative sort.%Furthermore, if a process $a_i$ of a given sort $a$ hits another sort $c$ to make it bounce to a certain process $c_k$, we can consider that $c_k$ represents $a_i$ if and only if $a_i$ does not hit $c_k$.
@@ -26,6 +26,68 @@ All sorts in the set $\PHs \setminus M'$ can be seen as potential cooperative so
 %\label{cooperation}
 %  \forall c \in \PHs, \forall c_\sigma \in \PHs_c, \zeta_{c_\sigma} &= \{a_i \in \PHs_a \mid a \in \PHs, \exists c_{\sigma'} \in \PHs_c, \PHfrappe{a_i}{c_{\sigma'}}{c_\sigma} \in \PHa\} \\
 %\end{align}
+
+***
+\[\mathcal A(L_a,\sigma) = \{ \PHfrappe{b_j}{a_j}{a_k} \in \mathcal A \mid 
+	a_j\in L_a \wedge a_k\in L_a \wedge (b_j\in \sigma \vee b_j \in L_a) \}\]
+
+\begin{definition}[$\focals(L_a,\sigma)$]
+Let us define the directed graph $G = (L_a, V)$ where arcs are the bounces within the sort $a$
+triggered by actions in $\mathcal A(L_a,\sigma)$:
+\[V = \{(a_j,a_k)\in (L_a \times L_a) \mid 
+			\exists\PHfrappe{b_i}{a_j}{a_k}\in \mathcal A(L_a,\sigma)\}\enspace.\]
+\[
+\focals(L_a,\sigma) = 
+\begin{cases}
+\{ a_i \in L_a \mid \nexists (a_i,a_j)\in V\} & \text{if $G$ is acyclic},\\
+\emptyset & \text{otherwise.}\\
+\end{cases}
+\]
+\end{definition}
+\begin{lemma}~
+\begin{enumerate}
+\item if $\focals(L_a,\sigma)=\emptyset$, there exists a 
+state $s\in L$ with $s[a]\in L_a$ and $\sigma\subset s$
+such that $\forall n\in\mathbb N$ there 
+exists a scenario of length $n'>n$ of actions in $\mathcal A(L_a,\sigma)$.
+\item if $\focals(L_a,\sigma)\neq\emptyset$, for all
+state $s\in L$ with $s[a]\in L_a$ and $\sigma\subset s$, for each scenario $\delta$ playable in $s$
+either
+\begin{itemize}
+\item $s\play\delta[a] \in \focals(L_a,\sigma)$
+\item or, $\exists h\in \mathcal A(L_a,\sigma)$ playable in $s\play\delta$.
+\end{itemize}
+Moreover the size of $\delta$ is bound by $|\mathcal A(L_a,\sigma)|$.
+\end{enumerate}
+\end{lemma}
+\begin{proof}
+From $\focals$ definition.
+\end{proof}
+\begin{property}[Well-formed cooperative sort]
+A sort $\upsilon\in\PHs$ is a well-formed cooperative sort if and only if
+each configuration $\sigma$ of its predecessors leads $\upsilon$ to a unique focal process,
+denoted by $\upsilon[\sigma]$:
+\[
+\forall \sigma \in \prod_{a\in\PHdirectpredec{\upsilon}} \PHs_{a},
+\focals(\PHs_\upsilon,\sigma) = \{ \upsilon[\sigma] \}\]
+\end{property}
+Note: for the sake of simplicity, we do not allow the existence of multiple focal processes.
+
+\begin{property}[Well-formed PH for BRN inference]
+A PH is well-formed for BRN inference if and only if each sort $a\in\PHs$ either satisfies
+\[\nexists \PHfrappe{b_i}{a_j}{a_k}\in\PHa, |j-k| > 1
+\enspace,\]
+or is a well-formed cooperative sort.
+\end{property}
+
+Given a well-formed PH, the set $\Gamma$ of components hence is given in \eqref{eq:PH-components};
+other sorts are well-formed cooperative sorts.
+\begin{equation}
+\Gamma = \{a \in \PHs \mid \nexists \PHfrappe{b_i}{a_j}{a_k} \in \PHa, |j - k| > 1\} \\
+\label{eq:PH-components}
+\end{equation}
+
+***
 
 \todo{Start a running example here --- maybe re-use the example of previous section}
 
