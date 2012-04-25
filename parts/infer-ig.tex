@@ -74,22 +74,18 @@ denoted by $\upsilon[\sigma]$:
 Note: for the sake of simplicity, we do not allow the existence of multiple focal processes.
 \todo{check if we can't straightfowardly handle this}
 
-\begin{property}[Well-formed PH for BRN inference]
-A PH is well-formed for BRN inference if and only if each sort $a\in\PHs$ either satisfies
-\[\nexists \PHfrappe{b_i}{a_j}{a_k}\in\PHa, |j-k| > 1
-\enspace,\]
-or is a well-formed cooperative sort.
-\todo{+ no cycles between cooperative sorts}
-\end{property}
-
-Given a well-formed PH, the set $\Gamma$ of components hence is given in \eqref{eq:PH-components};
-other sorts are well-formed cooperative sorts.
 \begin{equation}
 \Gamma = \{a \in \PHs \mid \nexists \PHfrappe{b_i}{a_j}{a_k} \in \PHa, |j - k| > 1\} \\
 \label{eq:PH-components}
 \end{equation}
 
-***
+\begin{property}[Well-formed PH for BRN inference]
+A PH is well-formed for BRN inference if and only if each sort $a\in\PHs$ either 
+belongs to $\Gamma$, or is a well-formed cooperative sort;
+and there is no cycle between cooperative sorts
+(the digraph $(\Sigma,\{(a,b)\in(\Sigma\times\Sigma)\mid \{a,b\}\cap\Gamma=\emptyset \})$ is
+acyclic).
+\end{property}
 
 \todo{Start a running example here --- maybe re-use the example of previous section}
 
