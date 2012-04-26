@@ -246,7 +246,17 @@ c[\sigma] =
 As there is no cycle between cooperative sorts, the above recursion always terminates.
 
 Given $a\in\Gamma$, for each $b\in\PHpredecgene{a}$,
-let us define two sub-states $\sigma,\sigma'\in \prod_{c\in\PHpredecgene{a}} S_c$ such that
+we define $\gamma(b\rightarrow a)$ the set of components cooperating with $b$ (including $b$ itself)
+to hit $a$ in \eqref{eq:cooperating-with-b}.
+\begin{align}
+\begin{split}
+\gamma(b\rightarrow a) = \{ b \} \cup \{ c \in \Gamma \mid 
+			\exists \upsilon\in(\PHs\setminus\Gamma),
+				\upsilon\in\PHpredec{a} \wedge \{b,c\}\subset\PHpredec{\upsilon} \}
+\end{split}
+\label{eq:cooperating-with-b}
+\end{align}
+Let us define two sub-states $\sigma,\sigma'\in \prod_{c\in\gamma(b\rightarrow a)} S_c$ such that
 $\sigma[b]=b_i$, $\sigma'[b]=b_j$ with $i < j$,
 and $\sigma[c]=\sigma'[c]$ for each $c\in\PHpredecgene{a}, c\neq b$.
 With $\ctx[\sigma] = \{ c[\sigma] \in \PHproc \mid c\in\PHdirectpredec{a} \wedge b\in \PHpredecgene{c}
