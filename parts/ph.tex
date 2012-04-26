@@ -1,12 +1,239 @@
 \subsection{The Process Hitting framework}
 \resume{The Process Hitting is a new framework that allows to model dynamic systems with an atomistic point of view. In this subsection, we present the definitions of this modeling and mention how static analysis makes it efficient to study large systems. We finally remind the way to translate a BRN to a PH using cooperative sorts.}
 
-\todo{Definition: Process Hitting + dynamics + formalism used after in the article}
+\todo{General introduction and motivation for Process Hitting}
+\cite{PMR10-TCSB}
+\cite{PMR12-MSCS}
 
-\todo{Give a simple example (similar to GRN subsection?)}
+The Process Hitting gathers a finite number of concurrent \emph{processes}
+grouped into a finite set of \emph{sorts}.
+A process belongs to one and only one sort and is noted $a_i$ where $a$ is the
+sort and $i$ the identifier of the process within the sort $a$.
+At any time, one and only one process of each sort is present, forming a state
+of the Process Hitting.
+ 
+The concurrent interactions between processes are defined by a set of
+\emph{actions}.
+Actions describe the replacement of a process by another of the same sort
+conditioned by the presence of at most one other process in the current
+state of the Process Hitting.
+An action is denoted by $\PHfrappe{a_i}{b_j}{b_k}$ where $a_i,b_j,b_k$ are processes
+of sorts $a$ and $b$.
+It is required that $b_j\neq b_k$ and that $a=b\Rightarrow a_i=b_j$.
+An action $h=\PHfrappe{a_i}{b_j}{b_k}$ is read as ``$a_i$ \emph{hits} $b_j$ to
+make it bounce to $b_k$'', and
+$a_i,b_j,b_k$ are called respectively \emph{hitter}, \emph{target} and
+\emph{bounce} of the action, and can be referred to as
+$\PHhitter(h), \PHtarget(h), \PHbounce(h)$, respectively.
 
-\todo{Mention static analysis (fixed points \& reachability)}
+\begin{definition}[Process Hitting]\label{def:PH}
+A \emph{Process Hitting} is a triple $(\PHs,\PHl,\PHa)$:
+\begin{itemize}
+\item $\PHs = \{a,b,\dots\}$ is the finite set of \emph{sorts};
+\item $\PHl = \prod_{a\in\PHs} \PHl_a$ is the set of states with $\PHl_a = \{a_0,\dots,a_{l_a}\}$
+the finite set of \emph{processes} of sort $a\in\Sigma$ and $l_a$ a positive integer with
+	$a\neq b\Rightarrow \forall(a_i,b_j)\in\PHl_a\times\PHl_b,a_i\neq b_j$;
+\item $\PHa = \{ \PHfrappe{a_i}{b_j}{b_k}, \dots \mid
+					(a,b)\in\PHs^2 \wedge (a_i,b_j,b_k)\in \PHl_a\times\PHl_b\times\PHl_b$ \\
+	\hspace*{2cm} $\wedge b_j\neq b_k \wedge a=b\Rightarrow a_i=b_j\}$
+			is the finite set of \emph{actions}.
+\end{itemize}
+$\PHproc$ denotes the set of all processes ($\PHproc = \{ a_i\mid a\in\PHs \wedge a_i\in\PHl_a\}$).
+\end{definition}
 
-\todo{Definition: Generalized dynamics}
+\noindent
+The sort of a process $a_i$ is referred to as $\PHsort(a_i)=a$ and the set of
+sorts present in an action $h\in\PHa$ as 
+$\PHsort(h) = \{\PHsort(\PHhitter(h)),\PHsort(\PHtarget(h))\}$.
+Given a state $s\in \PHl$, the process of sort $a\in\PHs$ present in $s$ is
+denoted by $\PHget{s}{a}$, that is the $a$-coordinate of the state $s$.
+If $a_i\in \PHl_a$, we define the notation $a_i\in s \EQDEF \PHget{s}{a}=a_i$.
 
-\todo{Refining with cooperative sorts}
+An action $h=\PHfrappe{a_i}{b_j}{b_k} \in\PHa$ is \emph{playable} in $s\in L$
+if and only if $\PHget{s}{a}=a_i$ and $\PHget{s}{b}=b_j$.
+In such a case, $(s\play h)$ stands for the state resulting from the play of
+the action $h$ in $s$, that is 
+$\PHget{(s\play h)}{b} = b_k$ and 
+$\forall c\in\PHs, c\neq b, \PHget{(s\play h)}{c} = \PHget{s}{c}$.
+For the sake of clarity, $((s\play h)\play h')$, $h'\in\PHs$ is abbreviated as
+$(s\play h\play h')$.
+
+\begin{example*}
+\pref{fig:runningPH-1} represents a Process Hitting $(\PHs,\PHl,\PHa)$ where
+\todo{detail the value of components + action example}.
+\end{example*}
+
+\begin{figure}
+\centering
+\scalebox{1.3}{
+\begin{tikzpicture}
+\TSort{(0,0)}{a}{3}{r}
+\TSort{(-3,0.5)}{b}{2}{l}
+\TSort{(3,0.5)}{c}{2}{r}
+
+\THit{b_1}{very thick}{a_0}{.west}{a_1}
+\THit{b_1}{very thick}{a_1}{.north west}{a_2}
+\THit{b_0}{}{a_2}{.west}{a_1}
+\THit{b_0}{}{a_1}{.west}{a_0}
+
+\path[bounce, bend left=60]
+\TBounce{a_1}{very thick}{a_2}{.south}
+\TBounce{a_0}{very thick}{a_1}{.south}
+;
+\path[bounce, bend right=60]
+\TBounce{a_2}{}{a_1}{.north}
+\TBounce{a_1}{}{a_0}{.north}
+;
+
+\THit{c_1}{very thick}{a_0}{.east}{a_1}
+\THit{c_1}{very thick}{a_1}{.north east}{a_2}
+\THit{c_0}{}{a_2}{.east}{a_1}
+\THit{c_0}{}{a_1}{.east}{a_0}
+
+\path[bounce, bend right=60]
+\TBounce{a_1}{very thick}{a_2}{.south east}
+\TBounce{a_0}{very thick}{a_1}{.south east}
+;
+\path[bounce, bend left=60]
+\TBounce{a_2}{}{a_1}{.north}
+\TBounce{a_1}{}{a_0}{.north east}
+;
+
+\end{tikzpicture}
+}
+\caption{\label{fig:runningPH-1}
+A Process Hitting example.
+Sorts are represented by labeled boxes, and processes by circles (ticks are
+the identifiers of the processes within the sort, for instance, $a_0$ is the
+process ticked $0$ in the box $a$).
+An action (for instance $\PHfrappe{b_1}{a_1}{a_2}$) is represented by a pair of
+directed arcs, having the hit part ($b_1$ to $a_1$) in plain line and the bounce
+part ($a_1$ to $a_2$) in dotted line.
+Actions involving $b_1$ or $c_1$ are in thick lines.
+%The current state is represented by the grayed processes:
+%$\state{a_0,b_1,c_0,d_0}$.
+}
+\end{figure}
+
+\paragraph{Modelling cooperation.}
+\todo{Cooperative sorts}
+We note that cooperative sorts are standard Process Hitting sorts and do not involve any
+special treatment regarding the semantics of related actions.
+
+\begin{example}
+\todo{\pref{fig:PH-cooperativity} + }
+\end{example}
+
+\begin{figure}
+\centering
+\scalebox{1.3}{
+\begin{tikzpicture}
+\TSort{(0,0)}{b}{2}{t}
+\TSort{(0,-3.8)}{c}{2}{b}
+\TSort{(4.5,-3)}{a}{3}{r}
+
+\TSetTick{bc}{0}{00}
+\TSetTick{bc}{1}{01}
+\TSetTick{bc}{2}{10}
+\TSetTick{bc}{3}{11}
+% \TSetSortLbcel{bc}{$\neg a\wedge b$}
+\TSort{(-0.5,-2)}{bc}{4}{b}
+
+\THit{b_1}{very thick,bend right}{bc_0}{.north}{bc_2}
+\THit{b_1}{very thick,bend right}{bc_1}{.north}{bc_3}
+\THit{b_0}{}{bc_2}{.north west}{bc_0}
+\THit{b_0}{}{bc_3}{.north west}{bc_1}
+
+\THit{c_0}{}{bc_1}{.south}{bc_0}
+\THit{c_0}{}{bc_3}{.south}{bc_2}
+\THit{c_1}{very thick}{bc_0}{.south}{bc_1}
+\THit{c_1}{very thick}{bc_2}{.south}{bc_3}
+
+\path[bounce, bend right=25]
+\TBounce{bc_2}{}{bc_0}{.north east}
+\TBounce{bc_3}{}{bc_1}{.north east}
+;
+\path[bounce, bend left=80, distance=30]
+\TBounce{bc_0}{very thick}{bc_2}{.north}
+\TBounce{bc_1}{very thick}{bc_3}{.north}
+;
+\path[bounce, bend right]
+\TBounce{bc_0}{very thick}{bc_1}{.west}
+\TBounce{bc_2}{very thick}{bc_3}{.west}
+;
+\path[bounce, bend left]
+\TBounce{bc_3}{}{bc_2}{.east}
+\TBounce{bc_1}{}{bc_0}{.east}
+;
+
+\THit{bc_3}{}{a_1}{.west}{a_2}
+\path[bounce, bend left=40]
+\TBounce{a_1}{}{a_2}{.south west}
+;
+
+\end{tikzpicture}
+}
+
+\caption{\label{fig:PH-cooperativity}
+A Process Hitting modeling a cooperativity between $b_1$ and $c_1$ to make
+$a_1$ bounce to $a_2$.
+Actions involving $b_1$ or $c_1$ are in thick lines.
+}
+\end{figure}
+
+\begin{figure}
+\centering
+\scalebox{1.3}{
+\begin{tikzpicture}
+\TSort{(0,0)}{a}{3}{l}
+\TSort{(3, 3)}{b}{2}{t}
+\TSort{(3,-1)}{c}{2}{b}
+
+\TSetTick{bc}{0}{00}
+\TSetTick{bc}{1}{01}
+\TSetTick{bc}{2}{10}
+\TSetTick{bc}{3}{11}
+% \TSetSortLbcel{bc}{$\neg a\wedge b$}
+\TSort{(-3,-0.5)}{bc}{4}{l}
+
+\THit{bc_3}{}{a_1}{.north west}{a_2}
+\THit{bc_0}{}{a_1}{.south west}{a_0}
+\path[bounce]
+\TBounce{a_1}{bend left}{a_2}{.south west}
+\TBounce{a_1}{bend right}{a_0}{.north west}
+;
+
+\THit{b_0}{}{a_2}{.east}{a_1}
+\THit{b_1}{}{a_0}{.north east}{a_1}
+\path[bounce]
+\TBounce{a_2}{bend left}{a_1}{.north east}
+\TBounce{a_0}{bend right=20}{a_1}{.south}
+;
+
+\THit{c_0}{bend right}{a_2}{.south east}{a_1}
+\THit{c_1}{bend right}{a_0}{.east}{a_1}
+\path[bounce]
+\TBounce{a_2}{bend left=20}{a_1}{.north}
+\TBounce{a_0}{bend right=30}{a_1}{.south east}
+;
+
+\path[dashed,hit]
+	(2,-1.3) edge[bend left=10] (-2.3,-0.7)
+	(2, 3.3) edge[bend right=10] (-2.3,3)
+;
+
+\end{tikzpicture}
+}
+
+\caption{\label{fig:runningPH-2}
+\todo{***}
+The actions from $b$ and $c$ to the cooperative sort $bc$ are identical to those defined in
+\pref{fig:PH-cooperativity} and are represented here by a single dashed arc.
+}
+\end{figure}
+
+
+
+
+
+

@@ -14,6 +14,20 @@
 
 \usepackage{comment}
 
+\usepackage{prettyref}
+\newrefformat{def}{Def.~\ref{#1}}
+\newrefformat{fig}{Fig.~\ref{#1}}
+\newrefformat{pro}{Property~\ref{#1}}
+\newrefformat{lem}{Lemma~\ref{#1}}
+\newrefformat{thm}{Theorem~\ref{#1}}
+\newrefformat{sec}{Sect.~\ref{#1}}
+\newrefformat{ssec}{Subsect.~\ref{#1}}
+\newrefformat{suppl}{Appendix~\ref{#1}}
+\newrefformat{eq}{Eq.~\eqref{#1}}
+\def\pref{\prettyref}
+
+\spnewtheorem*{example*}{Example}{\itshape}{}
+
 \usepackage{tikz}
 \newdimen\pgfex
 \newdimen\pgfem
@@ -26,8 +40,6 @@
 \input{macros/macros}
 \input{macros/macros-ph}
 \input{macros/macros-grn}
-
-\def\IG{\mathrm{IG}}
 
 % Commandes À FAIRE
 \usepackage{color} % Couleurs du texte

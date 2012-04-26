@@ -5,12 +5,12 @@
 
 % Notations générales pour PH
 \newcommand{\PH}{\mathcal{PH}}
-\newcommand{\PHs}{\mathcal{S}}
+\newcommand{\PHs}{\Sigma}
+\newcommand{\PHl}{L}
 %\newcommand{\PHp}{\mathcal{P}}
 \newcommand{\PHp}{\textcolor{red}{\mathcal{P}}}
 \newcommand{\PHproc}{\mathcal{P}}
-\newcommand{\PHa}{\mathcal{A}}
-\newcommand{\PHl}{\mathcal{L}}
+\newcommand{\PHa}{\mathcal{H}}
 \newcommand{\PHn}{\mathcal{N}}
 
 \newcommand{\PHhitter}{\mathsf{hitter}}
@@ -54,6 +54,7 @@
 
 \def\ctx{\varsigma}
 \def\ctxOverride{\Cap}
+\def\state#1{\langle #1 \rangle}
 
 % Notations spécifiques aux graphes d'états
 %\newcommand{\PHge}{\textcolor{red}{\mathcal{GE}}}
@@ -65,3 +66,9 @@
 %\newcommand{\GEva}[3]{#1 \stackrel{#2}{\longrightarrow} #3}
 %\newcommand{\GEval}[3]{#1 \stackrel{#2}{\Longrightarrow} #3}
 %\newcommand{\GEget}[2]{\PHget{#1}{#2}}
+
+
+\def\DEF{\stackrel{\Delta}=}
+\def\EQDEF{\stackrel{\Delta}\Leftrightarrow}
+\def\IG{\mathrm{IG}}
+
