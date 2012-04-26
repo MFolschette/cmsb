@@ -80,12 +80,19 @@ Note: for the sake of simplicity, we do not allow the existence of multiple foca
 \end{equation}
 
 \begin{property}[Well-formed PH for BRN inference]
-A PH is well-formed for BRN inference if and only if each sort $a\in\PHs$ either 
-belongs to $\Gamma$, or is a well-formed cooperative sort;
-and there is no cycle between cooperative sorts
+A PH is well-formed for BRN inference if and only if all the following condition are verified:
+\begin{itemize}
+\item 
+each sort $a\in\PHs$ either belongs to $\Gamma$, or is a well-formed cooperative sort;
+\item 
+there is no cycle between cooperative sorts
 (the digraph $(\Sigma,\{(a,b)\in(\Sigma\times\Sigma)\mid \exists \PHfrappe{a_i}{b_j}{b_k}\in\PHa
 \wedge a\neq b\wedge \{a,b\}\cap\Gamma=\emptyset \})$ is
-acyclic).
+acyclic);
+\item 
+sorts having no action hitting them belong to $\Gamma$
+($\{ a \in \Sigma\mid \nexists \PHfrappe{b_i}{a_j}{a_k}\in\PHa\} \subset \Gamma$).
+\end{itemize}
 \end{property}
 
 \todo{Start a running example here --- maybe re-use the example of previous section}
@@ -135,15 +142,26 @@ acyclic).
 \end{center}
 
 \todo{Algorithm to infer IG}
-At this point we can divide the set of sorts $\PHs$ into components ($\Gamma$) and cooperative sorts ($\PHs \setminus \Gamma$) that will not appear in the Interaction Graph. In (\ref{ph_direct_predec}) we define the notion of direct predecessors in a Process Hitting by considering the actions between sorts, and we extend it in (\ref{ph_predec}) to a broader notion of predecessor, where we define the influence of sort to another by considering actions and possible cooperative sorts. This latter can be compared to the notion of predecessors of Gene Networks.
+At this point we can divide the set of sorts $\PHs$ into components ($\Gamma$) and cooperative sorts
+($\PHs \setminus \Gamma$) that will not appear in the Interaction Graph. In (\ref{ph_direct_predec})
+we define the notion of direct predecessors in a Process Hitting by considering the actions between
+sorts, and we extend it in (\ref{ph_predec}) to a broader notion of predecessor, where we define the
+influence of sort to another by considering actions and possible cooperative sorts. This latter can
+be compared to the notion of predecessors of Gene Networks. 
 \begin{align}
+\forall a \in \PHs, \PHdirectpredec{a} &= \{b \in \PHs \mid \exists \PHfrappe{b_i}{a_j}{a_k} \}
 \label{ph_direct_predec}
-  \forall b \in \PHs, \PHdirectpredec{b} &= \{a \in \PHs \mid \exists h \in \PHa, \PHsort(\PHhitter(h)) = a \wedge \PHsort(\PHtarget(h)) = b\} \\
-\begin{split}\label{ph_predec}
-  \forall b \in \PHs, \PHpredec{b} &= \{a \in \PHs \mid \exists n \in \mathbb{N}^*, \exists (c^k)_{k \in \llbracket 0 ; n \rrbracket} \in \PHs^{n+1}, \\
-                                   & \quad \quad c^0 = a \wedge c^n = b \wedge c_0 \in \PHdirectpredec{c_1} \\
-                                   & \quad \quad \wedge \forall k \in \llbracket 1 ; n-1 \rrbracket, c^k \in \PHdirectpredec{c^{k+1}} \cap (\PHs\setminus\Gamma)\}
+\\
+\begin{split}
+\forall a \in \PHs, \PHpredec{a} &= \{b \in \PHs \mid \exists n \in \mathbb{N}^*, \exists (c^k)_{k \in \llbracket 0 ; n \rrbracket} \in \PHs^{n+1}, \\
+                                   & \quad \quad c^0 = b \wedge c^n = a \\
+                                   & \quad \quad \wedge \forall k \in \llbracket 0 ; n-1 \rrbracket,
+								   c^k \in \PHdirectpredec{c^{k+1}} \cap (\PHs\setminus\Gamma)\}
 \end{split}
+\label{ph_predec}
+\\
+\forall a\in \PHs, \PHpredecgene{a} & = \PHpredec{a} \cap \Gamma
+\label{eq:regulators}
 \end{align}
 
 We now aim to determine what kind of influence gets each component from its component predecessors. %For this, we consider any possible influence and consider
@@ -209,6 +227,41 @@ By comparing the focal processes sets obtained, we can determine the sign of the
   [a_{i,1} ; a_{i,2}] <_{[]} [a_{j,1} ; a_{j,2}] \Leftrightarrow (a_{i,1} < a_{j,1} \wedge a_{i,2} \leq a_{j,2}) \vee (a_{i,1} \leq a_{j,1} \wedge a_{i,2} < a_{j,2})
 \end{align}
 
+*** nouvelle version
+
+
+Given $c\in\PHs$ and a sub-state $\sigma\in\prod_{a\in\PHsort(\sigma)} S_a$
+such that $c\in\Gamma\Rightarrow c\in\PHsort(\sigma) \wedge
+c\notin\Gamma\Rightarrow \PHpredecgene{c}\subset\PHsort(\sigma)$,
+$c[\sigma]$ refers to the process of sort $c$ recursively defined by:
+\begin{equation}
+c[\sigma] = 
+\begin{cases}
+\sigma[c] & \text{if } c\in\PHsort(\sigma) \\
+\focals(c, S_c \cup \{ d[\sigma] \mid d\in\PHdirectpredec{c} \})
+	& \text{otherwise.}
+\end{cases}
+\label{eq:proc-ctx}
+\end{equation}
+As there is no cycle between cooperative sorts, the above recursion always terminates.
+
+Given $a\in\Gamma$, for each $b\in\PHpredecgene{a}$,
+let us define two sub-states $\sigma,\sigma'\in \prod_{c\in\PHpredecgene{a}} S_c$ such that
+$\sigma[b]=b_i$, $\sigma'[b]=b_j$ with $i < j$,
+and $\sigma[c]=\sigma'[c]$ for each $c\in\PHpredecgene{a}, c\neq b$.
+With $\ctx[\sigma] = \{ c[\sigma] \in \PHproc \mid c\in\PHdirectpredec{a} \wedge b\in \PHpredecgene{c}
+\}$:
+\begin{itemize}
+\item if $\focals(a,\ctx[\sigma])$ or $\focals(a,\ctx[\sigma'])$ is not a non-empty interval, then
+			$b\xrightarrow{\pm}a\in \IG$; otherwise,
+\item $\focals(a,\ctx[\sigma]) <_{[]} \focals(a,\ctx[\sigma']) \Longrightarrow
+			b\xrightarrow{+}a\in \IG$;
+\item $\focals(a,\ctx[\sigma']) <_{[]} \focals(a,\ctx[\sigma]) \Longrightarrow
+			b\xrightarrow{-}a\in \IG$.
+\end{itemize}
+
+In the particular case where $\PHpredecgene{a}=\{a\}$,
+we skip the above rules if $\focals(a,S_a)$ is a non-empty interval.
 
 \todo{Conclusion: edge + threshold}
 
