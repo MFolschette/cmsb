@@ -37,12 +37,12 @@ All sorts in the set $\PHs \setminus M'$ can be seen as potential cooperative so
 \begin{definition}[$\focals(a,\ctx)$]
 Let us define the digraph $G = (L_a, V)$ where arcs are the bounces within the sort $a$
 triggered by actions in $\PHa(a,\ctx)$:
-\[V = \{(a_j,a_k)\in (S_a \times S_a) \mid 
+\[V = \{(a_j,a_k)\in (\PHl_a \times \PHl_a) \mid 
 			\exists\PHfrappe{b_i}{a_j}{a_k}\in \PHa(a,\ctx)\}\enspace.\]
 \[
 \focals(a,\ctx) = 
 \begin{cases}
-\{ a_i \in S_a \mid \nexists (a_i,a_j)\in V\} & \text{if $G$ is acyclic},\\
+\{ a_i \in \PHl_a \mid \nexists (a_i,a_j)\in V\} & \text{if $G$ is acyclic},\\
 \emptyset & \text{otherwise.}\\
 \end{cases}
 \]
@@ -68,8 +68,8 @@ A sort $\upsilon\in\PHs$ is a well-formed cooperative sort if and only if
 each configuration $\sigma$ of its predecessors leads $\upsilon$ to a unique focal process,
 denoted by $\upsilon[\sigma]$:
 \[
-\forall \sigma \in \prod_{a\in\PHdirectpredec{\upsilon}} \PHs_{a},
-\focals(\upsilon,\sigma\cup S_\upsilon) = \{ \upsilon[\sigma] \}\]
+\forall \sigma \in \prod_{a\in\PHdirectpredec{\upsilon}} \PHl_{a},
+\focals(\upsilon,\sigma\cup \PHl_\upsilon) = \{ \upsilon[\sigma] \}\]
 \end{property}
 Note: for the sake of simplicity, we do not allow the existence of multiple focal processes.
 \todo{check if we can't straightfowardly handle this}
@@ -234,7 +234,7 @@ By comparing the focal processes sets obtained, we can determine the sign of the
 *** nouvelle version
 
 
-Given $c\in\PHs$ and a sub-state $\sigma\in\prod_{a\in\PHsort(\sigma)} S_a$
+Given $c\in\PHs$ and a sub-state $\sigma\in\prod_{a\in\PHsort(\sigma)} \PHl_a$
 such that $c\in\Gamma\Rightarrow c\in\PHsort(\sigma) \wedge
 c\notin\Gamma\Rightarrow \PHpredecgene{c}\subset\PHsort(\sigma)$,
 $c[\sigma]$ refers to the process of sort $c$ recursively defined by:
@@ -242,7 +242,7 @@ $c[\sigma]$ refers to the process of sort $c$ recursively defined by:
 c[\sigma] = 
 \begin{cases}
 \sigma[c] & \text{if } c\in\PHsort(\sigma) \\
-\focals(c, S_c \cup \{ d[\sigma] \mid d\in\PHdirectpredec{c} \})
+\focals(c, \PHl_c \cup \{ d[\sigma] \mid d\in\PHdirectpredec{c} \})
 	& \text{otherwise.}
 \end{cases}
 \label{eq:proc-ctx}
@@ -260,7 +260,7 @@ to hit $a$ in \eqref{eq:cooperating-with-b}.
 \end{split}
 \label{eq:cooperating-with-b}
 \end{align}
-Let us define two sub-states $\sigma,\sigma'\in \prod_{c\in\gamma(b\rightarrow a)} S_c$ such that
+Let us define two sub-states $\sigma,\sigma'\in \prod_{c\in\gamma(b\rightarrow a)} \PHl_c$ such that
 $\sigma[b]=b_i$, $\sigma'[b]=b_j$ with $i < j$,
 and $\sigma[c]=\sigma'[c]$ for each $c\in\PHpredecgene{a}, c\neq b$.
 With $\ctx[\sigma] = \{ c[\sigma] \in \PHproc \mid c\in\PHdirectpredec{a} \wedge b\in \PHpredecgene{c}
@@ -275,7 +275,7 @@ With $\ctx[\sigma] = \{ c[\sigma] \in \PHproc \mid c\in\PHdirectpredec{a} \wedge
 \end{itemize}
 
 In the particular case where $\PHpredecgene{a}=\{a\}$,
-we skip the above rules if $\focals(a,S_a)$ is a non-empty interval.
+we skip the above rules if $\focals(a,\PHl_a)$ is a non-empty interval.
 
 \todo{Conclusion: edge + threshold}
 
