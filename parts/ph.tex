@@ -99,6 +99,11 @@ $(s\play h\play h')$.
 \TBounce{a_1}{}{a_0}{.north east}
 ;
 
+\THit{a_2}{bend right}{b_1}{.north east}{b_0}
+\path[bounce, bend left=80]
+\TBounce{b_1}{out=100,in=140}{b_0}{.north}
+;
+
 \end{tikzpicture}
 }
 \caption{\label{fig:runningPH-1}
@@ -185,6 +190,8 @@ Actions involving $b_1$ or $c_1$ are in thick lines.
 \centering
 \scalebox{1.3}{
 \begin{tikzpicture}
+\path[use as bounding box] (-4,-1.9) rectangle (4.5,3.9);
+
 \TSort{(0,0)}{a}{3}{l}
 \TSort{(3, 3)}{b}{2}{t}
 \TSort{(3,-1)}{c}{2}{b}
@@ -219,7 +226,12 @@ Actions involving $b_1$ or $c_1$ are in thick lines.
 
 \path[dashed,hit]
 	(2,-1.3) edge[bend left=10] (-2.3,-0.7)
-	(2, 3.3) edge[bend right=10] (-2.3,3)
+	(2.2, 3.3) edge[bend right=10] (-2.3,3)
+;
+
+\THit{a_2}{bend left,out=40,in=80}{b_1}{.north west}{b_0}
+\path[bounce, bend right]
+\TBounce{b_1}{}{b_0}{.east}
 ;
 
 \end{tikzpicture}
