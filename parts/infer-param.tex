@@ -6,7 +6,7 @@
 \afaire{Revoir pour le cas avec arcs non-signés}
 
 In this section we focus on the inference of discrete René Thomas' parameters.
-Let there $\PH = (\PHs,\PHl,\PHa)$ a PH and $\GRNig = (\Gamma,E_+,E_-)$ a BRN (it is possible to use a BRN inferred using the method of the previous section).
+Let there $\PH = (\PHs,\PHl,\PHa)$ a PH and $\IG = (\Gamma,E_+,E_-)$ a BRN (it is possible to use a BRN inferred using the method of the previous section).
 Let $K_{b,A,B}$ be the parameter we want to infer, for a given component $b \in \Gamma$, and $A \subset \PHpredecgene{b}$ (resp. $B \subset \PHpredecgene{b}$) a set of activators (resp. inhibitors) in the regulators of $b$. This inference, as for the Interaction Graph inference, relies on the search of focal processes of the component for the given configuration of its regulators.
 
 For each sort $a \in \PHpredecgene{b}$, we define a context $C^a_{b,A,B}$ in (\ref{eq:param_context}) that contains all processes representing the influence of the regulators in the configuration $A,B$. The context of a cooperative sort $\upsilon \in PHpredeccs{b}$ that regulates $b$ is given in (\ref{eq:param_context_coop}) as the set of processes that represent the given configuration \todo{$^*$Use $\focals$ here?}.
@@ -45,7 +45,7 @@ The focal processes in $L_{b,A,B}^*$ are the wanted parameters if they are attra
 
 \begin{theorem}[Parameter inference]
 \label{th:param_K}
-Let $\PH = (\PHs, \PHl, \PHh)$ be a PH so that IG inference is possible, and $\GRNig = (\Gamma, E_+, E_-)$ the inferred IG.
+Let $\PH = (\PHs, \PHl, \PHh)$ be a PH so that IG inference is possible, and $\IG = (\Gamma, E_+, E_-)$ the inferred IG.
 Let $A$ (resp. $B$) $\subseteq \Gamma$ be the set of regulators that activate (resp. inhibit) a sort $b$.
 If $L_{b,A,B}^* \neq \emptyset$ and (\ref{eq:param_attractor}) holds, then $K_{b,A,B} = L_{b,A,B}^*$.
 \end{theorem}
@@ -62,7 +62,7 @@ We propose three constraints that allow to reduce the number of possible paramet
 
 \begin{property}[Extreme values assumption]
 \todo{À voir si on ne l'inclut pas dans la définition de GRN}
-Let $\GRNig = (\Gamma, E_+, E_-)$ be an IG. A parametrization $K$ on $\GRNig$ satisfies the \emph{extreme values assumption} iff:
+Let $\IG = (\Gamma, E_+, E_-)$ be an IG. A parametrization $K$ on $\IG$ satisfies the \emph{extreme values assumption} iff:
 \label{prop:param_enum_extreme}
 \[
   \forall b \in \Gamma, \PHpredecgene{b} \neq \emptyset \Rightarrow K_{b,\emptyset,\PHpredecgene{b}} = 0 \wedge K_{b,\PHpredecgene{b},\emptyset} = l_b
@@ -71,7 +71,7 @@ Let $\GRNig = (\Gamma, E_+, E_-)$ be an IG. A parametrization $K$ on $\GRNig$ sa
 
 \begin{property}[Activity assumption]
 \label{prop:param_enum_activity}
-Let $\GRNig = (\Gamma, E_+, E_-)$ be an IG. A parametrization $K$ on $\GRNig$ satisfies the \emph{activity assumption} iff:
+Let $\IG = (\Gamma, E_+, E_-)$ be an IG. A parametrization $K$ on $\IG$ satisfies the \emph{activity assumption} iff:
 \begin{align*}
   \forall b \in \Gamma, \forall a \in \PHpredecgene{b}^+, \exists A \subset \PHpredecgene{b}^+, \exists B \subset \PHpredecgene{b}^+,
     K_{b,A \cup \{b\},B} > K_{b,A,B}
@@ -83,7 +83,7 @@ Let $\GRNig = (\Gamma, E_+, E_-)$ be an IG. A parametrization $K$ on $\GRNig$ sa
 
 \begin{property}[Monotonicity assumption]
 \label{prop:param_enum_monotonicity}
-Let $\GRNig = (\Gamma, E_+, E_-)$ be an IG. A parametrization $K$ on $\GRNig$ satisfies the \emph{monotonicity assumption} iff:
+Let $\IG = (\Gamma, E_+, E_-)$ be an IG. A parametrization $K$ on $\IG$ satisfies the \emph{monotonicity assumption} iff:
 \begin{align*}
   \forall b \in \Gamma, \forall A, A' \in \PHpredecgene{b}^+, &\forall B, B' \in \PHpredecgene{b}^-,
 \\
@@ -92,12 +92,12 @@ Let $\GRNig = (\Gamma, E_+, E_-)$ be an IG. A parametrization $K$ on $\GRNig$ sa
 \end{property}
 
 \begin{definition}[Admissible parametrization]
-Let $\GRNig = (\Gamma, E_+, E_-)$ be an IG. A parametrization $K$ on $\GRNig$ is said to be admissible iff it respects the extreme values assumption, the activity assumption and the monotonicity assumption.
+Let $\IG = (\Gamma, E_+, E_-)$ be an IG. A parametrization $K$ on $\IG$ is said to be admissible iff it respects the extreme values assumption, the activity assumption and the monotonicity assumption.
 \end{definition}
 
 \begin{definition}[Admissible parametrization with respect to inferred parameters]
 \label{prop:param_enum_inf}
-Let $\PH = (\PHs, \PHl, \PHh)$ be a PH so that IG inference is possible, and $\GRNig = (\Gamma, E_+, E_-)$ the inferred IG. A parametrization $K$ on $\GRNig$ is said to be admissible with respect to the inferred parameters iff it is admissible and that all parameters that can be inferred regarding theorem (\ref{th:param_K}) are equal to their inferred value.
+Let $\PH = (\PHs, \PHl, \PHh)$ be a PH so that IG inference is possible, and $\IG = (\Gamma, E_+, E_-)$ the inferred IG. A parametrization $K$ on $\IG$ is said to be admissible with respect to the inferred parameters iff it is admissible and that all parameters that can be inferred regarding theorem (\ref{th:param_K}) are equal to their inferred value.
 \end{definition}
 
 
