@@ -3,42 +3,37 @@
 
 In order to infer a complete BRN, one has to find the Interaction Graph first, as some constraints on the Parametrization rely on it. Inferring the Interaction Graph consists in determining the influence of all components on each of its successors.
 
-\paragraph{Well-formed PH for BRN inference.}
+\todo{say this is an abstraction step, where we want to infer the global influence of components
+between each others}
 
-The nodes of the Interaction Graph can be found by analyzing the sorts of the Process Hitting and distinguishing them from cooperative sorts using several rules inspired by the definition of cooperative sorts. for instance, components and cooperative sorts don't have the same behavior regarding the influence of other sorts: components represent the concentration of real entities and therefore cannot miss a process in a bounce. Thus, if we observe such a bounce, we know that the considered sort must be cooperative%; we define the set of sorts that must be cooperative in \ref{must_be_cs}
-. On the other hand, if a sort has strictly less than 4 processes, or if none of its processes is the hitter of an action, then it cannot be used as a cooperative sort.%Furthermore, if a process $a_i$ of a given sort $a$ hits another sort $c$ to make it bounce to a certain process $c_k$, we can consider that $c_k$ represents $a_i$ if and only if $a_i$ does not hit $c_k$.
-Given these observations, we define the set of sorts that must be cooperative (\ref{must_be_cs}) sorts and the set of sorts that must be components (\ref{cannot_be_cs}).
-\begin{align}
-\label{must_be_cs}
-  M &= \{c \in \PHs \mid \exists \PHfrappe{a_i}{c_j}{c_k} \in \PHa, a \in \PHs, a_i \in \PHs_a, c_j, c_k \in \PHs_c, |j - k| > 1\} \\
-\label{cannot_be_cs}
-  M' &= \{c \in \PHs \mid l_c < 3\} \cup \{c \in \PHs \mid \nexists h \in \PHa, \PHhitter(h) = c\}
-%\begin{split}\label{cannot_be_cs_2}
-%  M'' &= \{c \in \PHs \mid \exists a \in \PHs, \exists a_i \PHs_a, \exists \sigma \in \PHs_c, \exists h, h' \in \PHa, \\
-%      & \quad \quad \quad \PHhitter(h) = \PHhitter(h') = a_i \wedge \PHbounce(h) = \PHtarget(h') = c_\sigma\}
-%\end{split} \\
-\end{align}
-Of course, if we have $M \cap M' \neq \emptyset$ then at least one sort has an ambiguous role as it exists in both sets. This case is left inconclusive and the input Process Hitting model should be revised or the cooperative sorts should be differentiated manually. We consider in the following that we have $M \cap M' = \emptyset$.
+\todo{outline}
 
-All sorts in the set $\PHs \setminus M'$ can be seen as potential cooperative sorts. One last criterion to differentiate cooperative sorts is to consider fixed points. If a sort is cooperative, this means that all sub-states of its components predecessors (possibly going though a cooperative sort) must lead to exactly one fixed point in the potentially cooperative sort. If a sub-state gives several fixed points it does not respect the definition, whereas if it gives no fixed point then this sub-state is not represented by a process of the sort. In both cases, the considered sort is not a cooperative sort.
-\afaire{En fait pour être tout à fait juste il faudrait faire un point fixe ici, ce que je n'ai pas fait pour le moment}
-%\begin{align}
-%\label{cooperation}
-%  \forall c \in \PHs, \forall c_\sigma \in \PHs_c, \zeta_{c_\sigma} &= \{a_i \in \PHs_a \mid a \in \PHs, \exists c_{\sigma'} \in \PHs_c, \PHfrappe{a_i}{c_{\sigma'}}{c_\sigma} \in \PHa\} \\
-%\end{align}
+This section assumes a global Process Hitting $(\PHs,\PHl,\PHa)$ on which the IG inference is to be
+performed.
 
-***
+\subsection{Focal Processes}
+
+Many of the inferences defined in the rest of this paper rely on the knowledge of \emph{focal
+processes} w.r.t. a given context, \ie{} a set of processes that are potentially present.
+When such a context applies, we expect to (always) reach one focal process in a bound number of
+actions.
+
+Let us first define as $\PHa(a,\ctx)$ the set of actions on the sort $a$ having their hitter in
+$\ctx$ (\pref{eq:PHa-ctx}).
 \begin{equation}
-\PHa(a, \varsigma) = \{ \PHfrappe{b_i}{a_j}{a_k} \in \PHa \mid 
-	b_i \in \varsigma \} %\wedge a_j \in \varsigma \}
-\label{eq:Actx}
+\PHa(a,\ctx) = \{ \PHfrappe{b_i}{a_j}{a_k}\in\PHa \mid b_i\in\ctx \}
+\label{eq:PHa-ctx}
 \end{equation}
 
-\begin{definition}[$\focals(a,\ctx)$]
+We denote $\focals(a,\ctx)$ the set of focal processes of sort $a$ in the context $\ctx$
+(\pref{def:focals}).
+
+\begin{definition}[$\focals(a,\ctx)$]\label{def:focals}
 Let us define the digraph $G = (L_a, V)$ where arcs are the bounces within the sort $a$
-triggered by actions in $\PHa(a,\ctx)$:
+triggered by actions having their hitter in $\ctx$:
 \[V = \{(a_j,a_k)\in (\PHl_a \times \PHl_a) \mid 
 			\exists\PHfrappe{b_i}{a_j}{a_k}\in \PHa(a,\ctx)\}\enspace.\]
+$\focals(a,\ctx)$ is the set of focal processes of sort $a$ in the context $\ctx$:
 \[
 \focals(a,\ctx) = 
 \begin{cases}
@@ -47,23 +42,68 @@ triggered by actions in $\PHa(a,\ctx)$:
 \end{cases}
 \]
 \end{definition}
-From this definition derives that:
+
+We say that a state $s\in\PHl$ \emph{matches} a context $\ctx$ if and only if
+$\forall a\in\PHsort(\ctx), \PHget{s}{a}\in\ctx$, where $\PHsort(\ctx)$ denotes the set of sorts of
+processes in $\ctx$.
+From \pref{def:focals}, it derives that:
 \begin{enumerate}
 \item if $\focals(a,\ctx)=\emptyset$, there exists a 
-state $s\in L$ with $s[a]\in L_a$ and $\sigma\subset s$
-such that $\forall n\in\mathbb N$ there 
-exists a scenario of length $n+1$ of actions in $\PHa(a,\ctx)$ playable in $s$.
+state $s\in \PHl$ matching $\ctx$ such that $\forall n\in\mathbb N$ there 
+exists a sequence of $n+1$ actions in $\PHa(a,\ctx)$ successively playable in $s$.
 \item if $\focals(a,\ctx)\neq\emptyset$, for all
-state $s\in L$ with $s[a]\in L_a$ and $\sigma\subset s$, for each scenario $\delta$ of actions in
-$\PHa(a,\ctx)$ playable in $s$,
+state $s\in \PHl$ matching $\ctx$,
+for any sequence of actions $h^1,\dots,h^k$ in $\PHa(a,\ctx)$ successively playable in $s$,
 either
 \begin{itemize}
-\item $s\play\delta[a] \in \focals(a,\ctx)$
-\item or, $\exists h\in \PHa(a,\ctx)$ playable in $s\play\delta$.
+\item $(s\play h^1\cdots h^k)[a] \in \focals(a,\ctx)$;
+\item or, $\exists h^{k+1}\in \PHa(a,\ctx)$ playable in $s\play h^1\cdots h^k$.
 \end{itemize}
-Moreover the size of $\delta$ is bound by $|\PHa(a,\ctx)|$.
+Moreover $k\leq|\PHa(a,\ctx)|$ (no cycle of actions possible).
 \end{enumerate}
-\begin{property}[Well-formed cooperative sort]
+
+\begin{example*}
+In the Process Hitting of \pref{fig:runningPH-1}, we obtain:
+\begin{align*}
+\focals(a,\{b_0,c_0\}) &= \{ a_0 \}
+&
+\focals(a,\{b_1,c_1\}) &= \{ a_2 \}
+&
+\focals(a,\{b_1,c_0\}) &= \emptyset\enspace.
+\end{align*}
+\end{example*}
+
+\subsection{Well-formed Process Hitting for Interaction Graph Inference}
+
+The inference of an IG from a Process Hitting assumes there the Process Hitting defines two types of
+sorts:
+the sorts corresponding to BRN components, and the cooperative sorts.
+This lead to the characterization of the \emph{well-formed} Process Hitting for IG inference.
+
+The identification of sorts modelling components rely on the observation that their processes
+represent (ordered) qualitative levels.
+Hence an action on such a sort cannot make it bounce to process at a distance more than one.
+The set of sorts satisfying such a condition is referred to as $\Gamma$
+(\pref{eq:PH-components}).
+Therefore, in the rest of this paper, $\Gamma$ denotes the set of components of the BRN to infer.
+
+\begin{equation}
+\Gamma = \{a \in \PHs \mid \nexists \PHfrappe{b_i}{a_j}{a_k} \in \PHa, |j - k| > 1\} \\
+\label{eq:PH-components}
+\end{equation}
+
+Any sorts that do not act as a component should then be treated as a cooperative sort.
+\todo{briefly explain the role of a cooperative sort
+and \pref{pro:wf-cooperative-sort}}
+The set of sorts having an action on a given sort $a$ is given by 
+$\PHdirectpredec{a}$ (\pref{eq:ph_direct_predec}).
+
+\begin{equation}
+\forall a \in \PHs, \PHdirectpredec{a} = \{b \in \PHs \mid \exists \PHfrappe{b_i}{a_j}{a_k}\in\PHa \}
+\label{eq:ph_direct_predec}
+\end{equation}
+
+\begin{property}[Well-formed cooperative sort]\label{pro:wf-cooperative-sort}
 A sort $\upsilon\in\PHs$ is a well-formed cooperative sort if and only if
 each configuration $\sigma$ of its predecessors leads $\upsilon$ to a unique focal process,
 denoted by $\upsilon[\sigma]$:
@@ -71,16 +111,22 @@ denoted by $\upsilon[\sigma]$:
 \forall \sigma \in \prod_{a\in\PHdirectpredec{\upsilon}} \PHl_{a},
 \focals(\upsilon,\sigma\cup \PHl_\upsilon) = \{ \upsilon[\sigma] \}\]
 \end{property}
-Note: for the sake of simplicity, we do not allow the existence of multiple focal processes.
-\todo{check if we can't straightfowardly handle this}
 
-\begin{equation}
-\Gamma = \{a \in \PHs \mid \nexists \PHfrappe{b_i}{a_j}{a_k} \in \PHa, |j - k| > 1\} \\
-\label{eq:PH-components}
-\end{equation}
+Such a property allows a large variety of definition of a cooperative sort, but
+for the sake of simplicity, does not allow the existence of multiple focal processes.
+While this may be easily extended to (the condition becomes 
+$\focals(\upsilon,\sigma\cup \PHl_\upsilon)\neq\emptyset$), it makes some hereafter equations a bit
+more complex to read as they should handle set of focal processes instead of a unique focal process.
 
-\begin{property}[Well-formed PH for BRN inference]
-A PH is well-formed for BRN inference if and only if all the following condition are verified:
+
+Finally, \pref{pro:wf-ph} sums up the conditions for a Process Hitting to be suitable for IG
+inference.
+In addition of having either component sorts or well-formed cooperative sorts, we also impose that
+sorts being not hit (\ie{}, serving as invariant environment) are components.
+
+\begin{property}[Well-formed Process Hitting for IG inference]\label{pro:wf-ph}
+A Process Hitting is well-formed for IG inference if and only if the following conditions are
+verified:
 \begin{itemize}
 \item 
 each sort $a\in\PHs$ either belongs to $\Gamma$, or is a well-formed cooperative sort;
@@ -95,8 +141,7 @@ sorts having no action hitting them belong to $\Gamma$
 \end{itemize}
 \end{property}
 
-\todo{Start a running example here --- maybe re-use the example of previous section}
-
+\begin{comment}
 \begin{center}
 \begin{tikzpicture}
 % Sortes
@@ -144,18 +189,17 @@ sorts having no action hitting them belong to $\Gamma$
 \path[bounce,bend right] \TBounce{z_2}{}{z_1}{.north} \TBounce{z_1}{}{z_0}{.north};
 \end{tikzpicture}
 \end{center}
+\end{comment}
 
-\todo{Algorithm to infer IG}
+\subsection{Interaction Inference}
+
 At this point we can divide the set of sorts $\PHs$ into components ($\Gamma$) and cooperative sorts
-($\PHs \setminus \Gamma$) that will not appear in the Interaction Graph. In (\ref{ph_direct_predec})
+($\PHs \setminus \Gamma$) that will not appear in the Interaction Graph. In (\ref{eq:ph_direct_predec})
 we define the notion of direct predecessors in a Process Hitting by considering the actions between
 sorts, and we extend it in (\ref{ph_predec}) to a broader notion of predecessor, where we define the
 influence of sort to another by considering actions and possible cooperative sorts. This latter can
 be compared to the notion of predecessors of Gene Networks. 
 \begin{align}
-\forall a \in \PHs, \PHdirectpredec{a} &= \{b \in \PHs \mid \exists \PHfrappe{b_i}{a_j}{a_k} \}
-\label{ph_direct_predec}
-\\
 \begin{split}
 \forall a \in \PHs, \PHpredec{a} &= \{b \in \PHs \mid \exists n \in \mathbb{N}^*, \exists (c^k)_{k \in \llbracket 0 ; n \rrbracket} \in \PHs^{n+1}, \\
                                    & \quad \quad c^0 = b \wedge c^n = a \\
@@ -277,9 +321,10 @@ With $\ctx[\sigma] = \{ c[\sigma] \in \PHproc \mid c\in\PHdirectpredec{a} \wedge
 In the particular case where $\PHpredecgene{a}=\{a\}$,
 we skip the above rules if $\focals(a,\PHl_a)$ is a non-empty interval.
 
-\todo{Conclusion: edge + threshold}
-
-
-\todo{Illustrate with the example}
+\todo{threshold}
 
 \todo{Discuss of errors/inconclusive cases}
+
+\subsection{Examples}
+\todo{Illustrate with the example}
+
