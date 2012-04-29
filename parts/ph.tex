@@ -1,11 +1,19 @@
 \subsection{The Process Hitting framework}
+
 \resume{The Process Hitting is a new framework that allows to model dynamic systems with an atomistic point of view. In this subsection, we present the definitions of this modeling and mention how static analysis makes it efficient to study large systems. We finally remind the way to translate a BRN to a PH using cooperative sorts.}
 
 \todo{General introduction and motivation for Process Hitting}
 \cite{PMR10-TCSB}
 \cite{PMR12-MSCS}
 
-The Process Hitting gathers a finite number of concurrent \emph{processes}
+We recall here the definition and semantics of the Process Hitting, and its usage to model
+cooperation between concurrent components.
+Two examples of Process Hitting modeling a BRN at different level of abstraction are given.
+They serve as running examples in the rest of this article.
+
+\medskip
+
+A Process Hitting (\pref{def:PH}) gathers a finite number of concurrent \emph{processes}
 grouped into a finite set of \emph{sorts}.
 A process belongs to one and only one sort and is noted $a_i$ where $a$ is the
 sort and $i$ the identifier of the process within the sort $a$.
@@ -59,11 +67,27 @@ For the sake of clarity, $((s\play h)\play h')$, $h'\in\PHs$ is abbreviated as
 $(s\play h\play h')$.
 
 \begin{example*}
-\pref{fig:runningPH-1} represents a Process Hitting $(\PHs,\PHl,\PHa)$ where
-\todo{detail the value of components + action example}.
-\end{example*}
+\pref{fig:runningPH-1} represents a Process Hitting $(\PHs,\PHl,\PHa)$ with
+$\PHs = \{a,b,c\}$,
+$\PHl_a = \{a_0,a_1,a_2\}$,
+$\PHl_b = \{b_0, b_1\}$,
+$\PHl_c = \{c_0, c_1\}$, and
+\begin{align*}
+\PHa & = \{
+	\PHfrappe{a_2}{b_1}{b_0},
+&&  \PHfrappe{b_0}{a_2}{a_1},
+&&	\PHfrappe{c_0}{a_2}{a_1},\\
+&&& \PHfrappe{b_0}{a_1}{a_0},
+&&	\PHfrappe{c_0}{a_1}{a_0},\\
+&&& \PHfrappe{b_1}{a_0}{a_1},
+&&	\PHfrappe{c_1}{a_0}{a_1},\\
+&&& \PHfrappe{b_1}{a_1}{a_2},
+&&	\PHfrappe{c_1}{a_1}{a_2} \}\enspace.
+\end{align*}
+The action $h=\PHfrappe{b_1}{a_1}{a_2}$ is playable in the state
+$s = \state{b_1,a_1,c_0}$; and $s\play h=\state{b_1,a_2,c_0}$.
 
-\begin{figure}
+\begin{figure}[t]
 \centering
 \scalebox{1.3}{
 \begin{tikzpicture}
@@ -120,16 +144,32 @@ Actions involving $b_1$ or $c_1$ are in thick lines.
 }
 \end{figure}
 
-\paragraph{Modelling cooperation.}
-\todo{Cooperative sorts}
-We note that cooperative sorts are standard Process Hitting sorts and do not involve any
-special treatment regarding the semantics of related actions.
+This example Process Hitting actually models a BRN where the component $a$ has three qualitative
+levels and components $b$ and $c$ are boolean.
+In this BRN, $b$ and $c$ activate $a$, while $a$ inhibits $b$.
+The inhibition of $b$ by $a$ is only effective when $a$ is at level $2$.
+The activation of $a$ by $b$ ($c$) is encoded by the actions making the level of $a$ increase (resp.
+decrease) when $b$ ($c$) is present (resp. absent).
+It is worth noticing that the activation of $a$ by $b$ ($c$) is independent from $c$ ($b$).
+This may express a lack of knowledge on the cooperation between these two regulators:
+we then model an over-approximation of the possible actions.
+\end{example*}
 
-\begin{example}
-\todo{\pref{fig:PH-cooperativity} + }
-\end{example}
+\paragraph{Modeling cooperation.}
+As described in \cite{PMR10-TCSB}, the cooperation between processes to make another bounce can be
+expressed in Process Hitting by building a \emph{cooperative sort}.
+\pref{fig:PH-cooperativity} shows an example of cooperation between processes $b_1$ and $c_1$ to
+make $a_1$ bounce to $a_2$:
+a cooperative sort $bc$ is defined with 4 processes (one for each sub-state of the presence of
+processes $b_1$ and $c_1$).
+For the sake of clarity, the $bc$ processes are indexed using the sub-state they represent.
+Hence, $bc_{01}$ represents the sub-state $\state{b_0,c_1}$, and so on.
+Each process of sort $b$ and $c$ hit $bc$ to make it bounce to the process reflecting their current
+state (e.g., $\PHfrappe{b_1}{bc_{00}}{bc_{10}}$ and $\PHfrappe{b_1}{bc_{01}}{bc_{11}}$).
+Then, it is the process $bc_{11}$ which hits $a_1$ to make it bounce to $a_2$ instead of the
+independent hit from $b_1$ or $c_1$.
 
-\begin{figure}
+\begin{figure}[p]
 \centering
 \scalebox{1.3}{
 \begin{tikzpicture}
@@ -185,8 +225,7 @@ $a_1$ bounce to $a_2$.
 Actions involving $b_1$ or $c_1$ are in thick lines.
 }
 \end{figure}
-
-\begin{figure}
+\begin{figure}[p]
 \centering
 \scalebox{1.3}{
 \begin{tikzpicture}
@@ -238,13 +277,40 @@ Actions involving $b_1$ or $c_1$ are in thick lines.
 }
 
 \caption{\label{fig:runningPH-2}
-\todo{***}
+Process Hitting resulting from the refining of the one in \pref{fig:runningPH-1} by the
+specification of several cooperations.
 The actions from $b$ and $c$ to the cooperative sort $bc$ are identical to those defined in
 \pref{fig:PH-cooperativity} and are represented here by a single dashed arc.
 }
 \end{figure}
 
+We note that cooperative sorts are standard Process Hitting sorts and do not involve any
+special treatment regarding the semantics of related actions.
 
+When the number of cooperating process is large, it is possible to chain several cooperative sorts
+to prevent the combinatoric explosion of the number of processes created within cooperative sorts.
+For instance, if $b_1$, $c_1$, and $d_1$ cooperate, one can create a cooperative sort $bc$ with 4
+processes reflecting the presence of $b_1$ and $c_1$, and a cooperative sort $bcd$ with 4 processes
+reflecting the presence of $bc_{11}$ and $d_1$.  Such constructions are helpful in Process Hitting
+as the static analysis of dynamics developed in \cite{PMR12-MSCS} does not suffer on the number of
+sorts, but on the number of processes within a single sort.
+
+While the construction of cooperation in Process Hitting allows to encode any boolean functions
+between cooperating processes \cite{PMR10-TCSB}, it is worth noticing they introduce a temporal
+shift in their application.
+This allows the existence of interleaving of actions leading to a cooperative sort representing a
+past sub-state of the presence of the cooperative processes.
+The resulting behaviour is then an over-approximation of the realisation of an instantaneous
+cooperation.
+
+\begin{example*}
+The Process Hitting in \pref{fig:runningPH-2} results from the refining of the Process Hitting in 
+\pref{fig:runningPH-1} where several cooperations have been specified.
+In particular, the bounce to $a_2$ is the result of a cooperation between $b_1$ and $c_1$; and the
+bounce to $a_0$ of a cooperation between $b_0$ and $c_0$.
+Hence, this Process Hitting expresses a BRN where $a$ requires both $b$ and $c$ active to reach its
+highest level, and $a$ do not become inactive unless both $b$ and $c$ are inactive.
+\end{example*}
 
 
 
