@@ -19,11 +19,11 @@ The context of a cooperative sort $\upsilon \in PHpredeccs{b}$ that regulates $b
 C_{a,A,B}^b & = \begin{cases}
 \levelsA{b}{a} & \text{if $b \in A$,}\\
 \levelsI{b}{a} & \text{if $b \in B$,}\\
-\emptyset & \text{otherwise;}
+L_a		& \text{otherwise;}\\
 \end{cases}
 \\
 \label{eq:param_context_coop}
-\forall \upsilon \in \PHs\setminus\Gamma,~
+\forall \upsilon \in \PHpredec{a}\setminus\Gamma,~
 C_{a,A,B}^\upsilon & = \{
 \upsilon[\sigma] \mid \sigma \in \textstyle\prod_{b \in \PHsort(\upsilon)}C_{a,A,B}^b \}
 \enspace.
@@ -57,7 +57,10 @@ Let $(\PHs, \PHl, \PHh)$ be a Process Hitting well-defined for IG inference, and
 E_+, E_-)$ the inferred IG with $E_+\cap E_-=\emptyset$.
 Let $A$ (resp. $B$) $\subseteq \Gamma$ be the set of regulators that activate (resp. inhibit) a sort
 $a$.
-If $\focals(a,C_{a,A,B})$ is a non-empty interval, then $K_{a,A,B} = \focals(a, C_{a,A,B})$.
+%If $\focals(a,C_{a,A,B})$ is a non-empty interval, then $K_{a,A,B} = \focals(a, C_{a,A,B})$.
+If $\focals(a,C^a_{a,A,B},C_{a,A,B})$ is a non-empty interval, 
+	then $K_{a,A,B} = \focals(a, C^a_{a,A,B}, C_{a,A,B})$,
+	where $C_{a,A,B} = \bigcup_{b\in\PHpredec{a}} C^b_{a,A,B}$.
 \end{theorem}
 
 \todo{Illustrate with the example}
@@ -109,7 +112,10 @@ Let $\IG = (\Gamma, E_+, E_-)$ be an IG. A parametrization $K$ on $\IG$ is said 
 
 \begin{definition}[Admissible parametrization with respect to inferred parameters]
 \label{def:param_enum_inf}
-Let $\PH = (\PHs, \PHl, \PHh)$ be a PH so that IG inference is possible, and $\IG = (\Gamma, E_+, E_-)$ the inferred IG. A parametrization $K$ on $\IG$ is said to be admissible with respect to the inferred parameters iff it is admissible and that all parameters that can be inferred regarding theorem (\ref{thm:param_K}) are equal to their inferred value.
+Let $\PH = (\PHs, \PHl, \PHh)$ be a PH so that IG inference is possible, and $\IG = (\Gamma, E_+,
+E_-)$ the inferred IG. A parametrization $K$ on $\IG$ is said to be admissible with respect to the
+inferred parameters iff it is admissible and that all parameters that can be inferred regarding
+theorem (\ref{thm:param_K}) are equal to their inferred value.
 \end{definition}
 
 \newcommand{\ti}[1]{\texttt{\textit{#1}}}
