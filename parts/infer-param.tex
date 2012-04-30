@@ -7,24 +7,35 @@
 
 In this section we focus on the inference of discrete René Thomas' parameters.
 Let there $\PH = (\PHs,\PHl,\PHa)$ a PH and $\IG = (\Gamma,E_+,E_-)$ a BRN (it is possible to use a BRN inferred using the method of the previous section).
-Let $K_{b,A,B}$ be the parameter we want to infer, for a given component $b \in \Gamma$, and $A \subset \PHpredecgene{b}$ (resp. $B \subset \PHpredecgene{b}$) a set of activators (resp. inhibitors) in the regulators of $b$. This inference, as for the Interaction Graph inference, relies on the search of focal processes of the component for the given configuration of its regulators.
+Let $K_{a,A,B}$ be the parameter we want to infer, for a given component $a \in \Gamma$, and $A
+\subset \PHpredecgene{b}$ (resp. $B \subset \PHpredecgene{b}$) a set of activators (resp.
+inhibitors) in the regulators of $a$. This inference, as for the Interaction Graph inference, relies
+on the search of focal processes of the component for the given configuration of its regulators.
 
-For each sort $a \in \PHpredecgene{b}$, we define a context $C^a_{b,A,B}$ in (\ref{eq:param_context}) that contains all processes representing the influence of the regulators in the configuration $A,B$. The context of a cooperative sort $\upsilon \in PHpredeccs{b}$ that regulates $b$ is given in (\ref{eq:param_context_coop}) as the set of processes that represent the given configuration \todo{$^*$Use $\focals$ here?}.
+For each sort $b \in \PHpredecgene{a}$, we define a context $C^b_{a,A,B}$ in
+(\ref{eq:param_context}) that contains all processes representing the influence of the regulators in
+the configuration $A,B$. The context of a cooperative sort $\upsilon \in \PHs\setminus\Gamma$ that
+regulates $a$ is given in (\ref{eq:param_context_coop}) as the set of processes that represent the
+given configuration.
+\todo{define $\PHsort(\upsilon)$ - maybe in section 3.2}
 \begin{align}
 \label{eq:param_context}
-\forall a\in\Gamma,~
-C_{b,A,B}^a & = \begin{cases}
-\levelsA{a}{b} & \text{if $a \in A$,}\\
-\levelsI{a}{b} & \text{if $a \in B$}
+\forall b\in\Gamma,~
+C_{a,A,B}^b & = \begin{cases}
+\levelsA{b}{a} & \text{if $b \in A$,}\\
+\levelsI{b}{a} & \text{if $b \in B$,}\\
+\emptyset & \text{otherwise;}
 \end{cases}
 \\
 \label{eq:param_context_coop}
-\forall \upsilon \in \{\upsilon^1, \dots, \upsilon^u\},~
-C_{b,A,B}^\upsilon & = \{
+\forall \upsilon \in \PHs\setminus\Gamma,~
+C_{a,A,B}^\upsilon & = \{
 %\textstyle
-\upsilon_\varsigma \mid \varsigma \in \prod_{a \in \Sigma(\upsilon)}C_{b,A,B}^a \} \todo{^*}
+\upsilon[\sigma] \mid \sigma \in \textstyle\prod_{b \in \PHsort(\upsilon)}C_{a,A,B}^b \}
+\enspace.
 \end{align}
 
+\begin{comment}
 We pose $\PHh_{b,A,B}$ (\eqref{eq:param_h}) the set of actions in $\PHh$ that hit a process of sort $b$ and can be fired in the previously defined context. A process of sort $b$ can be reached if it belongs to the context or if it is a bounce in $\PHh_{b,A,B}$; we call $L_{b,A,B}^?$ (\ref{eq:param_candidates}) the set of such candidates. The set of focal processes $L_{b,A,B}^*$ (\ref{eq:param_focal}) is the set of processes of $L_{b,A,B}^?$ that are not hit by an action in $\PHh_{b,A,B}$.
 \begin{align}
 \label{eq:param_h}
@@ -42,18 +53,23 @@ The focal processes in $L_{b,A,B}^*$ are the wanted parameters if they are attra
 \label{eq:param_attractor}
   \forall \PHfrappe{b_i}{a_j}{a_k} \in \PHh_{a,A,B}, \forall a_f \in L_{a,A,B}^*, |f-k| < |f-j|
 \end{align}
+\end{comment}
+
+\todo{relate $K$ to $\focals$ \pref{thm:param_K}}
 
 \begin{theorem}[Parameter inference]
-\label{th:param_K}
-Let $\PH = (\PHs, \PHl, \PHh)$ be a PH so that IG inference is possible, and $\IG = (\Gamma, E_+, E_-)$ the inferred IG.
-Let $A$ (resp. $B$) $\subseteq \Gamma$ be the set of regulators that activate (resp. inhibit) a sort $b$.
-If $L_{b,A,B}^* \neq \emptyset$ and (\ref{eq:param_attractor}) holds, then $K_{b,A,B} = L_{b,A,B}^*$.
+\label{thm:param_K}
+Let $(\PHs, \PHl, \PHh)$ be a Process Hitting well-defined for IG inference, and $\IG = (\Gamma,
+E_+, E_-)$ the inferred IG with $E_+\cap E_-=\emptyset$.
+Let $A$ (resp. $B$) $\subseteq \Gamma$ be the set of regulators that activate (resp. inhibit) a sort
+$b$.
+If $\focals(a,C_{a,A,B})$ is a non-empty interval, then $K_{a,A,B} = \focals(a, C_{a,A,B})$.
 \end{theorem}
 
 \todo{Illustrate with the example}
 
 \todo{Discuss of incomplete cooperations $\Rightarrow$ inconclusive cases}
-Given the theorem (\ref{th:param_K}), we see that in some cases, the inference of the desired parameter is impossible. This can be due to a lack of cooperation between regulators: when two regulators independently hit a component, their actions can have opposite effects, leading to either an indeterministic evolution or to oscillations. Such an indeterminism is not possible in a GRN as in a given configuration of regulators, a component can have only an interval attractor, and eventually reaches a steady-state. In order to avoid such inconclusive cases, one has to ensure that no such behavior is allowed by either removing undesired actions or using cooperative sorts to avoid opposite influences between regulators of a component.
+Given the \pref{thm:param_K}, we see that in some cases, the inference of the desired parameter is impossible. This can be due to a lack of cooperation between regulators: when two regulators independently hit a component, their actions can have opposite effects, leading to either an indeterministic evolution or to oscillations. Such an indeterminism is not possible in a GRN as in a given configuration of regulators, a component can have only an interval attractor, and eventually reaches a steady-state. In order to avoid such inconclusive cases, one has to ensure that no such behavior is allowed by either removing undesired actions or using cooperative sorts to avoid opposite influences between regulators of a component.
 
 \todo{Enumerate all possible parametrizations}
 When building a BRN, one has to find the parametrization that best describes the desired behavior of the studied system. Complexity is inherent to this process as the number of possible parametrizations for a given IG is exponential w.r.t. the number of components. However, the method of parameters inference presented in this section gives some information about necessary parameters given a certain dynamics described by a PH. This information thus drops the number of possible parametrizations, allowing to find the desired behavior more easily. The last step of our method is to enumerate all possible parametrizations regarding the results of the parameters inference and some biological constraints found in \cite{BernotSemBRN}. In the following, we define these constraints and the notion of admissible parametrization of an IG with respect to the results of parameters inference.
