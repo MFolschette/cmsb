@@ -300,7 +300,8 @@ We also define an order between intervals with the relation $\intervalless$
 Let us define two sub-states $\sigma,\sigma'\in \prod_{c\in\gamma(b\rightarrow a)} \PHl_c$ such that
 $\sigma[b]=b_i$, $\sigma'[b]=b_j$ with $i < j$,
 and $\sigma[c]=\sigma'[c]$ for each $c\in\PHpredecgene{a}, c\neq b$.
-With $\ctx[\sigma] = \{ c[\sigma] \in \PHproc \mid c\in\PHdirectpredec{a} \wedge b\in \PHpredecgene{c}
+With $\ctx[\sigma] = \{ c[\sigma] \in \PHproc \mid c\in\PHdirectpredec{a} \wedge 
+	(b\in \PHpredecgene{c} \vee b = c)
 \}$:
 \begin{itemize}
 \item if $\focals(a,L_a,\ctx[\sigma])$ or $\focals(a,L_a,\ctx[\sigma'])$ is not a non-empty interval, then
@@ -313,6 +314,58 @@ With $\ctx[\sigma] = \{ c[\sigma] \in \PHproc \mid c\in\PHdirectpredec{a} \wedge
 
 In the particular case where $\PHpredecgene{a}=\{a\}$,
 we skip the above rules if $\focals(a,L_a,\PHl_a)$ is a non-empty interval.
+
+\[
+\f{bounces}(a_k,\varsigma[\sigma]) = 
+\begin{cases}
+\{ a_k \} & \text{if }\PHa(\{a_k\},\varsigma[\sigma]) = \emptyset\\
+\{ a_l \mid \exists h\in \PHa(\{a_k\},\varsigma[\sigma]), \PHbounce(h)=a_l \} 
+& \text{otherwise.}
+\end{cases}
+\]
+
+\noindent
+If $b \neq a$:
+\begin{align*}
+b\xrightarrow + a  & \Leftrightarrow
+	\exists a_{l,1}\in\f{bounces}(\sigma[a],\varsigma[\sigma]),
+		a_{l,2}\in\f{bounces}(\sigma[a],\varsigma[\sigma']),
+			a_{l,1} < a_{l,2} \\
+b\xrightarrow - a  & \Leftrightarrow
+	\exists a_{l,1}\in\f{bounces}(\sigma[a],\varsigma[\sigma]),
+		a_{l,2}\in\f{bounces}(\sigma[a],\varsigma[\sigma']),
+			a_{l,1} > a_{l,2}
+\end{align*}
+
+\noindent
+If $a = b$ and $\PHpredecgene{a}\neq\{a\}$ or $\focals(a,L_a,\PHl_a)$ is not a non-empty interval:
+\[
+\epsilon_i =
+\begin{cases}
+\varnothing & \text{si pas de frappe sur $a_i$} \\
++ &  \text{si toutes les frappes sur $a_i$ sont positives}\\ 
+- & \text{si toutes les frappes sur $a_i$ sont négatives}\\
+\bot & \text{sinon}
+\end{cases}
+\]
+\begin{align*}
+b\xrightarrow + a  \notin IG & \Leftrightarrow
+	\exists k \in [0;l_a], \forall \sigma,
+		\forall y < k, 
+			\epsilon_y \in \{ +, \varnothing \}
+		\wedge
+		\forall x > k,
+			\epsilon_x \in \{ -, \varnothing \} 
+\\
+b\xrightarrow - a  \notin IG & \Leftrightarrow
+	\exists k \in [0;l_a], \forall \sigma,
+		\forall y < k, 
+			\epsilon_y \in \{ -, \varnothing \}
+		\wedge
+		\forall x > k,
+			\epsilon_x \in \{ +, \varnothing \} 
+\end{align*}
+
 
 \todo{threshold}
 
