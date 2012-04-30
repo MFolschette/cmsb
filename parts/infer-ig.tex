@@ -18,26 +18,49 @@ processes} w.r.t. a given context, \ie{} a set of processes that are potentially
 When such a context applies, we expect to (always) reach one focal process in a bound number of
 actions.
 
-Let us first define as $\PHa(a,\ctx)$ the set of actions on the sort $a$ having their hitter in
-$\ctx$ (\pref{eq:PHa-ctx}).
+Let us first define as $\PHa(S_a,\ctx)$ the set of actions on the sort $a$ having their hitter in
+$\ctx$ and target in $S_a$ (\pref{eq:PHa-ctx}).
 \begin{equation}
-\PHa(a,\ctx) \DEF \{ \PHfrappe{b_i}{a_j}{a_k}\in\PHa \mid b_i\in\ctx \}
+\PHa(S_a,\ctx) \DEF \{ \PHfrappe{b_i}{a_j}{a_k}\in\PHa \mid b_i\in\ctx \}
 \label{eq:PHa-ctx}
 \end{equation}
 
-We denote $\focals(a,\ctx)$ the set of focal processes of sort $a$ in the context $\ctx$
+We denote $\focals(a,S_a,\ctx)$ the set of focal processes of sort $a$ in the context
+$\ctx\cup S_a$
 (\pref{def:focals}).
 
+\begin{comment}
 \begin{definition}[$\focals(a,\ctx)$]\label{def:focals}
-Let us define the digraph $G = (L_a, V)$ where arcs are the bounces within the sort $a$
-triggered by actions having their hitter in $\ctx$:
-\[V \DEF \{(a_j,a_k)\in (\PHl_a \times \PHl_a) \mid 
+Let us define the digraph $G = (L_a, E)$ where arcs are the bounces within the sort $a$
+triggered by actions having their hitter in $\ctx$ and target in $L_a$:
+\[E \DEF \{(a_j,a_k)\in (\PHl_a \times \PHl_a) \mid 
 			\exists\PHfrappe{b_i}{a_j}{a_k}\in \PHa(a,\ctx)\}\enspace.\]
 $\focals(a,\ctx)$ is the set of focal processes of sort $a$ in the context $\ctx$:
 \[
 \focals(a,\ctx) \DEF
 \begin{cases}
-\{ a_i \in \PHl_a \mid \nexists (a_i,a_j)\in V\} & \text{if $G$ is acyclic},\\
+\{ a_i \in \PHl_a \mid \nexists (a_i,a_j)\in E\} & \text{if $G$ is acyclic},\\
+\emptyset & \text{otherwise.}\\
+\end{cases}
+\]
+\end{definition}
+\end{comment}
+
+\begin{definition}[$\focals(a,S_a,\ctx)$]\label{def:focals}
+Let us define the digraph $G = (V, E)$ where arcs are the bounces within the sort $a$
+triggered by actions having their hitter in $\ctx$ and target in $S_a\subseteq L_a$:
+\begin{align*}
+E  & \DEF \{(a_j,a_k)\in (S_a \times \PHl_a) \mid 
+			\exists\PHfrappe{b_i}{a_j}{a_k}\in \PHa,
+				b_i\in\ctx \wedge a_j\in S_a \}
+\\
+V & \DEF S_a \cup \{ a_k\in L_a\mid \exists (a_j,a_k)\in E\}
+\end{align*}
+$\focals(a,S_a,\ctx)$ is the set of focal processes of sort $a$ in the context $\ctx$:
+\[
+\focals(a,S_a,\ctx) \DEF
+\begin{cases}
+\{ a_i \in V \mid \nexists (a_i,a_j)\in E\} & \text{if $G$ is acyclic},\\
 \emptyset & \text{otherwise.}\\
 \end{cases}
 \]
@@ -48,28 +71,33 @@ $\forall a\in\PHsort(\ctx), \PHget{s}{a}\in\ctx$, where $\PHsort(\ctx)$ denotes 
 processes in $\ctx$.
 From \pref{def:focals}, it derives that:
 \begin{enumerate}
-\item if $\focals(a,\ctx)=\emptyset$, there exists a 
-state $s\in \PHl$ matching $\ctx$ such that $\forall n\in\mathbb N$ there 
-exists a sequence of $n+1$ actions in $\PHa(a,\ctx)$ successively playable in $s$.
-\item if $\focals(a,\ctx)\neq\emptyset$, for all
-state $s\in \PHl$ matching $\ctx$,
-for any sequence of actions $h^1,\dots,h^k$ in $\PHa(a,\ctx)$ successively playable in $s$,
+\item if $\focals(a,S_a,\ctx)=\emptyset$, there exists a 
+state $s\in \PHl$ matching $\ctx\cup S_a$ such that $\forall n\in\mathbb N$ there
+exists a sequence of $n+1$ actions in $\PHa(S_a,\ctx)$ successively playable in $s$.
+\item if $\focals(a,S_a,\ctx)\neq\emptyset$, for all
+state $s\in \PHl$ matching $\ctx\cup S_a$,
+for any sequence of actions $h^1,\dots,h^k$ in $\PHa(S_a,\ctx)$ successively playable in $s$,
 either
 \begin{itemize}
-\item $(s\play h^1\cdots h^k)[a] \in \focals(a,\ctx)$;
+\item $(s\play h^1\cdots h^k)[a] \in \focals(a,S_a,\ctx)$;
 \item or, $\exists h^{k+1}\in \PHa(a,\ctx)$ playable in $s\play h^1\cdots h^k$.
 \end{itemize}
-Moreover $k\leq|\PHa(a,\ctx)|$ (no cycle of actions possible).
+Moreover $k\leq|\PHa(S_a,\ctx)|$ (no cycle of actions possible).
 \end{enumerate}
+
+\todo{in other words, if emptyset -> there exists a set of actions in $\PHa(S_a,\ctx)$ that can be
+played as many number of times as we want (cycle);
+	if non-emptyset -> all succession of actions in $\PHa(S_a,\ctx)$ lead $a$, in a bound number of
+	steps, either to a process in $S_a$ that is not hit by processes in $\ctx$, or to a process in
+	$L_a\setminus S_a$}
 
 \begin{example*}
 In the Process Hitting of \pref{fig:runningPH-1}, we obtain:
 \begin{align*}
-\focals(a,\{b_0,c_0\}) &= \{ a_0 \}
+\focals(a,L_a,\{b_0,c_0\}) &= \{ a_0 \}
 &
-\focals(a,\{b_1,c_1\}) &= \{ a_2 \}
-&
-\focals(a,\{b_1,c_0\}) &= \emptyset\enspace.
+\focals(a,L_a,\{b_1,c_1\}) &= \{ a_2 \}\\
+\focals(a,L_a,\{b_1,c_0\}) &= \emptyset\enspace.
 \end{align*}
 \end{example*}
 
@@ -115,15 +143,15 @@ denoted by $\upsilon[\sigma]$:
 \forall \sigma \in {\textstyle\prod_{
 a\in\PHdirectpredec{\upsilon} \wedge a\neq \upsilon}}
 \PHl_{a},
-\focals(\upsilon,\PHproc(\sigma)\cup \PHl_\upsilon) = \{ \upsilon[\sigma] \}\]
+\focals(\upsilon,\PHl_\upsilon,\PHproc(\sigma)\cup \PHl_\upsilon) = \{ \upsilon[\sigma] \}\]
 \end{property}
 
 Such a property allows a large variety of definition of a cooperative sort, but
 for the sake of simplicity, does not allow the existence of multiple focal processes.
 While this may be easily extended to (the condition becomes 
-$\focals(\upsilon,\PHproc(\sigma)\cup \PHl_\upsilon)\neq\emptyset$), it makes some hereafter
-equations a bit more complex to read as they should handle set of focal processes instead of a
-unique focal process.
+$\focals(\upsilon,\PHl_\upsilon, \PHproc(\sigma)\cup \PHl_\upsilon)\neq\emptyset$), it makes some
+hereafter equations a bit more complex to read as they should handle set of focal processes instead
+of a unique focal process.
 
 
 Finally, \pref{pro:wf-ph} sums up the conditions for a Process Hitting to be suitable for IG
@@ -245,16 +273,19 @@ $c[\sigma]$ refers to the process of sort $c$ recursively defined in \pref{eq:pr
 c[\sigma] \DEF
 \begin{cases}
 \sigma[c] & \text{if } c\in\PHsort(\sigma) \\
-\focals(c, \PHl_c \cup \{ d[\sigma] \mid d\in\PHdirectpredec{c} \})
-	& \text{otherwise.}
+f_{c}[\sigma] & \text{otherwise,}
 \end{cases}
 \label{eq:proc-ctx}
 \end{equation}
+where
+$\focals(c, \PHl_c, \PHl_c \cup \{ d[\sigma] \mid d\in\PHdirectpredec{c} \wedge d\neq c \})
+	= \{ f_c[\sigma] \}$.
+
 As there is no cycle between cooperative sorts, the above recursion always terminates.
 
 \todo{explain the inference with $\focals$}
 
-\todo{We say the set $\focals(a,\ctx)\neq\emptyset$ is an interval iff \ldots}
+\todo{We say the set $\focals(a,S_a,\ctx)\neq\emptyset$ is an interval iff \ldots}
 We also define an order between intervals with the relation $\intervalless$
 (\pref{eq:interval-compare}).
 \begin{align}
@@ -272,16 +303,16 @@ and $\sigma[c]=\sigma'[c]$ for each $c\in\PHpredecgene{a}, c\neq b$.
 With $\ctx[\sigma] = \{ c[\sigma] \in \PHproc \mid c\in\PHdirectpredec{a} \wedge b\in \PHpredecgene{c}
 \}$:
 \begin{itemize}
-\item if $\focals(a,\ctx[\sigma])$ or $\focals(a,\ctx[\sigma'])$ is not a non-empty interval, then
+\item if $\focals(a,L_a,\ctx[\sigma])$ or $\focals(a,L_a,\ctx[\sigma'])$ is not a non-empty interval, then
 			$b\xrightarrow{\pm}a\in \IG$; otherwise,
-\item $\focals(a,\ctx[\sigma]) \intervalless \focals(a,\ctx[\sigma']) \Longrightarrow
+\item $\focals(a,L_a,\ctx[\sigma]) \intervalless \focals(a,L_a,\ctx[\sigma']) \Longrightarrow
 			b\xrightarrow{+}a\in \IG$;
-\item $\focals(a,\ctx[\sigma']) \intervalless \focals(a,\ctx[\sigma]) \Longrightarrow
+\item $\focals(a,L_a,\ctx[\sigma']) \intervalless \focals(a,L_a,\ctx[\sigma]) \Longrightarrow
 			b\xrightarrow{-}a\in \IG$.
 \end{itemize}
 
 In the particular case where $\PHpredecgene{a}=\{a\}$,
-we skip the above rules if $\focals(a,\PHl_a)$ is a non-empty interval.
+we skip the above rules if $\focals(a,L_a,\PHl_a)$ is a non-empty interval.
 
 \todo{threshold}
 
