@@ -1,0 +1,25 @@
+
+Article :
+* section 1: compléter motivation pour PH et Thomas
+* section 2.1: intro
+* section 3.1: quelques explications supplémentaires sur focals
+* section 3.3: explications + inférence des seuils
+* section 3.4: illustrer avec les exemples
+* section 4.1: quelques explications supplémentaires
+* section 5:
+        - illustrer avec les 2 running examples
+        - lancer sur tcrsig40, avec et sans coopérations ; dans ce dernier cas, 
+donner le nombre de configurations possibles.
+* section 6: à faire ; selon la taille, voir pour fusionner avec la 7
+par ordre d'importance :
+        - inférence des paramètres avec les arcs non-signés (est-ce qu'il y a des 
+choses dans la littérature sur les paramètres de Thomas en non-signé ?)
+        - inférence des multiplexes, noter que l'on peut avoir plusieurs 
+multiplexes compatibles de part le fort non-déterminisme possible en PH
+        - projection for iteratively undoing cooperations. note this may enhance 
+performance of IG inference as we reduce the size of the context to explore.
+* section 7: à faire
+
+Outil :
+- recoder l'inférence du graphe
+- améliorer la sortie pour l'énumération
