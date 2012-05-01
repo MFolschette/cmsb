@@ -1,18 +1,97 @@
 \subsection{Thomas' modeling}
 \resume{The Thomas' modeling is the historical and widely-used model for the study of dynamical gene systems, and takes the form of a Biological Regulatory Network. In this subsection, we present this tool by defining the Interaction Graph and the Parametrization. We also justify our extension of the latter to use interval parameters instead of integers.}
 
-\todo{Definition: Interaction Graph}
+The modeling of a BRN using René Thomas' formalism lies on two complementary sets of information about the system. First, the Interaction Graph (IG) models the structure of the system by defining the components' properties and their mutual influences. The Parametrization then allows to restrict the dynamic behavior of the system by allowing specific strengths to the influences.
 
-\todo{Definition: Effective levels}
+As for PH, IG represents information about a finite number of components allowed to take a value amongst a finite number of possible expression levels.
+For the sake if simplicity and to establish a parallel with PH, if $a$ represents a component, we call $a_i$ its $i^\text{th}$ expression level.
+\todo{or not?}
+The IG is therefore composed of nodes that represent components, and edges labeled with a threshold that stand for interactions and can be either positive or negative.
+For such an interaction to take place, the expression level of its head component has to be higher than its threshold; otherwise, the opposite influence is expressed.
+Therefore, for any component $b$, a predecessor $a$ of $b$ such that we have $a \xrightarrow{t} b$ can be either an activator or an inhibitor of $a$, according to the kind of interaction involved and if the expression level of $b$ if above of below the related threshold $t$.
+We call $\levelsA{a}{b}$ (resp. $\levelsI{a}{b}$) the expression levels of $a$ where it is an activator (resp. inhibitor) of $b$.
 
-\todo{Definition: Resources (expressing activators/inhibitors)}
+\begin{definition}[Interaction Graph]
+\label{def:ig}
+An \emph{Interaction Graph} (IG) is a triple $(\Gamma, E_+, E_-)$ where $\Gamma$ is a finite number of components,
+and $E_+$ (resp. $E_-$) $\subset \{a \xrightarrow{t} b \mid a, b \in \Gamma \wedge t \in \mathbb{N}\}$
+is the set of positive (resp. negative) regulations between two nodes, labeled with a threshold.
+
+A regulation from $a$ to $b$ is uniquely referenced:
+if $a \xrightarrow{t} b \in E_+$ (resp. $E_-$),
+$\nexists a \xrightarrow{t'} b \in E_+ \text{ (resp. $E_-$)}, t \neq t'$
+and $\nexists t', a \xrightarrow{t'} b \in E_-$ (resp. $E_+$).
+\end{definition}
+
+\begin{definition}[Effective levels ($\levels$)]\label{def:levels}
+Let $(\Gamma,E_+,E_-)$ be an IG and $a, b \in \Gamma$ two of its components:
+\begin{itemize}
+  \item if $a \xrightarrow{t} b \in E_+$, $\levelsA{a}{b} = [t; l_a]$ and
+    $\levelsI{a}{b} = [0; t-1]$;
+  \item if $a \xrightarrow{t} b \in E_-$, $\levelsA{a}{b} = [0; t-1]$ and
+    $\levelsI{a}{b} = [t; l_a]$;
+  \item otherwise, $\levelsA{a}{b} = \levelsI{a}{b} = \emptyset$.
+\end{itemize}
+\end{definition}
+
+For all component $a \in \Gamma$, we also denote $\GRNreg{a} = \{b \in \Gamma \mid \exists b \xrightarrow{t} a \in E_+ \cup E_-\}$ the set of regulators of a,
+and $E_+(a) = \{b \in \Gamma \mid \exists b \xrightarrow{t} a \in E_+\}$ (resp. $E_-(a) = \{b \in \Gamma \mid \exists b \xrightarrow{t} a \in E_-\}$) the set of positive (resp. negative) regulators on $a$.
+\todo{Check if it is a good idea to use the same symbol $\f{Reg}$ for both GRN and PH.}
 
 \todo{Give a simple example}
 
-\todo{Definition: Parametrization}
+A state of an IG $(\Gamma, E_+, E_-)$ is an element in $\prod_{a \in \Gamma} \{a_0, \dots, a_{l_a}\}$.
+The specificity of René Thomas' approach lies in the use of discrete parameters to represent the focal point towards which the expression level of a component will evolve in each configuration of its regulators.
+Indeed, for each possible state of a BRN, all regulators of a gene are be divided into activators and inhibitors, given their kind of interaction and expression level.
+The direction of evolution of a gene thus depends on these resources in the considered state.
+In this paper, we extend the classical definition focal point from a unique integer to an interval of integers.
+\todo{The interval semantic is more expressive: justify!}
+An IG and a related Parametrization form together a BRN using René Thomas' parameters, which entirely describes the structure and allows to compute the dynamics of the modeled system.
+\todo{Find another name for “BRN using René Thomas' parameters”?}
+
+\begin{definition}[Discrete parameter $K_{a,A,B}$ and Parametrization $K$]\label{def:param}
+For a given component $a \in \Gamma$ and $A$ (resp. $B$) $\subset \GRNreg{a}$ a set of activators (resp. inhibitors) of $a$ such that
+$A \cup B = \GRNreg{a}$ and $A \cap B = \emptyset$,
+we define the discrete parameter $K_{a,A,B} = [i_1; i_2]$ as a non-empty interval towards which the component $a$ will tend
+when its activators (resp. inhibitors) are the regulators in set $A$ (resp. $B$).
+A complete map $K$ of discrete parameters on an IG $\IG$ is called a parametrization of $\IG$.
+\end{definition}
+A consequence of this definition is that $0 \leq i_1 \leq i_2 \leq l_a$.
+We also denote: $j < K_{a,A,B} \Leftrightarrow j < i_1$ and $j > K_{a,A,B} \Leftrightarrow j> i_2$.
+
+\begin{definition}[Resources $\GRNres{a}{s}$]\label{def:resources}
+For a given state $s$ of a BRN, we define the activators and inhibitors of $a$ in $s$ as $\GRNres{a}{s} = A,B$, where:
+\begin{align*}
+  A &= \{b \in \Gamma \mid \GRNget{s}{b} \in \levelsA{b}{a}\} \\
+  B &= \{b \in \Gamma \mid \GRNget{s}{b} \in \levelsI{b}{a}\}
+\end{align*}
+\end{definition}
+
+\begin{definition}[Biological Regulatory Network using Thomas' parameters]\label{def:brn}
+A biological regulatory network (BRN) using Thomas' parameters is a pair $(\IG; K)$ where the first entry is an Interaction Graph and the second is a complete Parametrization.
+\end{definition}
+We call $s$ a state of a BRN using Thomas' parameters if it is a state of the IG that consists in its first entry.
 
 \todo{Continue with the same example}
 
-\todo{The interval semantic is more expressive: explain}
+We lastly describe the asynchronous dynamics of a GRN with Thomas' parameters.
+From a given state $s$, a transition to another state $s'$ is possible provided that only one component will evolve of one expression level towards the nearest value of $K_{a,\GRNres{a}{s}}$.
 
-\todo{Definition: Dynamics?}
+\begin{definition}[Asynchronous dynamics]\label{def:dynamics}
+Let $s$ be a state of a BRN using Thomas' parameters $(\IG, K)$ where $\IG = (\Gamma, E_+, E_-)$.
+The state that succeeds to $s$ is given by the indeterministic function $f(s)$:
+\begin{align*}
+  & f(s) = s' \Longrightarrow \exists a \in \Gamma,
+    \GRNget{s'}{a} = f^a(s) \wedge
+    \forall b \in \Gamma, b \neq a, \GRNget{s}{b} = \GRNget{s'}{b}
+    \quad\text{, with}\\
+  & f^a(s) =
+  \begin{cases}
+    \GRNget{s}{a} + 1 & \text{if } \GRNget{s}{a} < K_{a, \GRNres{a}{s}} \\
+    \GRNget{s}{a} & \text{if } \GRNget{s}{a} \in K_{a,\GRNres{a}{s}}\\
+    \GRNget{s}{a} - 1 & \text{if } \GRNget{s}{a} > K_{a,\GRNres{a}{s}}
+  \end{cases}
+\end{align*}
+\end{definition}
+
+\todo{Finish with always the same example}
