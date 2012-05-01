@@ -1,8 +1,19 @@
 \section{Introduction}
+Regulatory phenomena play a crucial role in biological systems and they need to be studied accurately. The regulatory networks consist in graphs showing sets of either positive or negative mutual effects between the components.
+With the purpose of analyzing these systems, they are often modeled as graphs which make it possible to determine the possible evolutions of all the interacting components of the system.
+Indeed, besides continuous models of physicians, often designed through systems of ordinary differential equations, a discrete modeling approach was initiated by René Thomas in 1973 [cite{RT}].
 
-\cite{PMR10-TCSB}
-\cite{PMR12-MSCS}
-\cite{BernotSemBRN}
-\cite{BernotMultiplexes}
+In this approach, as it will be recalled in the section 2.2 of this paper, the different levels of a component (concentration, expression level, …) are abstractly represented by integer (positive) values and transitions between these levels may be considered as instantaneous. Hence, qualitative state graphs may be derived from which we are able to formally find out all the possible behaviors expressed as sequences of transitions between these states. Nevertheless, these dynamics can be precisely established only with regards to some discrete parameters which stand for a kind of "focal points", i.e. the evolutionary tendency from each state and depending of the set of resources in this very state, i.e. the set of the other currently interacting components.
 
+In this framework, we developed a new formalism able to regroup in a compact and expressive way families of models, each family being associated with a set of possible values of the discrete parameters. In the section 2.1, we recall the main concepts of this approach --- named the {\em "Process Hitting"} --- which was fully described in [1], [2], [5]. More precisely, we will show how associated influences of several components are making out the so-called "cooperations" which differ from multiple simple dissociated effects.
 
+As a matter of fact, the objectives of the work presented in this paper are he following.
+First, we show in section 3 that, starting from one process hitting, it is possible to find back the underlying interaction graph. The idea is that we proceed to an exhaustive search for the possible interactions of one component upon all the others, consistently with the knowledge of the dynamics that these interactions lead to and that are expressed in the process hitting. This enumerative search is made possible thanks to the use of the Answer-Set Programming (ASP) method.
+The second phase of our work, which is described in section 4, concerns the discrete parameters inference. It consists in determining the nesting set (possibly too large) of the parameters which necessarily lead to the satisfaction of the known cooperating constraints. 
+
+The outcome of this work is twofold. The first benefit is that such an approach makes it possible to refine the construction of the interactions graphs which are convenient with a partial and progressively brought knowledge. The second feature of our method is that it can be applied on very large biological regulatory networks.
+
+Finally, it must be noticed that we are not interested in this paper in the derivation of the process hitting from a biological regulatory network (which was done in [TCSB]) but, on the contrary to finding out a set of biological regulatory networks from one process hitting.
+
+Our work is related to the approach of \cite{20646302,DBLP:conf/ipcat/CorblinFTCT12} which also uses constraint programming to determine a class of models which are consistent with available partial data on the regulatory structure and dynamical properties. These class are built in order to infer properties common to all some studied models. In our approach, we intend to focus on the Ren\'e Thomas parameters inference and we claim we are able to deal with larger biological networks.
+ 

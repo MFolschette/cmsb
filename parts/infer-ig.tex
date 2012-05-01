@@ -138,12 +138,12 @@ and $\PHproc(\sigma)$ is the set of processes that compose the sub-state $\sigma
 \begin{property}[Well-formed cooperative sort]\label{pro:wf-cooperative-sort}
 A sort $\upsilon\in\PHs$ is a well-formed cooperative sort if and only if
 each configuration $\sigma$ of its predecessors leads $\upsilon$ to a unique focal process,
-denoted by $\upsilon[\sigma]$:
+denoted by $\upsilon(\sigma)$:
 \[
 \forall \sigma \in {\textstyle\prod_{
 a\in\PHdirectpredec{\upsilon} \wedge a\neq \upsilon}}
 \PHl_{a},
-\focals(\upsilon,\PHl_\upsilon,\PHproc(\sigma)\cup \PHl_\upsilon) = \{ \upsilon[\sigma] \}\]
+\focals(\upsilon,\PHl_\upsilon,\PHproc(\sigma)\cup \PHl_\upsilon) = \{ \upsilon(\sigma) \}\]
 \end{property}
 
 Such a property allows a large variety of definition of a cooperative sort, but
@@ -250,121 +250,109 @@ be compared to the notion of predecessors of Gene Networks.
 
 We now aim to determine what kind of influence gets each component from its component predecessors.
 Let $a \in \Gamma$ be a component and $b \in \PHpredecgene{b}$ a component that may influence it.
-We define $\gamma(b\rightarrow a)$ the set of components cooperating with $b$ (including $b$ itself)
-to hit $a$ in \eqref{eq:cooperating-with-b}.
+\pref{eq:cooperating-with-b} defines 
+$\gamma(b\rightarrow a)$ as the set of components cooperating with $b$ to hit $a$, including $b$ and
+$a$.
+We note $\configs$ the set of configurations of such components.
 \begin{align}
 \begin{split}
-\gamma(b\rightarrow a) \DEF \{ b \} \cup \{ c \in \Gamma \mid 
-			\exists \upsilon\in(\PHs\setminus\Gamma),
+\gamma(b\rightarrow a)  &\DEF \{ a, b \} \cup \{ c \in \Gamma \mid 
+			\exists \upsilon\in\PHs\setminus\Gamma,
 				\upsilon\in\PHpredec{a} \wedge \{b,c\}\subset\PHpredec{\upsilon} \}
 \end{split}
 \label{eq:cooperating-with-b}
+\\
+\configs & \DEF \textstyle\prod_{c\in\gamma(b\rightarrow a)} L_c
+\label{eq:configurations}
 \end{align}
 
-%The point of this approach is to derive, in a given sub-state, the influence of $a$ by comparing the focal states of $b$ in each state of $a$. For a given sub-state $\sigma \in C_{a \rightarrow b}$ of component predecessors of $b$ and a given process $a_i \in \PHs_a$ of $a$, we define the context of each predecessor $c \in \PHpredec{b}$ of $b$. This context is only the chosen process for $a$ (\ref{sub-state_a_predec}) and all component predecessors (\ref{sub-state_gene_predec}). In case of a cooperative sort, the context is the process that represents the sub-state of its predecessors (\ref{sub-state_cs_predec}).
+Given a configuration $\sigma\in\configs$, $\ctx(\sigma)$ refers to the set of focal processes
+regulated by $b$ that can hit the sort $a$ (\pref{eq:ctx-sigma}).
+This set is composed of the active process of sort $b$ ($\sigma[b]$), and the focal process (assumed
+unique) of the cooperative sorts $\upsilon$ hitting $a$ that have $b$ as a predecessor.
+The evaluation of the focal process of $\upsilon$ in context $\sigma$, denoted $\upsilon(\sigma)$,
+rely on \pref{pro:wf-cooperative-sort}, which gives its value when all the direct predecessors of
+$\upsilon$ are defined in $\sigma$.
+When a predecessor $\upsilon'$ is not in $\sigma$, we extend the evaluation by recursively computing
+the focal value of $\upsilon'$ is $\sigma$, as stated in \pref{eq:cooperative-eval}.
+Because there is no cycle between cooperative sorts, this recursive evaluation of $\upsilon(\sigma)$
+always terminates.
 
-\todo{Explain the need for \pref{eq:proc-ctx}}
-
-Given $c\in\PHs$ and a sub-state $\sigma\in\prod_{a\in\PHsort(\sigma)} \PHl_a$
-such that $c\in\Gamma\Rightarrow c\in\PHsort(\sigma) \wedge
-c\notin\Gamma\Rightarrow \PHpredecgene{c}\subset\PHsort(\sigma)$,
-$c[\sigma]$ refers to the process of sort $c$ recursively defined in \pref{eq:proc-ctx}:
-\begin{equation}
-c[\sigma] \DEF
-\begin{cases}
-\sigma[c] & \text{if } c\in\PHsort(\sigma) \\
-f_{c}[\sigma] & \text{otherwise,}
-\end{cases}
-\label{eq:proc-ctx}
-\end{equation}
-where
-$\focals(c, \PHl_c, \PHl_c \cup \{ d[\sigma] \mid d\in\PHdirectpredec{c} \wedge d\neq c \})
-	= \{ f_c[\sigma] \}$.
-
-As there is no cycle between cooperative sorts, the above recursion always terminates.
-
-\todo{explain the inference with $\focals$}
-
-\todo{We say the set $\focals(a,S_a,\ctx)\neq\emptyset$ is an interval iff \ldots}
-We also define an order between intervals with the relation $\intervalless$
-(\pref{eq:interval-compare}).
 \begin{align}
-\begin{split}
-  [a_{i,1} ; a_{i,2}] \intervalless [a_{j,1} ; a_{j,2}] \EQDEF & (a_{i,1} < a_{j,1} \wedge a_{i,2}
-  \leq a_{j,2}) \\
-  &\vee (a_{i,1} \leq a_{j,1} \wedge a_{i,2} < a_{j,2})
-\end{split}
-\label{eq:interval-compare}
+\ctx(\sigma) & \DEF \{ \sigma[b] \} \cup \{ \upsilon(\sigma) \mid
+\upsilon\in\PHdirectpredec{a} \wedge  \upsilon \notin\Gamma \wedge b\in \PHpredecgene{\upsilon} \}
+\label{eq:ctx-sigma}
+\\
+\upsilon(\sigma) & \DEF
+\upsilon(\sigma \uplus \state{\upsilon'(\sigma) \mid 
+	\upsilon'\in\PHdirectpredec{\upsilon} \wedge
+	\upsilon'\in\PHs\setminus\Gamma })
+\label{eq:cooperative-eval}
 \end{align}
 
-Let us define two sub-states $\sigma,\sigma'\in \prod_{c\in\gamma(b\rightarrow a)} \PHl_c$ such that
-$\sigma[b]=b_i$, $\sigma'[b]=b_j$ with $i < j$,
-and $\sigma[c]=\sigma'[c]$ for each $c\in\PHpredecgene{a}, c\neq b$.
-With $\ctx[\sigma] = \{ c[\sigma] \in \PHproc \mid c\in\PHdirectpredec{a} \wedge 
-	(b\in \PHpredecgene{c} \vee b = c)
-\}$:
-\begin{itemize}
-\item if $\focals(a,L_a,\ctx[\sigma])$ or $\focals(a,L_a,\ctx[\sigma'])$ is not a non-empty interval, then
-			$b\xrightarrow{\pm}a\in \IG$; otherwise,
-\item $\focals(a,L_a,\ctx[\sigma]) \intervalless \focals(a,L_a,\ctx[\sigma']) \Longrightarrow
-			b\xrightarrow{+}a\in \IG$;
-\item $\focals(a,L_a,\ctx[\sigma']) \intervalless \focals(a,L_a,\ctx[\sigma]) \Longrightarrow
-			b\xrightarrow{-}a\in \IG$.
-\end{itemize}
+We aim at infering that $b$ actives (inhibits) $a$ if there exists a configuration where increasing
+(decreasing) the level of $b$ makes possible the increase (decrease) of the level of $a$.
+This is analogous to standard IG inferences from boolean and discrete maps \todo{refs adrien}.
 
-In the particular case where $\PHpredecgene{a}=\{a\}$,
-we skip the above rules if $\focals(a,L_a,\PHl_a)$ is a non-empty interval.
+\todo{explications détaillées pour $b\neq a$}
 
-\[
-\f{bounces}(a_k,\varsigma[\sigma]) = 
+\todo{\pref{eq:bounces}, where $\PHa(\{a_k\}, \varsigma(\sigma))$ is the set of actions
+targeting $a_k$ and having their hitter in $\varsigma(\sigma)$ (\pref{eq:PHa-ctx})}
+We note $\sigma\{b_i\}$ the configuration $\sigma$ where the process of sort $b$ has been replaced
+by $b_i$.
+
+\begin{equation}
+\f{bounces}(a_k,\varsigma(\sigma)) \DEF 
 \begin{cases}
-\{ a_k \} & \text{if }\PHa(\{a_k\},\varsigma[\sigma]) = \emptyset\\
-\{ a_l \mid \exists h\in \PHa(\{a_k\},\varsigma[\sigma]), \PHbounce(h)=a_l \} 
+\{ a_k \} \quad\text{if }\nexists \PHfrappe{c_i}{a_k}{a_l}\in \PHa \wedge c_i \in \ctx(\sigma) \\
+\{ a_l \mid \exists \PHfrappe{c_i}{a_k}{a_l}\in \PHa \wedge c_i \in \ctx(\sigma) \}
 & \text{otherwise.}
 \end{cases}
-\]
+\label{eq:bounces}
+\end{equation}
 
-\noindent
-If $b \neq a$:
-\begin{align*}
-b\xrightarrow + a  & \Leftrightarrow
-	\exists a_{l,1}\in\f{bounces}(\sigma[a],\varsigma[\sigma]),
-		a_{l,2}\in\f{bounces}(\sigma[a],\varsigma[\sigma']),
-			a_{l,1} < a_{l,2} \\
-b\xrightarrow - a  & \Leftrightarrow
-	\exists a_{l,1}\in\f{bounces}(\sigma[a],\varsigma[\sigma]),
-		a_{l,2}\in\f{bounces}(\sigma[a],\varsigma[\sigma']),
-			a_{l,1} > a_{l,2}
-\end{align*}
+\todo{explain when $b = a$}
 
-\noindent
-If $a = b$ and $\PHpredecgene{a}\neq\{a\}$ or $\focals(a,L_a,\PHl_a)$ is not a non-empty interval:
-\[
-\epsilon_i =
+\begin{equation}
+\epsilon(a_i, \ctx(\sigma)) \DEF
 \begin{cases}
-\varnothing & \text{si pas de frappe sur $a_i$} \\
-+ &  \text{si toutes les frappes sur $a_i$ sont positives}\\ 
-- & \text{si toutes les frappes sur $a_i$ sont négatives}\\
-\bot & \text{sinon}
+\varnothing & \text{if }\f{bounces}(a_i,\ctx(\sigma))=\{ a_i \} \\
++ &  \text{if }\forall a_l \in \f{bounces}(a_i,\ctx(\sigma)), l > i\\
+- &  \text{if }\forall a_l \in \f{bounces}(a_i,\ctx(\sigma)), l < i\\
+\pm & \text{otherwise.}
 \end{cases}
-\]
-\begin{align*}
-b\xrightarrow + a  \notin IG & \Leftrightarrow
-	\exists k \in [0;l_a], \forall \sigma,
-		\forall y < k, 
-			\epsilon_y \in \{ +, \varnothing \}
-		\wedge
-		\forall x > k,
-			\epsilon_x \in \{ -, \varnothing \} 
+\label{eq:epsilon}
+\end{equation}
+
+\begin{definition}[Interaction Graph Inference]\label{def:inference-IG}
+\todo{intro}
+\begin{align}
+\begin{split}
+\forall b\in\PHs, b\neq a, \\
+b\xrightarrow s a \in \IG & \Longleftrightarrow
+	\exists b_i,b_j\in \PHl_b, i < j, \exists \sigma\in\configs \\
+& \qquad
+	\exists a_{l,1}\in\f{bounces}(\sigma[a],\varsigma[\sigma\{b_i\}]), \\
+& \qquad
+	\exists a_{l,2}\in\f{bounces}(\sigma[a],\varsigma[\sigma\{b_j\}]), \\
+& \qquad\qquad
+			s = \f{sign}(a_{l,2} - a_{l,1})
+\end{split}
+\label{eq:IG-inference-b}
 \\
-b\xrightarrow - a  \notin IG & \Leftrightarrow
-	\exists k \in [0;l_a], \forall \sigma,
-		\forall y < k, 
-			\epsilon_y \in \{ -, \varnothing \}
-		\wedge
-		\forall x > k,
-			\epsilon_x \in \{ +, \varnothing \} 
-\end{align*}
+\begin{split}
+a \xrightarrow s a \notin\IG & \Longleftrightarrow
+(\PHpredecgene{a} = \{a\} \wedge \focals(a, \PHl_a, \PHl_a) = [a_i;a_j], i\leq j) \\
+& \qquad \exists a_k \in L_a, \forall \sigma\in\configs, \\
+& \qquad \forall i \in [0;k-1], \epsilon(a_i, \ctx(\sigma))\in \{s,\varnothing\} \\
+& \qquad \forall j \in [k+1;l_a], \epsilon(a_j, \ctx(\sigma))\in \{\bar s,\varnothing\}
+\end{split}
+\end{align}
+where $s \in \{ +, - \}$, $\bar s = + \EQDEF s = -$, $\bar s = - \EQDEF s = +$,
+$\f{sign}(n) = + \EQDEF n > 0$,
+$\f{sign}(n) = - \EQDEF n < 0$,
+and $\f{sign}(0) \EQDEF 0$.
+\end{definition}
 
 
 \todo{threshold}
