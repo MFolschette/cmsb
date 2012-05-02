@@ -2,10 +2,11 @@
 Article :
 * section 1: compléter motivation pour PH et Thomas
 * section 2.1: intro
-* section 3.1: quelques explications supplémentaires sur focals
+* section 2.2: discuter de l'expressivité avec [] (en fin de section).
+* section 2.2: notation a -(s)-> b \in \IG ?
+* section 3.1: exemple avec S_a ≠ L_a
 * section 3.3: explications + inférence des seuils
 * section 3.4: illustrer avec les exemples
-* section 4.1: quelques explications supplémentaires
 * section 5:
         - illustrer avec les 2 running examples
         - lancer sur tcrsig40, avec et sans coopérations ; dans ce dernier cas, 
@@ -19,6 +20,7 @@ multiplexes compatibles de part le fort non-déterminisme possible en PH
         - projection for iteratively undoing cooperations. note this may enhance 
 performance of IG inference as we reduce the size of the context to explore.
 * section 7: à faire
+* Process Hitting -> PH ?
 
 Outil :
 - recoder l'inférence du graphe

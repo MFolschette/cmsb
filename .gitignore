@@ -6,5 +6,6 @@
 *.bak
 *.blg
 *.bbl
+*.out
 main.pdf
 *~

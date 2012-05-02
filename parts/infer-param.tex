@@ -1,22 +1,26 @@
-\section{Parametrization inference}
-\resume{The second part of the translation process is to infer the Parametrization. It relies on an exhaustive enumeration of all predecessors of each gene in order to fin attractor processes. The implementation returns a possibly incomplete of all necessary parameters, given the exhaustiveness of the cooperations. The last step consists of the enumeration of all possible configurations, given this set of inferred parameters, and some constraints on the Parametrization.}
+\section{Parametrization inference}\label{sec:infer-K}
 
-\afaire{Revoir pour le cas avec arcs non-signés}
+\resume{The second part of the translation process is to infer the Parametrization. It relies on an exhaustive enumeration of all predecessors of each gene in order to fin attractor processes. The implementation returns a possibly incomplete of all necessary parameters, given the exhaustiveness of the cooperations. The last step consists of the enumeration of all possible configurations, given this set of inferred parameters, and some constraints on the Parametrization.}
 
 In order to obtain a complete BRN of the studied system, one has to find both an IG and an adequate René Thomas' parametrization. This can be achieved as described in the following, using the results of the previous section regarding IG inference from a PH.
 
+\todo{outline + merge resume with previous sentence}
+
 \subsection{Parameters inference}
+\todo{say this is equivalent to the inference in \cite{PMR10-TCSB}, but with notations shared with
+the previous section}.
+
 This subsection assumes a global Process Hitting $(\PHs,\PHl,\PHa)$ and the related inferred IG $(\Gamma, E^+, E^-)$, on which the parametrization inference is to be performed.
 Let $K_{a,A,B}$ be the parameter we want to infer, for a given component $a \in \Gamma$, and $A \subset \PHpredecgene{a}$ (resp. $B \subset \PHpredecgene{a}$) \todo{Explain (here or when defining it) that $\f{reg}$ in PH is now equivalent as in IG} a set of activators (resp. inhibitors) in the regulators of $a$.
 This inference, as for the Interaction Graph inference, relies on the search of focal processes of the component for the given configuration of its regulators.
 
-For each sort $a \in \PHpredecgene{b}$, we define a context $C^a_{b,A,B}$ in \eqref{eq:param_context} that contains all processes representing the influence of the regulators in the configuration $A,B$.
-The context of a cooperative sort $\upsilon \in PHpredeccs{b}$ that regulates $b$ is given in \eqref{eq:param_context_coop} as the set of processes that represent the given configuration.
-\todo{define $\PHsort(\upsilon)$ - maybe in section 3.2}
+For each sort $b \in \PHpredecgene{a}$, we define a context $C^b_{a,A,B}$ in \pref{eq:param_context} that contains all processes representing the influence of the regulators in the configuration $A,B$.
+The context of a cooperative sort $\upsilon$ that regulates $a$ is given in \pref{eq:param_context_coop} as the set of processes that represent the given configuration.
+$C_{a,A,B}$ refers to the union of all these contexts (\pref{eq:K-ctx}).
 \begin{align}
 \label{eq:param_context}
 \forall b\in\Gamma,~
-C_{a,A,B}^b & = \begin{cases}
+C_{a,A,B}^b & \DEF \begin{cases}
 \levelsA{b}{a} & \text{if $b \in A$,}\\
 \levelsI{b}{a} & \text{if $b \in B$,}\\
 L_a		& \text{otherwise;}\\
@@ -24,32 +28,19 @@ L_a		& \text{otherwise;}\\
 \\
 \label{eq:param_context_coop}
 \forall \upsilon \in \PHpredec{a}\setminus\Gamma,~
-C_{a,A,B}^\upsilon & = \{
-\upsilon[\sigma] \mid \sigma \in \textstyle\prod_{b \in \PHsort(\upsilon)}C_{a,A,B}^b \}
-\enspace.
-\end{align}
-
-\begin{comment}
-We pose $\PHh_{b,A,B}$ (\eqref{eq:param_h}) the set of actions in $\PHh$ that hit a process of sort $b$ and can be fired in the previously defined context. A process of sort $b$ can be reached if it belongs to the context or if it is a bounce in $\PHh_{b,A,B}$; we call $L_{b,A,B}^?$ (\ref{eq:param_candidates}) the set of such candidates. The set of focal processes $L_{b,A,B}^*$ (\ref{eq:param_focal}) is the set of processes of $L_{b,A,B}^?$ that are not hit by an action in $\PHh_{b,A,B}$.
-\begin{align}
-\label{eq:param_h}
-  \PHh_{b,A,B} & = \{ \PHfrappe{a_i}{b_j}{b_k} \in \PHh \mid \exists a \in \Gamma, a_i \in C_{b,A,B}^a \wedge b_j \in C_{b,A,B}^b\}
+C_{a,A,B}^\upsilon & \DEF \{
+\upsilon(\sigma) \mid \sigma \in \textstyle\prod_{c\in\PHdirectpredec{\upsilon}}C_{a,A,B}^c \}
 \\
-\label{eq:param_candidates}
-  L_{b,A,B}^? & =  C_{b,A,B}^b \cup \{ b_k\mid \exists \PHfrappe{a_i}{b_j}{b_k} \in \PHh_{b,A,B}\}
-\\
-\label{eq:param_focal}
-  L_{b,A,B}^* & =  L_{b,A,B}^? \setminus \{ b_j \mid \exists \PHfrappe{a_i}{b_j}{b_k} \in \PHh_{b,A,B} \}
+C_{a,A,B} & \DEF \textstyle\bigcup_{b\in\PHpredec{a}} C^b_{a,A,B}
+\label{eq:K-ctx}
 \end{align}
 
-The focal processes in $L_{b,A,B}^*$ are the wanted parameters if they are attractors, \ie if the actions in $\PHh_{b,A,B}$ can only bounce in their direction. A set of processes is an attractor if it verifies the condition \eqref{eq:param_attractor}; in this case, this set of processes is also an interval.
-\begin{align}
-\label{eq:param_attractor}
-  \forall \PHfrappe{b_i}{a_j}{a_k} \in \PHh_{a,A,B}, \forall a_f \in L_{a,A,B}^*, |f-k| < |f-j|
-\end{align}
-\end{comment}
-
-\todo{relate $K$ to $\focals$ \pref{thm:param_K}}
+The parameter $K_{a,A,B}$ specifies to which values $a$ eventually evolves as long as the context
+$C_{a,A,B}$ holds, which is precisely the definition of the $\focals$ function
+(\pref{def:focals} in \pref{ssec:focal}).
+Hence $K_{a,A,B} = \focals(a,C^a_{a,A,B},C_{a,A,B})$ if this latter is a non-empty interval
+(\pref{thm:param_K}).
+\todo{theorem or definition?}
 
 \begin{theorem}[Parameter inference]
 \label{thm:param_K}
@@ -59,13 +50,13 @@ Let $A$ (resp. $B$) $\subseteq \Gamma$ be the set of regulators that activate (r
 $a$.
 %If $\focals(a,C_{a,A,B})$ is a non-empty interval, then $K_{a,A,B} = \focals(a, C_{a,A,B})$.
 If $\focals(a,C^a_{a,A,B},C_{a,A,B})$ is a non-empty interval, 
-	then $K_{a,A,B} = \focals(a, C^a_{a,A,B}, C_{a,A,B})$,
-	where $C_{a,A,B} = \bigcup_{b\in\PHpredec{a}} C^b_{a,A,B}$.
+	then $K_{a,A,B} = \focals(a, C^a_{a,A,B}, C_{a,A,B})$.
 \end{theorem}
 
-\todo{Illustrate with the example}
+\begin{example*}
+\todo{Illustrate the definitions}
+\end{example*}
 
-\todo{Discuss of incomplete cooperations $\Rightarrow$ inconclusive cases}
 Given the \pref{thm:param_K}, we see that in some cases, the inference of the desired parameter is impossible. This can be due to a lack of cooperation between regulators: when two regulators independently hit a component, their actions can have opposite effects, leading to either an indeterministic evolution or to oscillations. Such an indeterminism is not possible in a GRN as in a given configuration of regulators, a component can have only an interval attractor, and eventually reaches a steady-state. In order to avoid such inconclusive cases, one has to ensure that no such behavior is allowed by either removing undesired actions or using cooperative sorts to avoid opposite influences between regulators of a component.
 
 \subsection{Admissible parametrizations enumeration}

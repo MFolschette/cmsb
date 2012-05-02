@@ -9,7 +9,7 @@
 
 We recall here the definition and semantics of the Process Hitting, and its usage to model
 cooperation between concurrent components.
-Two examples of Process Hitting modeling a BRN at different level of abstraction are given.
+Two examples of Process Hitting modeling a BRN at different abstraction levels are given.
 They serve as running examples in the rest of this article.
 
 \medskip
@@ -145,7 +145,7 @@ Actions involving $b_1$ or $c_1$ are in thick lines.
 }
 \end{figure}
 
-This example Process Hitting actually models a BRN where the component $a$ has three qualitative
+This Process Hitting example actually models a BRN where the component $a$ has three qualitative
 levels and components $b$ and $c$ are boolean.
 In this BRN, $b$ and $c$ activate $a$, while $a$ inhibits $b$.
 The inhibition of $b$ by $a$ is only effective when $a$ is at level $2$.
@@ -153,7 +153,7 @@ The activation of $a$ by $b$ ($c$) is encoded by the actions making the level of
 decrease) when $b$ ($c$) is present (resp. absent).
 It is worth noticing that the activation of $a$ by $b$ ($c$) is independent from $c$ ($b$).
 This may express a lack of knowledge on the cooperation between these two regulators:
-we then model an over-approximation of the possible actions.
+we thus model an over-approximation of the possible actions.
 \end{example*}
 
 \paragraph{Modeling cooperation.}

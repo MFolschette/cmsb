@@ -1,20 +1,23 @@
-\section{Interaction Graph inference}
-\resume{The Process Hitting can be used to finely model a system by defining cooperations or studying its behavior using the available tools. One can then decide to translate this model back to Thomas' modeling, and the Interaction Graph inference is the first step to perform this. It relies on an exhaustive approach that looks for possible influences of a gene on the others given all possible configurations. This part gives good results.}
+\section{Interaction Graph Inference}\label{sec:infer-IG}
 
-In order to infer a complete BRN, one has to find the Interaction Graph first, as some constraints on the Parametrization rely on it. Inferring the Interaction Graph consists in determining the influence of all components on each of its successors.
+In order to infer a complete BRN, one has to find the Interaction Graph (IG) first, as some
+constraints on the Parametrization rely on it.
+Inferring the IG is an abstraction step which consists in determining the global influence of
+components on each of its successors.
 
-\todo{say this is an abstraction step, where we want to infer the global influence of components
-between each others}
+This section introduces first the notion of focal processes within a Process Hitting
+(\pref{ssec:focal}) which is used to characterize well-formed Process Hittings for IG inference
+in \pref{ssec:wf}, and as well used by the parametrization inference presented in \pref{sec:infer-K}.
+Finally, the rules for infering the interactions between components from a Process Hitting are
+described in \pref{ssec:infer-IG}.
 
-\todo{outline}
-
-This section assumes a global Process Hitting $(\PHs,\PHl,\PHa)$ on which the IG inference is to be
+We assume hereafter a global Process Hitting $(\PHs,\PHl,\PHa)$ on which the IG inference is to be
 performed.
 
-\subsection{Focal Processes}
+\subsection{Focal Processes}\label{ssec:focal}
 
 Many of the inferences defined in the rest of this paper rely on the knowledge of \emph{focal
-processes} w.r.t. a given context, \ie{} a set of processes that are potentially present.
+processes} w.r.t. a given context (a set of processes that are potentially present).
 When such a context applies, we expect to (always) reach one focal process in a bound number of
 actions.
 
@@ -22,6 +25,7 @@ Let us first define as $\PHa(S_a,\ctx)$ the set of actions on the sort $a$ havin
 $\ctx$ and target in $S_a$ (\pref{eq:PHa-ctx}).
 \begin{equation}
 \PHa(S_a,\ctx) \DEF \{ \PHfrappe{b_i}{a_j}{a_k}\in\PHa \mid b_i\in\ctx \wedge a_j\in S_a \}
+\enspace.
 \label{eq:PHa-ctx}
 \end{equation}
 
@@ -29,30 +33,12 @@ We denote $\focals(a,S_a,\ctx)$ the set of focal processes of sort $a$ in the co
 $\ctx\cup S_a$
 (\pref{def:focals}).
 
-\begin{comment}
-\begin{definition}[$\focals(a,\ctx)$]\label{def:focals}
-Let us define the digraph $G = (L_a, E)$ where arcs are the bounces within the sort $a$
-triggered by actions having their hitter in $\ctx$ and target in $L_a$:
-\[E \DEF \{(a_j,a_k)\in (\PHl_a \times \PHl_a) \mid 
-			\exists\PHfrappe{b_i}{a_j}{a_k}\in \PHa(a,\ctx)\}\enspace.\]
-$\focals(a,\ctx)$ is the set of focal processes of sort $a$ in the context $\ctx$:
-\[
-\focals(a,\ctx) \DEF
-\begin{cases}
-\{ a_i \in \PHl_a \mid \nexists (a_i,a_j)\in E\} & \text{if $G$ is acyclic},\\
-\emptyset & \text{otherwise.}\\
-\end{cases}
-\]
-\end{definition}
-\end{comment}
-
 \begin{definition}[$\focals(a,S_a,\ctx)$]\label{def:focals}
 Let us define the digraph $G = (V, E)$ where arcs are the bounces within the sort $a$
 triggered by actions having their hitter in $\ctx$ and target in $S_a\subseteq L_a$:
 \begin{align*}
 E  & \DEF \{(a_j,a_k)\in (S_a \times \PHl_a) \mid 
-			\exists\PHfrappe{b_i}{a_j}{a_k}\in \PHa,
-				b_i\in\ctx \wedge a_j\in S_a \}
+			\exists\PHfrappe{b_i}{a_j}{a_k}\in \PHa(S_a,\ctx) \}
 \\
 V & \DEF S_a \cup \{ a_k\in L_a\mid \exists (a_j,a_k)\in E\}
 \end{align*}
@@ -67,7 +53,7 @@ $\focals(a,S_a,\ctx)$ is the set of focal processes of sort $a$ in the context $
 \end{definition}
 
 We say that a state $s\in\PHl$ \emph{matches} a context $\ctx$ if and only if
-$\forall a\in\PHsort(\ctx), \PHget{s}{a}\in\ctx$, where $\PHsort(\ctx)$ denotes the set of sorts of
+$\forall a\in\PHsort(\ctx), \PHget{s}{a}\in\ctx$, where $\PHsort(\ctx)$ is the set of sorts of
 processes in $\ctx$.
 From \pref{def:focals}, it derives that:
 \begin{enumerate}
@@ -85,11 +71,11 @@ either
 Moreover $k\leq|\PHa(S_a,\ctx)|$ (no cycle of actions possible).
 \end{enumerate}
 
-\todo{in other words, if emptyset -> there exists a set of actions in $\PHa(S_a,\ctx)$ that can be
-played as many number of times as we want (cycle);
-	if non-emptyset -> all succession of actions in $\PHa(S_a,\ctx)$ lead $a$, in a bound number of
-	steps, either to a process in $S_a$ that is not hit by processes in $\ctx$, or to a process in
-	$L_a\setminus S_a$}
+In other words, if $\focals(a,S_a,\ctx)$ is empty, there exists a set of actions in
+$\PHa(S_a,\ctx)$ that may be played as many number of times as we want (cycle);
+if it is non-empty, all possible succession of actions in $\PHa(S_a,\ctx)$ have a bound length and
+lead $a$ either to a process in $S_a$ that is not hit by processes in $\ctx$, or to a process in
+$L_a\setminus S_a$.
 
 \begin{example*}
 In the Process Hitting of \pref{fig:runningPH-1}, we obtain:
@@ -101,7 +87,7 @@ In the Process Hitting of \pref{fig:runningPH-1}, we obtain:
 \end{align*}
 \end{example*}
 
-\subsection{Well-formed Process Hitting for Interaction Graph Inference}
+\subsection{Well-formed Process Hitting for Interaction Graph Inference}\label{ssec:wf}
 
 The inference of an IG from a Process Hitting assumes there the Process Hitting defines two types of
 sorts:
@@ -227,22 +213,23 @@ sorts having no action hitting them belong to $\Gamma$
 \end{center}
 \end{comment}
 
-\subsection{Interaction Inference}
+\subsection{Interaction Inference}\label{ssec:infer-IG}
 
 At this point we can divide the set of sorts $\PHs$ into components ($\Gamma$) and cooperative sorts
-($\PHs \setminus \Gamma$) that will not appear in the Interaction Graph. In (\ref{eq:ph_direct_predec})
-we define the notion of direct predecessors in a Process Hitting by considering the actions between
-sorts, and we extend it in (\ref{ph_predec}) to a broader notion of predecessor, where we define the
-influence of sort to another by considering actions and possible cooperative sorts. This latter can
-be compared to the notion of predecessors of Gene Networks. 
+($\PHs \setminus \Gamma$) that will not appear in the IG. 
+We define in \pref{eq:ph_predec} the predecessors of a sort $a$, that are the sorts influencing $a$
+by considering direct actions and possible intermediate cooperative sorts.
+The predecessors of $a$ that are components are the regulators of $a$, noted $\PHpredecgene{a}$
+(\pref{eq:regulators}).
 \begin{align}
 \begin{split}
-\forall a \in \PHs, \PHpredec{a} &\DEF \{b \in \PHs \mid \exists n \in \mathbb{N}^*, \exists (c^k)_{k \in \llbracket 0 ; n \rrbracket} \in \PHs^{n+1}, \\
+\forall a \in \PHs, \PHpredec{a} &\DEF \{b \in \PHs \mid \exists n \in \mathbb{N}^*, \exists
+(c^k)_{k \in [0;n]} \in \PHs^{n+1}, \\
                                    & \quad \quad c^0 = b \wedge c^n = a \\
                                    & \quad \quad \wedge \forall k \in \llbracket 0 ; n-1 \rrbracket,
 								   c^k \in \PHdirectpredec{c^{k+1}} \cap (\PHs\setminus\Gamma)\}
 \end{split}
-\label{ph_predec}
+\label{eq:ph_predec}
 \\
 \forall a\in \PHs, \PHpredecgene{a} & \DEF \PHpredec{a} \cap \Gamma
 \label{eq:regulators}
@@ -292,7 +279,8 @@ always terminates.
 
 We aim at infering that $b$ actives (inhibits) $a$ if there exists a configuration where increasing
 (decreasing) the level of $b$ makes possible the increase (decrease) of the level of $a$.
-This is analogous to standard IG inferences from boolean and discrete maps \todo{refs adrien}.
+This is analogous to standard IG inferences from boolean and discrete maps 
+\cite{RiCo07}.
 
 \todo{explications détaillées pour $b\neq a$}
 
@@ -357,8 +345,8 @@ and $\f{sign}(0) \EQDEF 0$.
 
 \todo{threshold}
 
+\todo{illustrate some of the above definitions with (parts of) the running examples}
+
 \todo{Discuss of errors/inconclusive cases}
 
-\subsection{Examples}
-\todo{Illustrate with the example}
 
