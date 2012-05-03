@@ -331,9 +331,9 @@ b\xrightarrow s a \in \IG & \Longleftrightarrow
 \begin{split}
 a \xrightarrow s a \notin\IG & \Longleftrightarrow
 (\PHpredecgene{a} = \{a\} \wedge \focals(a, \PHl_a, \PHl_a) = [a_i;a_j], i\leq j) \\
-& \qquad \exists a_k \in L_a, \forall \sigma\in\mathbb C_{a\rightarrow a}, \\
+& \qquad \vee (\exists a_k \in L_a, \forall \sigma\in\mathbb C_{a\rightarrow a}, \\
 & \qquad \forall i \in [0;k-1], \epsilon(a_i, \ctx(\sigma))\in \{s,\varnothing\} \\
-& \qquad \forall j \in [k+1;l_a], \epsilon(a_j, \ctx(\sigma))\in \{\bar s,\varnothing\}
+& \qquad \forall j \in [k;l_a], \epsilon(a_j, \ctx(\sigma))\in \{\bar s,\varnothing\})
 \end{split}
 \end{align}
 where $s \in \{ +, - \}$, $\bar s = + \EQDEF s = -$, $\bar s = - \EQDEF s = +$,
