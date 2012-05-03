@@ -1,0 +1,34 @@
+\section{Discussion}
+
+This work establishes the abstraction relationship between PH and Thomas' approaches for
+qualitative BRN modelling.
+The PH allows an abstract representation of BRNs dynamics (allowing incomplete knowledge on the
+cooperation between components) that can not be exactly represented in Ren\'e Thomas' formalism by a
+single instance of BRN parametrization.
+This motivates the concretization of PH models into a set of compatible Thomas' in order to benefit
+of the complementary advantages of these two formal frameworks.
+
+We first propose an original inference of the Interaction Graph (IG) from a BRN
+having its dynamics specified in the PH framework.
+An IG gives a compact abstract representation of the influence of the components between each
+others.
+Then, based on a prior inference of Ren\'e Thomas' parametrization for BRNs from a PH model, we
+delimit the set of compatible Thomas' parametrization that are compatible with the PH dynamics.
+The enumeration of such parametrizations is efficiently tackled using Answer-Set Programming.
+We illustrate the overall method on simple examples and biological application cases.
+
+Several extensions of the presented work are envisaged.
+First, the inference of Thomas' parameters in the presence of double-signed interactions in the
+inferred IG has to be explored, as some particular cases having such IGs are known to have correct
+Thomas' parametrization (not respecting some assumptions imposed in \pref{ssec:admissible-K},
+however).
+Second, the inference of BRN multiplexes \cite{BernotMultiplexes} may be of practical interest 
+as they allow to implicitly reduce the possible parametrizations by making cooperations appearing
+in the IG.
+Because of its atomicity, the PH allows to specify a range of cooperations that can not be
+completely captured by a single instance of BRN multiplexes, encouraging them the inference of a set
+of compatible BRN multiplexes.
+Finally, in order to gain some performance in the IG inference, we consider projection operations on
+the PH structure to undo cooperations between components, reducing then the cardinality of
+configurations to explore by making the interactions independent.
+
