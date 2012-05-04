@@ -1,16 +1,6 @@
 
-Article :
 * section 1: compléter motivation pour PH et Thomas
-* section 2.1: intro
 * section 2.2: discuter de l'expressivité avec [] (en fin de section).
 * section 3.1: exemple avec S_a ≠ L_a
-* section 3.3: explications + inférence des seuils
-* section 5:
-        - illustrer avec les 2 running examples
-        - lancer sur tcrsig40, avec et sans coopérations ; dans ce dernier cas, 
-donner le nombre de configurations possibles.
 * Process Hitting -> PH
 
-Outil :
-- recoder l'inférence du graphe
-- améliorer la sortie pour l'énumération
