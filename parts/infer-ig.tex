@@ -283,25 +283,39 @@ This is analogous to standard IG inferences from boolean and discrete maps
 \cite{RiCo07}.
 
 This reasoning can be straightforwardly applied to PH when inferring the influence of $b$ for $a$ when
-$b\neq a$.
+$b\neq a$ (\pref{eq:edges-inference-b}).
 Given a configuration $\sigma\in\configs b$, 
 $\focals(a,\{a_i\},\ctx(\sigma))$ gives the bounces that a given process $a_i$ can make in the
 context $\ctx(\sigma)$.
 We note $\sigma\{b_i\}$ the configuration $\sigma$ where the process of sort $b$ has been replaced
 by $b_i$.
-If there exists $b_i,b_j\in L_b$ with $i < j$, such that one bounce in 
+If there exists $b_i,b_{i+1}\in L_b$ such that one bounce in 
 $\focals(a, \{\sigma[a]\}, \ctx(\sigma\{b_i\}))$
 has a lower (resp. higher) level that one bounce in
-$\focals(a, \{\sigma[a]\}, \ctx(\sigma\{b_j\}))$, then
-$b$ as positive (resp. negative) influence on $a$ with a maximum threshold $k=j$.
+$\focals(a, \{\sigma[a]\}, \ctx(\sigma\{b_{i+1}\}))$, then
+$b$ as positive (resp. negative) influence on $a$ with a maximum threshold $l=j$.
 
-The inference of the self-influence of $a$ requires a global overview of the evolution of each level
+Assuming $\PHpredecgene{a}\neq\emptyset$, the inference of the self-influence of $a$ requires a more
+careful treatment (\pref{eq:edges-inference-b}).
+We first exclude the case where $a$ is its only regulator and its focal processes are a non-empty
+interval: $a$ evolves to a constant interval.
+Then, we look for a configuration of all its regulators where the level of $a$ has an impact
+on the evolution of the sort $a$.
+Given $a_i,a_{i+1}\in L_a$, we pick $a_j\in\focals(a,\{a_i\},\ctx(\sigma\{a_i\}))$ and
+$a_k\in\focals(a,\{a_{i+1}\},\ctx(\sigma\{a_{i+1}\}))$.
+If $k=j+1$, we can not conclude as there is no difference in the evolution of both levels.
+If $k\neq j+1$ and $k-j\neq 0$, then $a_i$ and $a_{i+1}$ have divergent evolutions: we infer an
+influence of sign of $k-j$ at threshold $i+1$.
+Finally, if there is configuration such that the focal level of any $a_i\in L_a$ is $a_i$ itself, we
+conclude that $a$ is auto-activating as increasing its level increases the resulting level.
+
+\begin{comment}
+a global overview of the evolution of each level
 of $a$ w.r.t. a configuration $\sigma\in\configs a$.
 The evolution of $a_i$ in the context $\ctx(\sigma\{a_i\})$ is given by the function
 $\epsilon(a_i,\sigma)$ (\pref{eq:epsilon}) which returns $\varnothing$ if there is no action
 possible, $+$ (resp. $-$) if all actions makes $a_i$ bounce to a higher (resp. lower) level,
 and $\pm$ if both evolutions are possible.
-This latter case implies that $a$ has both a positive and negative influence on it.
 \begin{equation}
 \epsilon(a_i, \sigma) \DEF
 \begin{cases}
@@ -324,50 +338,75 @@ $\epsilon(a_{l_a},\sigma)$ can never be negative (resp. positive)).
 Third, if $\forall a_i\in L_a$, $\epsilon(a_i,\sigma)$ is either $\varnothing$ or of sign $s$, we
 ensure there exists $a_j\in L_a$ such that $\epsilon(a_j,\sigma)=s$ and we infer a self-influence of
 sign $s$ and threshold $k=j$.
+\end{comment}
 
 
 \pref{def:inference-edges} details the inference of all existing influences between genes occurring
-with a threshold $k$.
+with a threshold $l$.
 These influences are split into positive and negative ones, and represent possible edges in the final IG.
 \begin{definition}[Edges inference]\label{def:inference-edges}
-We define the set of positive (resp. negative) influences $\hat{E}_+$ (resp. $\hat{E}_-$) by:
+We define the set of positive (resp. negative) influences $\hat{E}_+$ (resp. $\hat{E}_-$) for any
+$a\in\Gamma$ by:
 \begin{align}
 \begin{split}
-\forall b\in\Gamma, b\neq a, \\
-b\xrightarrow k a \in \hat{E}_s & \Longleftrightarrow
-        \exists b_i,b_j\in \PHl_b, i < j, \exists \sigma\in\configs b \\
+\forall b\in\PHpredecgene{a}, b\neq a, \\
+b\xrightarrow l a \in \hat{E}_s & \Longleftrightarrow
+ \exists \sigma\in\configs b, \exists b_i,b_{i+1}\in \PHl_b,\\
 & \qquad\qquad
-        \exists a_{k}\in\focals(a, \{\sigma[a]\}, \varsigma(\sigma\{b_i\})), \\
+        \exists a_{j}\in\focals(a, \{\sigma[a]\}, \varsigma(\sigma\{b_i\})), \\
 & \qquad\qquad
-        \exists a_{l}\in\focals(a, \{\sigma[a]\}, \varsigma(\sigma\{b_j\})), \\
+        \exists a_{k}\in\focals(a, \{\sigma[a]\}, \varsigma(\sigma\{b_{i+1}\})), \\
 & \qquad\qquad\qquad
-                        s = \f{sign}(l - k) \wedge k = j
+                        s = \f{sign}(k - j) \wedge l = i+1
 \end{split}
 \label{eq:edges-inference-b}
 \\
 \begin{split}
-a \xrightarrow k a \in \hat{E}_s & \Longleftrightarrow
+a \xrightarrow l a \in \hat{E}_s & \Longleftrightarrow
 \neg(\PHpredecgene{a} = \{a\} \wedge \focals(a, \PHl_a, \PHl_a) = [a_i;a_j], i\leq j) \\
-& \qquad \wedge (\exists\sigma\in\configs a,
-                (\exists a_i\in L_a, \epsilon(a_i,\sigma) = \pm)\\
-& \qquad\qquad \vee
-        (\exists a_i,a_j\in L_a, i < j, \\
-& \qquad\qquad\qquad
-                \epsilon(a_i,\sigma) = \bar s \wedge \epsilon(a_j,\sigma) = s \wedge k = j) \\
-& \qquad\qquad \vee
-        ((\epsilon(a_0, \sigma) = \bar s \vee \epsilon(a_{l_a}, \sigma) = s) \wedge k = l_a) \\
-& \qquad\qquad \vee
-        (\epsilon(a_0, \sigma) = \epsilon(a_{l_a}, \sigma) = \varnothing \\
-& \qquad\qquad\qquad       \wedge \forall a_i\in L_a, \epsilon(a_i, \sigma)\in \{\varnothing, s\} \\
-& \qquad\qquad\qquad       \wedge \exists a_j\in L_a, \epsilon(a_j, \sigma) = s \wedge k = j)
-                )
+& \wedge \exists\sigma\in L_a\times\textstyle\prod_{c\in \PHpredecgene{a}} L_c, ( 
+       (\exists a_i,a_{i+1}\in \PHl_b, \\
+& \qquad\qquad
+        \exists a_{j}\in\focals(a, \{a_i\}, \varsigma(\sigma\{a_i\})), \\
+& \qquad\qquad
+        \exists a_{k}\in\focals(a, \{a_{i+1}\}, \varsigma(\sigma\{a_{i+1}\})), \\
+& \qquad\qquad\quad
+			k \neq j+1
+				\wedge s = \f{sign}(k - j) \wedge l = i+1\\
+& \qquad\vee
+	(\forall a_i\in L_a, \focals(a,\{a_i\},\ctx(\sigma\{a_i\})) = \{a_i\} \\
+& \qquad\qquad 
+		\wedge s=+ \wedge l=1)
+)
 \end{split}
+\label{eq:edges-inference-a}
 \end{align}
 where $s \in \{ +, - \}$, $\bar s = + \EQDEF s = -$, $\bar s = - \EQDEF s = +$,
 $\f{sign}(n) = + \EQDEF n > 0$,
 $\f{sign}(n) = - \EQDEF n < 0$,
 and $\f{sign}(0) \EQDEF 0$.
 \end{definition}
+
+\begin{comment}
+\begin{align*}
+\begin{split}
+a \xrightarrow k a \in \hat{E}_s & \Longleftrightarrow
+\neg(\PHpredecgene{a} = \{a\} \wedge \focals(a, \PHl_a, \PHl_a) = [a_i;a_j], i\leq j) \\
+& \wedge \exists\sigma\in\configs a, (
+        (\exists a_i,a_j\in L_a, i < j, \\
+& \qquad\qquad
+                \epsilon(a_i,\sigma) \in \{\bar s,\pm\}
+					\wedge \epsilon(a_j,\sigma) \in \{ s, \pm \}  \wedge k = j) \\
+& \qquad \vee
+        ((\epsilon(a_0, \sigma) = \bar s \vee \epsilon(a_{l_a}, \sigma) = s) \wedge k = l_a) \\
+& \qquad \vee
+        (\epsilon(a_0, \sigma) = \epsilon(a_{l_a}, \sigma) = \varnothing \\
+& \qquad\qquad       \wedge \forall a_i\in L_a, \epsilon(a_i, \sigma)\in \{\varnothing, s\} \\
+& \qquad\qquad       \wedge \exists a_j\in L_a, \epsilon(a_j, \sigma) = s \wedge k = j)
+                )
+\end{split}
+\end{align*}
+\end{comment}
 
 We are now able to infer the edges of the final IG by considering positive and negative influences. We infer a positive (resp. negative) edge if there exists a corresponding influence with the same sign. If an influence is both positive and negative, we infer an unsigned edge. In the end, the threshold of each edge is the minimum threshold for which the influence has been found. As unsigned edges represent ambiguous interactions, no threshold is inferred.
 \begin{definition}[Interaction Graph inference]\label{def:inference-IG}
