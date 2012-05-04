@@ -284,26 +284,16 @@ This is analogous to standard IG inferences from boolean and discrete maps
 
 This reasoning can be straightforwardly applied to PH when inferring the influence of $b$ for $a$ when
 $b\neq a$.
-Given a configuration $\sigma\in\configs b$, we define in \pref{eq:bounces}
-$\f{bounces}(a_i,\ctx(\sigma))$ as the set of bounces that a given process $a_i$ can make in the
+Given a configuration $\sigma\in\configs b$, 
+$\focals(a,\{a_i\},\ctx(\sigma))$ gives the bounces that a given process $a_i$ can make in the
 context $\ctx(\sigma)$.
 We note $\sigma\{b_i\}$ the configuration $\sigma$ where the process of sort $b$ has been replaced
 by $b_i$.
 If there exists $b_i,b_j\in L_b$ with $i < j$, such that one bounce in 
-$\f{bounces}(\sigma[a], \ctx(\sigma\{b_i\}))$
+$\focals(a, \{\sigma[a]\}, \ctx(\sigma\{b_i\}))$
 has a lower (resp. higher) level that one bounce in
-$\f{bounces}(\sigma[a], \ctx(\sigma\{b_j\}))$, then
+$\focals(a, \{\sigma[a]\}, \ctx(\sigma\{b_j\}))$, then
 $b$ as positive (resp. negative) influence on $a$ with a maximum threshold $k=j$.
-
-\begin{equation}
-\f{bounces}(a_i,\ctx(\sigma)) \DEF 
-\begin{cases}
-\{ a_i \} \quad\text{if }\nexists \PHfrappe{c_k}{a_i}{a_j}\in \PHa \wedge c_k \in \ctx(\sigma) \\
-\{ a_j \mid \exists \PHfrappe{c_k}{a_i}{a_j}\in \PHa \wedge c_k \in \ctx(\sigma) \}
-& \text{otherwise.}
-\end{cases}
-\label{eq:bounces}
-\end{equation}
 
 The inference of the self-influence of $a$ requires a global overview of the evolution of each level
 of $a$ w.r.t. a configuration $\sigma\in\configs a$.
@@ -315,9 +305,9 @@ This latter case implies that $a$ has both a positive and negative influence on 
 \begin{equation}
 \epsilon(a_i, \sigma) \DEF
 \begin{cases}
-\varnothing & \text{if }\f{bounces}(a_i,\ctx(\sigma\{a_i\}))=\{ a_i \} \\
-+ &  \text{if }\f{bounces}(a_i,\ctx(\sigma\{a_i\})) = \{ a_{i+1} \}\\
-- &  \text{if }\f{bounces}(a_i,\ctx(\sigma\{a_i\})) = \{ a_{i-1} \}\\
+\varnothing & \text{if }\focals(a,\{a_i\},\ctx(\sigma\{a_i\}))=\{ a_i \} \\
++ &  \text{if }\focals(a, \{a_i\},\ctx(\sigma\{a_i\})) = \{ a_{i+1} \}\\
+- &  \text{if }\focals(a, \{a_i\},\ctx(\sigma\{a_i\})) = \{ a_{i-1} \}\\
 \pm & \text{otherwise.}
 \end{cases}
 \label{eq:epsilon}
@@ -347,9 +337,9 @@ We define the set of positive (resp. negative) influences $\hat{E}_+$ (resp. $\h
 b\xrightarrow k a \in \hat{E}_s & \Longleftrightarrow
         \exists b_i,b_j\in \PHl_b, i < j, \exists \sigma\in\configs b \\
 & \qquad\qquad
-        \exists a_{k}\in\f{bounces}(\sigma[a],\varsigma(\sigma\{b_i\})), \\
+        \exists a_{k}\in\focals(a, \{\sigma[a]\}, \varsigma(\sigma\{b_i\})), \\
 & \qquad\qquad
-        \exists a_{l}\in\f{bounces}(\sigma[a],\varsigma(\sigma\{b_j\})), \\
+        \exists a_{l}\in\focals(a, \{\sigma[a]\}, \varsigma(\sigma\{b_j\})), \\
 & \qquad\qquad\qquad
                         s = \f{sign}(l - k) \wedge k = j
 \end{split}
