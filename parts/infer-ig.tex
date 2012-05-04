@@ -312,39 +312,39 @@ by $b_i$.
 \label{eq:epsilon}
 \end{equation}
 
-\begin{definition}[Interaction Graph Inference]\label{def:inference-IG}
-\todo{intro}
-$\IG = (\Gamma,E_+,E_-)$
+We first infer all existing influences between genes, given a certain threshold. These influences are split into positive and negative ones, and represent possible edges in the final IG.
+\begin{definition}[Edges Inference]\label{def:inference-edges}
+We define the set of positive (resp. negative) influences $\hat{E}_+$ (resp. $\hat{E}_-$) by:
 \begin{align}
 \begin{split}
 \forall b\in\Gamma, b\neq a, \\
-b\xrightarrow t a \in E_s & \Longleftrightarrow
-	\exists b_i,b_j\in \PHl_b, i < j, \exists \sigma\in\configs \\
+b\xrightarrow t a \in \hat{E}_s & \Longleftrightarrow
+        \exists b_i,b_j\in \PHl_b, i < j, \exists \sigma\in\configs \\
 & \qquad\qquad
-	\exists a_{k}\in\f{bounces}(\sigma[a],\varsigma[\sigma\{b_i\}]), \\
+        \exists a_{k}\in\f{bounces}(\sigma[a],\varsigma[\sigma\{b_i\}]), \\
 & \qquad\qquad
-	\exists a_{l}\in\f{bounces}(\sigma[a],\varsigma[\sigma\{b_j\}]), \\
+        \exists a_{l}\in\f{bounces}(\sigma[a],\varsigma[\sigma\{b_j\}]), \\
 & \qquad\qquad\qquad
-			s = \f{sign}(l - k)
+                        s = \f{sign}(l - k) \wedge t = j
 \end{split}
-\label{eq:IG-inference-b}
+\label{eq:edges-inference-b}
 \\
 \begin{split}
-a \xrightarrow t a \in E_s & \Longleftrightarrow
+a \xrightarrow t a \in \hat{E}_s & \Longleftrightarrow
 \neg(\PHpredecgene{a} = \{a\} \wedge \focals(a, \PHl_a, \PHl_a) = [a_i;a_j], i\leq j) \\
-& \qquad \wedge (\exists\sigma\in\mathbb C_{a\rightarrow a}, 
-		(\exists a_i\in L_a, \epsilon(a_i,\ctx(\sigma)) = \pm)\\
+& \qquad \wedge (\exists\sigma\in\mathbb C_{a\rightarrow a},
+                (\exists a_i\in L_a, \epsilon(a_i,\ctx(\sigma)) = \pm)\\
 & \qquad\qquad \vee
-	(\exists a_i,a_j\in L_a, i < j, \\
+        (\exists a_i,a_j\in L_a, i < j, \\
 & \qquad\qquad\qquad
-		\epsilon(a_i,\ctx(\sigma)) = \bar s \wedge \epsilon(a_i,\ctx(\sigma)) = s) \\
+                \epsilon(a_i,\ctx(\sigma)) = \bar s \wedge \epsilon(a_j,\ctx(\sigma)) = s \wedge t = j) \\
 & \qquad\qquad \vee
-	(\epsilon(a_0, \ctx(\sigma)) = \bar s \vee \epsilon(a_{l_a}, \ctx(\sigma)) = s) \\
+        ((\epsilon(a_0, \ctx(\sigma)) = \bar s \vee \epsilon(a_{l_a}, \ctx(\sigma)) = s) \wedge t = l_a) \\
 & \qquad\qquad \vee
-	(\epsilon(a_0, \ctx(\sigma)) = \epsilon(a_{l_a}, \ctx(\sigma)) = \varnothing \\
-& \qquad\qquad\qquad
-			\wedge \forall a_i\in L_a, \epsilon(a_i, \ctx(\sigma))\in \{\varnothing, s\})
-		)
+        (\epsilon(a_0, \ctx(\sigma)) = \epsilon(a_{l_a}, \ctx(\sigma)) = \varnothing \\
+& \qquad\qquad\qquad       \wedge \forall a_i\in L_a, \epsilon(a_i, \ctx(\sigma))\in \{\varnothing, s\} \\
+& \qquad\qquad\qquad       \wedge \exists a_i\in L_a, \epsilon(a_i, \ctx(\sigma)) = s \wedge t = 1)
+                )
 \end{split}
 \end{align}
 where $s \in \{ +, - \}$, $\bar s = + \EQDEF s = -$, $\bar s = - \EQDEF s = +$,
@@ -353,8 +353,22 @@ $\f{sign}(n) = - \EQDEF n < 0$,
 and $\f{sign}(0) \EQDEF 0$.
 \end{definition}
 
+We are now able to infer the edges of the final IG by considering positive and negative influences. We infer a positive (resp. negative) edge if there exists a corresponding influence with the same sign. If an influence is both positive and negative, we infer an unsigned edge. In the end, the threshold of each edge is the minimum threshold for which the influence has been found. As unsigned edges represent ambiguous interactions, no threshold is inferred.
+\begin{definition}[Interaction Graph Inference]\label{def:inference-IG}
+\todo{We deduce IG from the Edges Inference:}
+$\IG = (\Gamma,E_+,E_-,E_\pm)$, where
+\begin{align}
+\begin{split}
+E_+ &= \{a \xrightarrow{t} b \mid \nexists a \xrightarrow{t'} b \in \hat{E}_-
+  \wedge t = \min_{a \xrightarrow{k} b \in \hat{E}_+} (k)\} \\
+E_- &= \{a \xrightarrow{t} b \mid \nexists a \xrightarrow{t'} b \in \hat{E}_+
+  \wedge t = \min_{a \xrightarrow{k} b \in \hat{E}_-} (k)\} \\
+E_\pm &= \{a \rightarrow b \mid \exists a \xrightarrow{t} b \in \hat{E}_+ \wedge \exists a \xrightarrow{t'} b \in \hat{E}_-\} \\
+\end{split}
+\label{eq:IG-inference}
+\end{align}
+\end{definition}
 
-\todo{threshold}
 
 \todo{illustrate some of the above definitions with (parts of) the running examples}
 
