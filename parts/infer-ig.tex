@@ -349,17 +349,17 @@ b\xrightarrow k a \in \hat{E}_s & \Longleftrightarrow
 a \xrightarrow k a \in \hat{E}_s & \Longleftrightarrow
 \neg(\PHpredecgene{a} = \{a\} \wedge \focals(a, \PHl_a, \PHl_a) = [a_i;a_j], i\leq j) \\
 & \qquad \wedge (\exists\sigma\in\configs a,
-                (\exists a_i\in L_a, \epsilon(a_i,\ctx(\sigma)) = \pm)\\
+                (\exists a_i\in L_a, \epsilon(a_i,\sigma) = \pm)\\
 & \qquad\qquad \vee
         (\exists a_i,a_j\in L_a, i < j, \\
 & \qquad\qquad\qquad
-                \epsilon(a_i,\ctx(\sigma)) = \bar s \wedge \epsilon(a_j,\ctx(\sigma)) = s \wedge k = j) \\
+                \epsilon(a_i,\sigma) = \bar s \wedge \epsilon(a_j,\sigma) = s \wedge k = j) \\
 & \qquad\qquad \vee
-        ((\epsilon(a_0, \ctx(\sigma)) = \bar s \vee \epsilon(a_{l_a}, \ctx(\sigma)) = s) \wedge k = l_a) \\
+        ((\epsilon(a_0, \sigma) = \bar s \vee \epsilon(a_{l_a}, \sigma) = s) \wedge k = l_a) \\
 & \qquad\qquad \vee
-        (\epsilon(a_0, \ctx(\sigma)) = \epsilon(a_{l_a}, \ctx(\sigma)) = \varnothing \\
-& \qquad\qquad\qquad       \wedge \forall a_i\in L_a, \epsilon(a_i, \ctx(\sigma))\in \{\varnothing, s\} \\
-& \qquad\qquad\qquad       \wedge \exists a_j\in L_a, \epsilon(a_j, \ctx(\sigma)) = s \wedge k = j)
+        (\epsilon(a_0, \sigma) = \epsilon(a_{l_a}, \sigma) = \varnothing \\
+& \qquad\qquad\qquad       \wedge \forall a_i\in L_a, \epsilon(a_i, \sigma)\in \{\varnothing, s\} \\
+& \qquad\qquad\qquad       \wedge \exists a_j\in L_a, \epsilon(a_j, \sigma) = s \wedge k = j)
                 )
 \end{split}
 \end{align}
