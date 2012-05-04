@@ -1,7 +1,85 @@
 \section{Examples}
 \resume{In this section we illustrate the functioning of this method with a simple example, and we give some figures about its execution on more substantial examples.}
 
-\todo{pointer to \textsc{Pint}\footnote{Available at \url{http://process.hitting.free.fr}},
-command line example \texttt{ph2thomas -i model.ph -{}-dot ig.dot -{}-enumerate}}.
+In this section, we present an example of IG an Parametrization inference, and give some results about the implementation of the method described in this paper.
 
-\todo{Stats on the execution on TCRSIG40 (EGFR20?)}
+\subsection{Running example}
+The inference of BRN using René Thomas's parameters presented in the previous sections is illustrated by an example in the following.
+Consider the PH given in \pref{fig:runningPH-1}.
+It contains no cooperative sort as all sorts behave like components; given \pref{eq:PH-components}, we have: $\Gamma = \{a, b, c\}$.
+this PH is therefore well-formed for IG inference.
+We wish to infer the influence of $b$ towards $a$, that is, infer the sign and threshold of the edge $b \rightarrow a$.
+We have: $\PHpredecgene(a) = \{b, c\}$, but as $b$ and $c$ do not cooperate, it comes: $\gamma(b \rightarrow a) = \{a, b\}$.
+In order to understand the influence of $b$ on $a$, we will study the evolutions of $a$ in the following set of configurations: $\configs{b} = \{\PHetat{a_0, b_0}, \PHetat{a_0, b_1}, \PHetat{a_1, b_0}, \PHetat{a_1, b_1}\}$.
+
+Let us consider the state: $\sigma = \PHetat{a_1, b_0}$. We thus have:
+\begin{align*}
+\f{bounces}(\PHget{\sigma}{a},\varsigma(\sigma\{b_0\})) &= \f{bounces}(a_1,\{a_1, b_0\})) = \{a_0\} \\
+\f{bounces}(\PHget{\sigma}{a},\varsigma(\sigma\{b_1\})) &= \f{bounces}(a_1,\{a_1, b_1\})) = \{a_2\}
+\end{align*}
+More generally, we can only find positive influences of $b$ on $a$, as for all $\sigma \in \configs{b}$,
+\begin{align*}
+&\f{bounces}(\PHget{\sigma}{a},\varsigma(\sigma\{b_0\})) = \{a_k\} \\
+&\wedge \f{bounces}(\PHget{\sigma}{a},\varsigma(\sigma\{b_1\})) = \{a_l\} \\
+&\wedge k < l
+\end{align*}
+Given these results, as $k < l \Rightarrow \f{sign}(l - k) = +$, we deduce that $b$ has only a positive influence on $a$:
+$b \xrightarrow{1} a \in \hat{E}_+$ and $\nexists b \xrightarrow{t'} a \in \hat{E}_-$.
+We find the same results for the influence of $c$ on $a$ as $b$ and $c$ have identical actions on $a$.
+
+Then, we can infer the influence of $a$ on $b$ --- that consists in the only action $\PHfrappe{a_2}{b_1}{b_0}$.
+Following the same kind of reasoning, and considering for example the state $\sigma' = \PHetat{a_2, b_1}$, we find that:
+\begin{align*}
+\f{bounces}(\PHget{\sigma}{b},\varsigma(\sigma\{a_1\})) &= \f{bounces}(b_1,\{a_1, b_1\})) = \{b_1\} \\
+\f{bounces}(\PHget{\sigma}{b},\varsigma(\sigma\{a_2\})) &= \f{bounces}(b_1,\{a_2, b_1\})) = \{b_0\}
+\end{align*}
+which gives: $a \xrightarrow{2} b \in \hat{E}_-$, but no influence of $a$ on $b$.
+
+In the end, we have: $\hat{E}_+ = \{b \xrightarrow{1} a, c \xrightarrow{1} a\}$ and $\hat{E}_- = \{a \xrightarrow{2} b\}$.
+In this example, the sets of influences do not contain several influences of the same gene with different thresholds. Furthermore, no influence turns out to be both positive and negative. Hence, the IG inference gives the following extended IG:
+$(\{a, b, c\}, \hat{E}_+, \hat{E}_-, \emptyset)$,
+which can also be seen as the IG in \pref{fig:runningBRN-1}, as its fourth component is an empty set.
+
+As a second step, we can now perform the inference of Thomas' parameters, using the previously inferred IG which is well-formed for this task.
+For example, in order to determine the parameter $K_{b,\emptyset,\{a\}}$, that is, the focal point of $b$ when $a$ has a negative action on it, we have to determine the value of: $\focals(b,C^b_{b,A,B},C_{b,A,B})$. We have:
+\begin{align*}
+C^a_{b,A,B} &= \levelsI{a}{b} = \{a_2\} \\
+C^b_{b,A,B} &= \PHl_b = \{b_0, b_1\} \\
+C^c_{b,A,B} &= \PHl_c = \{c_0, c_1\}
+\end{align*}
+Therefore: $C_{b,A,B} = \{a_2, b_0, b_1\}$.
+As there is no cycle in the bounces of $b$, and given \pref{thm:param_K}, it hence comes:
+$$K_{b,\emptyset,\{a\}} = \focals(b,C^b_{b,A,B},C_{b,A,B}) = \{b_0\}.$$
+
+\subsection{Implementation}
+The inference method described in this paper has been implemented as a tool named \texttt{ph2thomas}. It can be used as a part of \textsc{Pint}\footnote{Available at \url{http://process.hitting.free.fr}}, a library developed to deal with Process Hitting models and perform several operation on them.
+Like \textsc{Pint}, \texttt{ph2thomas} uses OCaml to handle data and create ASP programs that are solved using Clingo\footnote{Available at \url{http://potassco.sourceforge.net/index.html}, as part of the Potassco collection}.
+The whole process is divided into four parts: cooperative sorts differentiation, IG inference, parameters inference and admissible Parametrizations enumeration; all of them involve an ASP part for the resolution.
+Once the \textsc{Pint} library downloaded and compiled, one can perform IG and parameters inference by using the \texttt{ph2thomas} tool with the command:
+\begin{itemize}
+  \item[] \texttt{ph2thomas -i model.ph -{}-dot ig.dot}
+\end{itemize}
+where \texttt{model.ph} is the PH model in \textsc{Pint} format and \texttt{ig.dot} is an output of the inferred IG in DOT format.
+The (possibly partial) inferred Parametrization will be returned on the standard output.
+The admissible Parametrizations enumeration can also been performed by adding the \texttt{-{}-enumerate} parameter at the end of the command line.
+
+The current implementation can successfully solve the examples given in \pref{fig:runningPH-1} (with an incomplete Parametrization) and \pref{fig:runningPH-2}. It can also handle bigger models such as ERBB receptor-regulated G1/S transition \todo{ref? \cite{PMR10-TCSB}?} which contains 20 components, and T-cells receptor \todo{name? ref?} which contains 40 components.
+the following table gives the execution time of the \texttt{ph2thomas} tool for these models, on a personal laptop \todo{perfs}.
+
+\begin{center}
+\begin{tabular}{c|c|c|}
+  & Without enumeration & With enumeration
+\\ \hline
+ERBB transition & 910 ms & 990 ms
+\\ \hline
+T-cells receptor & 640 ms & 680 ms
+\\ \hline
+\end{tabular}
+\end{center}
+
+As the inferred Parametrization is complete in both cases, the admissible Parametrizations enumeration does not significantly change the execution times.
+
+\todo{Pourquoi t(TCRSIG) < t(ERBB)??? Pourtant on a le même nombre de sortes coopératives et d'arcs inférés, mais plus de composants dans TCRSIG...}
+
+
+
