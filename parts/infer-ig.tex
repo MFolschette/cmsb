@@ -240,7 +240,7 @@ Let $a \in \Gamma$ be a component and $b \in \PHpredecgene{b}$ a component that 
 \pref{eq:cooperating-with-b} defines 
 $\gamma(b\rightarrow a)$ as the set of components cooperating with $b$ to hit $a$, including $b$ and
 $a$.
-We note $\configs b$ the set of configurations of such components.
+We note $\configs b$ the set of configurations of such components (\pref{eq:configurations}).
 \begin{align}
 \begin{split}
 \gamma(b\rightarrow a)  &\DEF \{ a, b \} \cup \{ c \in \Gamma \mid 
@@ -301,13 +301,20 @@ We first exclude the case where $a$ is its only regulator and its focal processe
 interval: $a$ evolves to a constant interval.
 Then, we look for a configuration of all its regulators where the level of $a$ has an impact
 on the evolution of the sort $a$.
-Given $a_i,a_{i+1}\in L_a$, we pick $a_j\in\focals(a,\{a_i\},\ctx(\sigma\{a_i\}))$ and
-$a_k\in\focals(a,\{a_{i+1}\},\ctx(\sigma\{a_{i+1}\}))$.
+Given $a_i,a_{i+1}\in L_a$, we pick $a_j\in\focals(a,\{a_i\},\ctx'(\sigma\{a_i\}))$ and
+$a_k\in\focals(a,\{a_{i+1}\},\ctx'(\sigma\{a_{i+1}\}))$, 
+where $\ctx'(\sigma)$ is the context of all sorts hitting the sort $a$ for the configuration
+$\sigma$ (\pref{eq:ctx-sigma2}).
 If $k=j+1$, we can not conclude as there is no difference in the evolution of both levels.
 If $k\neq j+1$ and $k-j\neq 0$, then $a_i$ and $a_{i+1}$ have divergent evolutions: we infer an
 influence of sign of $k-j$ at threshold $i+1$.
 Finally, if there is configuration such that the focal level of any $a_i\in L_a$ is $a_i$ itself, we
 conclude that $a$ is auto-activating as increasing its level increases the resulting level.
+\begin{equation}
+\ctx'(\sigma) \DEF \{ \sigma[a] \} \cup \{ c[\sigma] \mid c \in \PHdirectpredec{a}\cap\Gamma \}
+\cup \{ \upsilon(\sigma) \mid \upsilon\in\PHdirectpredec{a} \wedge  \upsilon \notin\Gamma \}
+\label{eq:ctx-sigma2}
+\end{equation}
 
 \begin{comment}
 a global overview of the evolution of each level
@@ -367,14 +374,14 @@ a \xrightarrow l a \in \hat{E}_s & \Longleftrightarrow
 & \wedge \exists\sigma\in L_a\times\textstyle\prod_{c\in \PHpredecgene{a}} L_c, ( 
        (\exists a_i,a_{i+1}\in \PHl_b, \\
 & \qquad\qquad
-        \exists a_{j}\in\focals(a, \{a_i\}, \varsigma(\sigma\{a_i\})), \\
+        \exists a_{j}\in\focals(a, \{a_i\}, \ctx'(\sigma\{a_i\})), \\
 & \qquad\qquad
-        \exists a_{k}\in\focals(a, \{a_{i+1}\}, \varsigma(\sigma\{a_{i+1}\})), \\
+        \exists a_{k}\in\focals(a, \{a_{i+1}\}, \ctx'(\sigma\{a_{i+1}\})), \\
 & \qquad\qquad\quad
 			k \neq j+1
 				\wedge s = \f{sign}(k - j) \wedge l = i+1\\
 & \qquad\vee
-	(\forall a_i\in L_a, \focals(a,\{a_i\},\ctx(\sigma\{a_i\})) = \{a_i\} \\
+	(\forall a_i\in L_a, \focals(a,\{a_i\},\ctx'(\sigma\{a_i\})) = \{a_i\} \\
 & \qquad\qquad 
 		\wedge s=+ \wedge l=1)
 )
