@@ -309,26 +309,19 @@ has a lower (resp. higher) level that one bounce in
 $\focals(a, \{\sigma[a]\}, \ctx(\sigma\{b_{i+1}\}))$, then
 $b$ as positive (resp. negative) influence on $a$ with a maximum threshold $l=j$.
 
-Assuming $\PHpredecgene{a}\neq\emptyset$, the inference of the self-influence of $a$ requires a more
-careful treatment (\pref{eq:edges-inference-b}).
-We first exclude the case where $a$ is its only regulator and its focal processes are a non-empty
-interval: $a$ evolves to a constant interval.
-Then, we look for a configuration of all its regulators where the level of $a$ has an impact
-on the evolution of the sort $a$.
-Given $a_i,a_{i+1}\in L_a$, we pick $a_j\in\focals(a,\{a_i\},\ctx'(\sigma\{a_i\}))$ and
-$a_k\in\focals(a,\{a_{i+1}\},\ctx'(\sigma\{a_{i+1}\}))$, 
-where $\ctx'(\sigma)$ is the context of all sorts hitting the sort $a$ for the configuration
-$\sigma$ (\pref{eq:ctx-sigma2}).
+Then, we infer that $a$ has a self-influence if its current level has an impact on its own evolution
+driven by a process $b_h$ hitting $a$ ($b\in\PHdirectpredec{a}$).
+Given $a_i,a_{i+1}\in L_a$, we pick $a_j\in\focals(a,\{a_i\},\{a_i,b_h\})$ and
+$a_k\in\focals(a,\{a_{i+1}\},\{a_{i+1},b_h\})$.
 If $k=j+1$, we can not conclude as there is no difference in the evolution of both levels.
 If $k\neq j+1$ and $k-j\neq 0$, then $a_i$ and $a_{i+1}$ have divergent evolutions: we infer an
 influence of sign of $k-j$ at threshold $i+1$.
-Finally, if there is a configuration such that the focal level of any $a_i\in L_a$ is $a_i$ itself, we
-conclude that $a$ is auto-activating as increasing its level increases the resulting level.
-\begin{equation}
-\ctx'(\sigma) \DEF \{ \sigma[a] \} \cup \{ c[\sigma] \mid c \in \PHdirectpredec{a}\cap\Gamma \}
-\cup \{ \upsilon(\sigma) \mid \upsilon\in\PHdirectpredec{a} \wedge  \upsilon \notin\Gamma \}
-\label{eq:ctx-sigma2}
-\end{equation}
+We note that some aspects of this inference are arbitrary and may have impact on the number of
+parameters to infer in the next section.
+In particular, in some cases, the use of intervals for Thomas' parameters drop the requirement of
+inferring a self-activation.
+Future work may propose alternative definitions of self-influences inference in order to range over
+different parametrization configurations.
 
 \begin{comment}
 a global overview of the evolution of each level
@@ -384,6 +377,28 @@ b\xrightarrow l a \in \hat{E}_s & \Longleftrightarrow
 \\
 \begin{split}
 a \xrightarrow l a \in \hat{E}_s & \Longleftrightarrow
+\exists b\in \PHdirectpredec{a}, \exists b_h \in L_b,
+       \exists a_i,a_{i+1}\in \PHl_a, \\
+& \qquad\qquad
+        \exists a_{j}\in\focals(a, \{a_i\}, \{a_i,b_h\}), \\
+& \qquad\qquad
+        \exists a_{k}\in\focals(a, \{a_{i+1}\}, \{a_{i+1},b_h\}), \\
+& \qquad\qquad\quad
+			k \neq j+1
+				\wedge s = \f{sign}(k - j) \wedge l = i+1
+\end{split}
+\label{eq:edges-inference-a}
+\end{align}
+where $s \in \{ +, - \}$, $\bar s = + \EQDEF s = -$, $\bar s = - \EQDEF s = +$,
+$\f{sign}(n) = + \EQDEF n > 0$,
+$\f{sign}(n) = - \EQDEF n < 0$,
+and $\f{sign}(0) \EQDEF 0$.
+\end{definition}
+
+\begin{comment}
+\begin{align*}
+\begin{split}
+a \xrightarrow l a \in \hat{E}_s & \Longleftrightarrow
 \neg(\PHpredecgene{a} = \{a\} \wedge \focals(a, \PHl_a, \PHl_a) = [a_i;a_j], i\leq j) \\
 & \wedge \exists\sigma\in L_a\times\textstyle\prod_{c\in \PHpredecgene{a}} L_c, ( 
        (\exists a_i,a_{i+1}\in \PHl_b, \\
@@ -400,13 +415,8 @@ a \xrightarrow l a \in \hat{E}_s & \Longleftrightarrow
 		\wedge s=+ \wedge l=1)
 )
 \end{split}
-\label{eq:edges-inference-a}
-\end{align}
-where $s \in \{ +, - \}$, $\bar s = + \EQDEF s = -$, $\bar s = - \EQDEF s = +$,
-$\f{sign}(n) = + \EQDEF n > 0$,
-$\f{sign}(n) = - \EQDEF n < 0$,
-and $\f{sign}(0) \EQDEF 0$.
-\end{definition}
+\end{align*}
+\end{comment}
 
 \begin{comment}
 \begin{align*}
@@ -435,25 +445,17 @@ We are now able to infer the edges of the final IG by considering positive and n
 $\IG = (\Gamma,E_+,E_-,E_\pm)$, where
 \begin{align*}
 E_+ &= \{a \xrightarrow{t} b \mid \nexists a \xrightarrow{t'} b \in \hat{E}_-
-  \wedge t = \min_{a \xrightarrow{k} b \in \hat{E}_+} (k)\} \\
+  \wedge t = \min \{ k \mid a \xrightarrow{k} b \in \hat{E}_+\}\} \\
 E_- &= \{a \xrightarrow{t} b \mid \nexists a \xrightarrow{t'} b \in \hat{E}_+
-  \wedge t = \min_{a \xrightarrow{k} b \in \hat{E}_-} (k)\} \\
+  \wedge t = \min \{k \mid a \xrightarrow{k} b \in \hat{E}_-\}\} \\
 E_\pm &= \{a \rightarrow b \mid \exists a \xrightarrow{t} b \in \hat{E}_+ \wedge \exists a \xrightarrow{t'} b \in \hat{E}_-\} \\
 \end{align*}
 \end{definition}
 
 
-\todo{illustrate some of the above definitions with (parts of) the running examples}
-
 \begin{example*}
+\todo{illustrate some of the above definitions with (parts of) the running examples}
 \todo{Which example? \pref{fig:runningPH-1}? \pref{fig:runningPH-2}? How far?}
 \end{example*}
 
-
-\todo{Discuss of errors/inconclusive cases}
-
-Finally, we note that some aspects of the inference of self-influences are arbitrary and may have
-impact on the compatible parametrizations presented in the next section.
-Future work may propose alternative definitions of self-influences inference in order to range over
-different parametrization configurations.
 
