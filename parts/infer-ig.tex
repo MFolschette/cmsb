@@ -89,10 +89,10 @@ In the Process Hitting of \pref{fig:runningPH-1}, we obtain:
 
 \subsection{Well-formed Process Hitting for Interaction Graph Inference}\label{ssec:wf}
 
-The inference of an IG from a Process Hitting assumes there the Process Hitting defines two types of
+The inference of an IG from a Process Hitting assumes that the Process Hitting defines two types of
 sorts:
 the sorts corresponding to BRN components, and the cooperative sorts.
-This lead to the characterization of the \emph{well-formed} Process Hitting for IG inference.
+This leads to the characterization of a \emph{well-formed} Process Hitting for IG inference.
 
 The identification of sorts modelling components rely on the observation that their processes
 represent (ordered) qualitative levels.
@@ -107,7 +107,7 @@ Therefore, in the rest of this paper, $\Gamma$ denotes the set of components of 
 \end{equation}
 
 Any sort that does not act as a component should then be treated as a cooperative sort.
-As explained in \pref{ssec:PH}, the role of a cooperative sort $\upsilon$ is two compute the current
+As explained in \pref{ssec:PH}, the role of a cooperative sort $\upsilon$ is to compute the current
 state of set of cooperating processes.
 Hence, for each sub-state $\sigma$ formed by the sorts hitting $\upsilon$, $\upsilon$ should
 converge to a focal process.
@@ -163,6 +163,20 @@ sorts having no action hitting them belong to $\Gamma$
 \end{itemize}
 \end{property}
 
+\begin{example*}
+In the model of \pref{fig:runningPH-2}, $bc$ is a well-formed cooperative sort as defined in \pref{pro:wf-cooperative-sort}, because:
+\begin{align*}
+\focals(bc, \PHl_{bc}, \{b_0, c_0\} \cup \PHl_{bc}) = \{bc_{00}\} && \focals(bc, \PHl_{bc}, \{b_0, c_1\} \cup \PHl_{bc}) = \{bc_{01}\} \\
+\focals(bc, \PHl_{bc}, \{b_1, c_0\} \cup \PHl_{bc}) = \{bc_{10}\} && \focals(bc, \PHl_{bc}, \{b_1, c_1\} \cup \PHl_{bc}) = \{bc_{11}\}
+\end{align*}
+Furthermore, $\PHs = \Gamma \cup \{bc\}$, with $\Gamma = \{a, b, c\}$ as defined in \pref{eq:PH-components}.
+Therefore, as $bc$ is the only cooperative sort and does not hit itself,
+\pref{pro:wf-ph} holds for the PH in \pref{fig:runningPH-2}, which is well-formed for IG inference.
+
+The model in \pref{fig:runningPH-1} is also well-formed for IG inference as it contains no cooperative sort, and: $\PHs = \Gamma = \{a, b, c\}$.
+\end{example*}
+
+
 \begin{comment}
 \begin{center}
 \begin{tikzpicture}
@@ -217,7 +231,7 @@ sorts having no action hitting them belong to $\Gamma$
 
 At this point we can divide the set of sorts $\PHs$ into components ($\Gamma$) and cooperative sorts
 ($\PHs \setminus \Gamma$) that will not appear in the IG. 
-We define in \pref{eq:ph_predec} the predecessors of a sort $a$, that are the sorts influencing $a$
+We define in \pref{eq:ph_predec} the set of predecessors of a sort $a$, that is, the sorts influencing $a$
 by considering direct actions and possible intermediate cooperative sorts.
 The predecessors of $a$ that are components are the regulators of $a$, noted $\PHpredecgene{a}$
 (\pref{eq:regulators}).
@@ -277,8 +291,8 @@ always terminates.
 \label{eq:cooperative-eval}
 \end{align}
 
-We aim at inferring that $b$ actives (inhibits) $a$ if there exists a configuration where increasing
-(decreasing) the level of $b$ makes possible the increase (decrease) of the level of $a$.
+We aim at inferring that $b$ activates (inhibits) $a$ if there exists a configuration where increasing
+the level of $b$ makes possible the increase (decrease) of the level of $a$.
 This is analogous to standard IG inferences from boolean and discrete maps 
 \cite{RiCo07}.
 
@@ -308,7 +322,7 @@ $\sigma$ (\pref{eq:ctx-sigma2}).
 If $k=j+1$, we can not conclude as there is no difference in the evolution of both levels.
 If $k\neq j+1$ and $k-j\neq 0$, then $a_i$ and $a_{i+1}$ have divergent evolutions: we infer an
 influence of sign of $k-j$ at threshold $i+1$.
-Finally, if there is configuration such that the focal level of any $a_i\in L_a$ is $a_i$ itself, we
+Finally, if there is a configuration such that the focal level of any $a_i\in L_a$ is $a_i$ itself, we
 conclude that $a$ is auto-activating as increasing its level increases the resulting level.
 \begin{equation}
 \ctx'(\sigma) \DEF \{ \sigma[a] \} \cup \{ c[\sigma] \mid c \in \PHdirectpredec{a}\cap\Gamma \}
@@ -430,6 +444,11 @@ E_\pm &= \{a \rightarrow b \mid \exists a \xrightarrow{t} b \in \hat{E}_+ \wedge
 
 
 \todo{illustrate some of the above definitions with (parts of) the running examples}
+
+\begin{example*}
+\todo{Which example? \pref{fig:runningPH-1}? \pref{fig:runningPH-2}? How far?}
+\end{example*}
+
 
 \todo{Discuss of errors/inconclusive cases}
 

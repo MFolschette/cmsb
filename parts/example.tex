@@ -9,7 +9,7 @@ Consider the PH given in \pref{fig:runningPH-1}.
 It contains no cooperative sort as all sorts behave like components; given \pref{eq:PH-components}, we have: $\Gamma = \{a, b, c\}$.
 this PH is therefore well-formed for IG inference.
 We wish to infer the influence of $b$ towards $a$, that is, infer the sign and threshold of the edge $b \rightarrow a$.
-We have: $\PHpredecgene(a) = \{b, c\}$, but as $b$ and $c$ do not cooperate, it comes: $\gamma(b \rightarrow a) = \{a, b\}$.
+We have: $\PHpredecgene{a} = \{b, c\}$, but as $b$ and $c$ do not cooperate, it comes: $\gamma(b \rightarrow a) = \{a, b\}$.
 In order to understand the influence of $b$ on $a$, we will study the evolutions of $a$ in the following set of configurations: $\configs{b} = \{\PHetat{a_0, b_0}, \PHetat{a_0, b_1}, \PHetat{a_1, b_0}, \PHetat{a_1, b_1}\}$.
 
 Let us consider the state: $\sigma = \PHetat{a_1, b_0}$. We thus have:
@@ -38,7 +38,7 @@ which gives: $a \xrightarrow{2} b \in \hat{E}_-$, but no influence of $a$ on $b$
 In the end, we have: $\hat{E}_+ = \{b \xrightarrow{1} a, c \xrightarrow{1} a\}$ and $\hat{E}_- = \{a \xrightarrow{2} b\}$.
 In this example, the sets of influences do not contain several influences of the same gene with different thresholds. Furthermore, no influence turns out to be both positive and negative. Hence, the IG inference gives the following extended IG:
 $(\{a, b, c\}, \hat{E}_+, \hat{E}_-, \emptyset)$,
-which can also be seen as the IG in \pref{fig:runningBRN-1}, as its fourth component is an empty set.
+which can also be seen as the IG in \pref{fig:runningBRN-ig}, as its fourth component is an empty set.
 
 As a second step, we can now perform the inference of Thomas' parameters, using the previously inferred IG which is well-formed for this task.
 For example, in order to determine the parameter $K_{b,\emptyset,\{a\}}$, that is, the focal point of $b$ when $a$ has a negative action on it, we have to determine the value of: $\focals(b,C^b_{b,A,B},C_{b,A,B})$. We have:
@@ -48,7 +48,7 @@ C^b_{b,A,B} &= \PHl_b = \{b_0, b_1\} \\
 C^c_{b,A,B} &= \PHl_c = \{c_0, c_1\}
 \end{align*}
 Therefore: $C_{b,A,B} = \{a_2, b_0, b_1\}$.
-As there is no cycle in the bounces of $b$, and given \pref{thm:param_K}, it hence comes:
+As there is no cycle in the bounces of $b$, and given \pref{def:param_K}, it hence comes:
 $$K_{b,\emptyset,\{a\}} = \focals(b,C^b_{b,A,B},C_{b,A,B}) = \{b_0\}.$$
 
 \subsection{Implementation}
@@ -63,23 +63,27 @@ where \texttt{model.ph} is the PH model in \textsc{Pint} format and \texttt{ig.d
 The (possibly partial) inferred Parametrization will be returned on the standard output.
 The admissible Parametrizations enumeration can also been performed by adding the \texttt{-{}-enumerate} parameter at the end of the command line.
 
-The current implementation can successfully solve the examples given in \pref{fig:runningPH-1} (with an incomplete Parametrization) and \pref{fig:runningPH-2}. It can also handle bigger models such as ERBB receptor-regulated G1/S transition \todo{ref? \cite{PMR10-TCSB}?} which contains 20 components, and T-cells receptor \todo{name? ref?} which contains 40 components.
-the following table gives the execution time of the \texttt{ph2thomas} tool for these models, on a personal laptop \todo{perfs}.
-
+The current implementation can successfully solve the examples given in \pref{fig:runningPH-1} (with an incomplete Parametrization) and \pref{fig:runningPH-2}. It can also handle bigger models such as an ERBB receptor-regulated G1/S transition model \todo{ref? \cite{PMR10-TCSB}?} which contains 20 components, and a T-cells receptor model \todo{name? ref?} which contains 40 components.
+The following table gives the execution time of the \texttt{ph2thomas} tool for these models, on a personal laptop (Intel Core 2 Duo CPU T5550 @ $1.83\text{GHz} \times 2$ with 3.9 Gib memory, on an Ubuntu 11.10 64-bits OS).
+The first column shows the execution time on the complete models without performing admissible Parametrizations enumeration (as all cooperations are defined, only one admissible Parametrization is found), and the second column shows the execution time with admissible Parametrizations enumeration on the same examples without the cooperations (all cooperative sorts are removed and only independent actions are left, thus leading to numerous admissible Parametrizations).
 \begin{center}
-\begin{tabular}{c|c|c|}
-  & Without enumeration & With enumeration
+\begin{tabular}{c|c||c|c|}
+  & Components & Without enumeration & With enumeration
 \\ \hline
-ERBB transition & 910 ms & 990 ms
+ERBB transition & 20 & 950 ms & ?? ms
 \\ \hline
-T-cells receptor & 640 ms & 680 ms
+T-cells receptor & 40 & 700 ms & ?? ms
 \\ \hline
 \end{tabular}
 \end{center}
+We note that despite its smaller size in term of components, the ERBB transmission model takes more time to be computed because the biggest cooperative sorts contain more processes (up to 32 processes) than in the T-cells receptor model (up to 8 processes).
 
-As the inferred Parametrization is complete in both cases, the admissible Parametrizations enumeration does not significantly change the execution times.
-
-\todo{Pourquoi t(TCRSIG) < t(ERBB)??? Pourtant on a le même nombre de sortes coopératives et d'arcs inférés, mais plus de composants dans TCRSIG...}
-
-
-
+\begin{figure}[t]
+\centering
+\includegraphics[height=0.90\textheight]{figs/tcrsig40.png}
+\caption{\label{fig:tcrsig40-ig}
+The IG returned by \texttt{ph2thomas} when used on the T-cell receptor PH model.
+}
+\end{figure}
+In the case of the T-cell receptor model, the inferred IG obtained using the implementation is given in figure \pref{fig:tcrsig40-ig}.
+\todo{Give the whole model in annex?}
