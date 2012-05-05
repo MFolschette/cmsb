@@ -1,31 +1,25 @@
 \subsection{The Process Hitting framework}
 \label{ssec:PH}
 
-\resume{The Process Hitting is a new framework that allows to model dynamic systems with an atomistic point of view. In this subsection, we present the definitions of this modeling and mention how static analysis makes it efficient to study large systems. We finally remind the way to translate a BRN to a PH using cooperative sorts.}
-
-\todo{General introduction and motivation for Process Hitting}
-\cite{PMR10-TCSB}
-\cite{PMR12-MSCS}
-
-We recall here the definition and semantics of the Process Hitting, and its usage to model
+We recall here the definition and semantics of the Process Hitting (PH), and its usage to model
 cooperation between concurrent components.
-Two examples of Process Hitting modeling a BRN at different abstraction levels are given.
+Two examples of PH modeling a BRN at different abstraction levels are given.
 They serve as running examples in the rest of this article.
 
 \medskip
 
-A Process Hitting (\pref{def:PH}) gathers a finite number of concurrent \emph{processes}
+A PH (\pref{def:PH}) gathers a finite number of concurrent \emph{processes}
 grouped into a finite set of \emph{sorts}.
 A process belongs to one and only one sort and is noted $a_i$ where $a$ is the
 sort and $i$ the identifier of the process within the sort $a$.
 At any time, one and only one process of each sort is present, forming a state
-of the Process Hitting.
+of the PH.
  
 The concurrent interactions between processes are defined by a set of
 \emph{actions}.
 Actions describe the replacement of a process by another of the same sort
 conditioned by the presence of at most one other process in the current
-state of the Process Hitting.
+state of the PH.
 An action is denoted by $\PHfrappe{a_i}{b_j}{b_k}$ where $a_i,b_j,b_k$ are processes
 of sorts $a$ and $b$.
 It is required that $b_j\neq b_k$ and that $a=b\Rightarrow a_i=b_j$.
@@ -68,7 +62,7 @@ For the sake of clarity, $((s\play h)\play h')$, $h'\in\PHs$ is abbreviated as
 $(s\play h\play h')$.
 
 \begin{example*}
-\pref{fig:runningPH-1} represents a Process Hitting $(\PHs,\PHl,\PHa)$ with
+\pref{fig:runningPH-1} represents a PH $(\PHs,\PHl,\PHa)$ with
 $\PHs = \{a,b,c\}$,
 $\PHl_a = \{a_0,a_1,a_2\}$,
 $\PHl_b = \{b_0, b_1\}$,
@@ -145,7 +139,7 @@ Actions involving $b_1$ or $c_1$ are in thick lines.
 }
 \end{figure}
 
-This Process Hitting example actually models a BRN where the component $a$ has three qualitative
+This PH example actually models a BRN where the component $a$ has three qualitative
 levels and components $b$ and $c$ are boolean.
 In this BRN, $b$ and $c$ activate $a$, while $a$ inhibits $b$.
 The inhibition of $b$ by $a$ is only effective when $a$ is at level $2$.
@@ -158,7 +152,7 @@ we thus model an over-approximation of the possible actions.
 
 \paragraph{Modeling cooperation.}
 As described in \cite{PMR10-TCSB}, the cooperation between processes to make another bounce can be
-expressed in Process Hitting by building a \emph{cooperative sort}.
+expressed in PH by building a \emph{cooperative sort}.
 \pref{fig:PH-cooperativity} shows an example of cooperation between processes $b_1$ and $c_1$ to
 make $a_1$ bounce to $a_2$:
 a cooperative sort $bc$ is defined with 4 processes (one for each sub-state of the presence of

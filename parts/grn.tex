@@ -1,6 +1,7 @@
 \subsection{Thomas' modeling}
 \resume{The Thomas' modeling is the historical and widely-used model for the study of dynamical gene systems, and takes the form of a Biological Regulatory Network. In this subsection, we present this tool by defining the Interaction Graph and the Parametrization. We also justify our extension of the latter to use interval parameters instead of integers.}
 
+\todo{dire que l'on s'inspire de \cite{Richard06,BernotSemBRN}}
 The modeling of a BRN using René Thomas' formalism lies on two complementary sets of information about the system. First, the \emph{Interaction Graph} (IG) models the structure of the system by defining the components' properties and their mutual influences. The \emph{Parametrization} then allows to restrict the dynamic behavior of the system by allowing specific strengths to the influences.
 
 As for PH, IG represents information about a finite number of \emph{components} allowed to take a value amongst a finite number of possible \emph{expression levels}.
@@ -47,9 +48,9 @@ This IG can represent the same behavior as the PH given in \pref{fig:runningPH-2
 
 \begin{figure}[t]
 \centering
-\scalebox{2}{
+\scalebox{1.5}{
 \begin{tikzpicture}[grn]
-%\path[use as bounding box] (1,-0.5) rectangle (2.5,1.5);
+\path[use as bounding box] (-0.5,-0.75) rectangle (4.5,0.7);
 \node[inner sep=0] (a) at (2,0) {a};
 \node[inner sep=0] (b) at (0,0) {b};
 \node[inner sep=0] (c) at (4,0) {c};
@@ -68,7 +69,8 @@ An Interaction Graph example.
 Components are represented by nodes labeled with a name and possible expression levels.
 Regulations are represented by the edges, labeled with a sign that stands for their type ($+$ for positive and $-$ for negative) and a threshold.
 For instance, the edge from $b$ to $a$ is labeled $+1$, which stands for: $b \xrightarrow{1} a \in E_+$,
-and means that if the level of expression of $b$ is equal to (i.e. above) 1, then $b$ activates $a$.
+and means that if the level of expression of $b$ is equal to (i.e. above) 1, then $b$ activates $a$,
+otherwise, $b$ inhibits $a$.
 }
 \end{figure}
 \end{example*}
