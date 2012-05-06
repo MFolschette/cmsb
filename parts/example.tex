@@ -1,5 +1,5 @@
 \section{Examples}\label{sec:examples}
-\resume{In this section we illustrate the functioning of this method with a simple example, and we give some figures about its execution on more substantial examples.}
+%\resume{In this section we illustrate the functioning of this method with a simple example, and we give some figures about its execution on more substantial examples.}
 
 \begin{comment}
 In this section, we present an example of IG an Parametrization inference, and give some results about the implementation of the method described in this paper.
@@ -55,27 +55,36 @@ $$K_{b,\emptyset,\{a\}} = \focals(b,C^b_{b,A,B},C_{b,A,B}) = \{b_0\}.$$
 \subsection{Implementation}
 \end{comment}
 
-The inference method described in this paper has been implemented as a tool named \texttt{ph2thomas}. It can be used as a part of \textsc{Pint}\footnote{Available at \url{http://process.hitting.free.fr}}, a library developed to deal with Process Hitting models and perform several operation on them.
-Like \textsc{Pint}, \texttt{ph2thomas} uses OCaml to handle data and create ASP programs that are solved using Clingo\footnote{Available at \url{http://potassco.sourceforge.net/index.html}}.
-The whole process is divided into four parts: cooperative sorts differentiation, IG inference, parameters inference and admissible Parametrizations enumeration; all of them involve an ASP part for the resolution.
-Once the \textsc{Pint} library downloaded and compiled, one can perform IG and parameters inference by using the \texttt{ph2thomas} tool with the command:
-\begin{itemize}
-  \item[] \texttt{ph2thomas -i model.ph -{}-dot ig.dot}
-\end{itemize}
+The inference method described in this paper has been implemented as part of
+\textsc{Pint}\footnote{Available at \url{http://process.hitting.free.fr}}, which gathers PH related
+tools.
+Our implementation mainly consists in ASP programs that are solved using Clingo\footnote{Available
+at \url{http://potassco.sourceforge.net}}.
+%The whole process is divided into four parts: cooperative sorts differentiation, IG inference, parameters inference and admissible Parametrizations enumeration; all of them involve an ASP part for the resolution.
+The IG and parameters inference can be performed using the command
+\texttt{ph2thomas -i model.ph -{}-dot ig.dot}
 where \texttt{model.ph} is the PH model in \textsc{Pint} format and \texttt{ig.dot} is an output of the inferred IG in DOT format.
 The (possibly partial) inferred Parametrization will be returned on the standard output.
-The admissible Parametrizations enumeration can also been performed by adding the \texttt{-{}-enumerate} parameter at the end of the command line.
+The admissible Parametrizations enumeration is performed when adding the \texttt{-{}-enumerate}
+parameter to the command.
 
-The current implementation can successfully solve the examples given in \pref{fig:runningPH-1}
-and \pref{fig:runningPH-2}. It can also handle bigger models found in the literature such as
-an ERBB receptor-regulated G1/S transition model from \cite{Sahin09} which contains 20
+Applied to the examples given in \pref{fig:runningPH-1} and \pref{fig:runningPH-2}, our method \todo{dire que l'on infere le IG \pref{fig:runningBRN-ig} et donner les
+paramétres trouvés dans les deux cas (deux colonnes) , et dire que dans le premier cas,
+l'énumération renvoie 9 paramétrisation possibles}.
+
+The current implementation can successfully handle large PH models of BRNs found in the literature
+such as an ERBB receptor-regulated G1/S transition model from \cite{Sahin09} which contains 20
 components, and a T-cells receptor model from \cite{Klamt06} which contains 40
 components\footnote{Both models are available as examples along with the \textsc{Pint} library.}.
-For both models, IG and parameters inferences are performed together in less than a second on a personal
-laptop \footnote{Using a Dell Inspiron 1720 laptop, with an Intel Core 2 Duo CPU T5550 ($2 \times 1.83\text{GHz}$)
-and 3.9 Gib memory, on an Ubuntu 11.10 64-bits OS}, and the same models without cooperations
+For both models, IG and parameters inferences are performed together in less than a second on a
+standard desktop computer%
+%\footnote{Using a Dell Inspiron 1720 laptop, with an Intel Core 2 Duo CPU T5550 ($2 \times 1.83\text{GHz}$)
+%and 3.9 Gib memory, on an Ubuntu 11.10 64-bits OS}
+, and the same models without cooperations
 (all cooperative sorts removed, leaving only raw actions) lead to
 respectively xxx??? and yyy??? admissible Parametrization with regard to the inferred parameters,
 which are found in xxx??? and yyy??? seconds.
 \todo{Check if still true with enumeration:}
-We note that despite its smaller size in term of components, the ERBB transmission model takes more time to be computed because the biggest cooperative sorts contain more processes (up to 32 processes) than in the T-cells receptor model (up to 8 processes).
+We note that the complexity of the method is exponential in the number of regulators of one
+component and linear in the number of components.
+% We note that despite its smaller size in term of components, the ERBB transmission model takes more time to be computed because the biggest cooperative sorts contain more processes (up to 32 processes) than in the T-cells receptor model (up to 8 processes).
