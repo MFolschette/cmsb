@@ -148,17 +148,18 @@ From a given state $s$, a transition to another state $s'$ is possible provided 
 Let $s$ be a state of a BRN using Thomas' parameters $(\IG, K)$ where $\IG = (\Gamma, E_+, E_-)$.
 The state that succeeds to $s$ is given by the indeterministic function $f(s)$:
 \begin{align*}
-  & f(s) = s' \Longrightarrow \exists a \in \Gamma,
+  & f(s) = s' \Leftrightarrow \exists a \in \Gamma,
     \GRNget{s'}{a} = f^a(s) \wedge
     \forall b \in \Gamma, b \neq a, \GRNget{s}{b} = \GRNget{s'}{b}
     \quad\text{, with}\\
   & f^a(s) =
   \begin{cases}
-    \GRNget{s}{a} + 1 & \text{if } \GRNget{s}{a} < K_{a, \GRNres{a}{s}} \\
-    \GRNget{s}{a} & \text{if } \GRNget{s}{a} \in K_{a,\GRNres{a}{s}}\\
-    \GRNget{s}{a} - 1 & \text{if } \GRNget{s}{a} > K_{a,\GRNres{a}{s}}
+    \GRNget{s}{a} + 1 & \text{if } \GRNget{s}{a} < K_{a,A,B} \\% \GRNres{a}{s}} \\
+    \GRNget{s}{a} & \text{if } \GRNget{s}{a} \in K_{a,A,B} \\ %\GRNres{a}{s}}\\
+    \GRNget{s}{a} - 1 & \text{if } \GRNget{s}{a} > K_{a,A,B} % \GRNres{a}{s}}
   \end{cases}
 \end{align*}
+where $A,B=\GRNres{a}{s}$.
 \end{definition}
 
 \begin{example*}
