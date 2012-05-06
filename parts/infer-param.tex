@@ -12,6 +12,7 @@ the previous section}.
 
 This subsection considers a global Process Hitting $(\PHs,\PHl,\PHa)$ and the related inferred IG $(\Gamma, E_+, E_-)$, on which the parametrization inference has now to be performed.
 Let $K_{a,A,B}$ be the parameter we want to infer, for a given component $a \in \Gamma$, and $A \subset \PHpredecgene{a}$ (resp. $B \subset \PHpredecgene{a}$) \todo{Explain (here or when defining it) that $\f{reg}$ in PH is now equivalent as in IG} a set of activators (resp. inhibitors) in the regulators of $a$.
+\todo{dire que l'on suppose $E_\pm=\emptyset$ de \pref{pps:inference-edges}}
 This inference, as for the Interaction Graph inference, relies on the search of focal processes of the component for the given configuration of its regulators.
 
 For each sort $b \in \PHpredecgene{a}$, we define a context $C^b_{a,A,B}$ in \pref{eq:param_context} that contains all processes representing the influence of the regulators in the configuration $A,B$.
@@ -44,12 +45,12 @@ Hence $K_{a,A,B} = \focals(a,C^a_{a,A,B},C_{a,A,B})$ if this latter is a non-emp
 \begin{proposition}[Parameter inference]
 \label{pps:param_K}
 Let $(\PHs, \PHl, \PHh)$ be a Process Hitting well-defined for IG inference, and $\IG = (\Gamma,
-E_+, E_-)$ the inferred IG with $E_+\cap E_-=\emptyset$.
+E_+, E_-)$ the inferred IG.
 Let $A$ (resp. $B$) $\subseteq \Gamma$ be the set of regulators that activate (resp. inhibit) a sort
 $a$.
 %If $\focals(a,C_{a,A,B})$ is a non-empty interval, then $K_{a,A,B} = \focals(a, C_{a,A,B})$.
-If $\focals(a,C^a_{a,A,B},C_{a,A,B})$ is a non-empty interval, 
-	then $K_{a,A,B} = \focals(a, C^a_{a,A,B}, C_{a,A,B})$.
+If $\focals(a,C^a_{a,A,B},C_{a,A,B})=[a_i;a_j]$ is a non-empty interval, 
+	then $K_{a,A,B} = [i;j]$.
 \end{proposition}
 
 \begin{example*}
@@ -75,10 +76,10 @@ When building a BRN, one has to find the parametrization that best describes the
 Complexity is inherent to this process as the number of possible parametrizations for a given IG is exponential w.r.t. the number of components.
 However, the method of parameters inference presented in this section gives some information about necessary parameters given a certain dynamics described by a PH.
 This information thus drops the number of possible parametrizations, allowing to find the desired behavior more easily.
-The last step of our method is to enumerate all possible parametrizations regarding the results of the parameters inference and some biological constraints given in \cite{BernotSemBRN}.
-In the following, we define these constraints and the notion of admissible parametrization of an IG with respect to the results of parameters inference.
 
-We propose three constraints that allow to reduce the number of possible parametrizations.
+The last step of our method is to enumerate all possible parametrizations regarding the results of
+the parameters inference and some biological constraints given in \cite{BernotSemBRN}, that we sum
+up in the following three properties:
 
 \begin{property}[Extreme values assumption]
 Let $\IG = (\Gamma, E_+, E_-)$ be an IG. A parametrization $K$ on $\IG$ satisfies the \emph{extreme values assumption} iff:
