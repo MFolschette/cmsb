@@ -21,35 +21,30 @@ processes} w.r.t. a given context (a set of processes that are potentially prese
 When such a context applies, we expect to (always) reach one focal process in a bounded number of
 actions.
 
-Let us first define as $\PHa(S_a,\ctx)$ the set of actions on the sort $a$ having their hitter in
+Let us define as $\PHa(S_a,\ctx)$ the set of actions on the sort $a$ having their hitter in
 $\ctx$ and target in $S_a$ (\pref{eq:PHa-ctx}).
+$\focals(a,S_a,\ctx)$ denotes the set of focal processes of sort $a$ in the scope of
+$\PHa(S_a,\ctx)$ (\pref{def:focals}).
 \begin{equation}
 \PHa(S_a,\ctx) \DEF \{ \PHfrappe{b_i}{a_j}{a_k}\in\PHa \mid b_i\in\ctx \wedge a_j\in S_a \}
 \enspace.
 \label{eq:PHa-ctx}
 \end{equation}
-
-We denote $\focals(a,S_a,\ctx)$ the set of focal processes of sort $a$ in the context
-$\ctx\cup S_a$
-(\pref{def:focals}).
-
 \begin{definition}[$\focals(a,S_a,\ctx)$]\label{def:focals}
-Let us define the digraph $G = (V, E)$ where arcs are the bounces within the sort $a$
-triggered by actions having their hitter in $\ctx$ and target in $S_a\subseteq L_a$:
+Let us define the digraph $(V, E)$ where arcs are the bounces within the sort $a$
+triggered by actions having in $\PHa(S_a,\ctx)$:
+%$\focals(a,S_a,\ctx)$ is the set of focal processes of sort $a$ in the context $\ctx$:
 \begin{align*}
 E  & \DEF \{(a_j,a_k)\in (S_a \times \PHl_a) \mid 
 			\exists\PHfrappe{b_i}{a_j}{a_k}\in \PHa(S_a,\ctx) \}
 \\
-V & \DEF S_a \cup \{ a_k\in L_a\mid \exists (a_j,a_k)\in E\}
-\end{align*}
-$\focals(a,S_a,\ctx)$ is the set of focal processes of sort $a$ in the context $\ctx$:
-\[
-\focals(a,S_a,\ctx) \DEF
+V & \DEF S_a \cup \{ a_k\in L_a\mid \exists (a_j,a_k)\in E\}\\
+\focals(a,S_a,\ctx) & \DEF
 \begin{cases}
-\{ a_i \in V \mid \nexists (a_i,a_j)\in E\} & \text{if $G$ is acyclic},\\
+\{ a_i \in V \mid \nexists (a_i,a_j)\in E\} & \text{if the digraph $(V,E)$ is acyclic},\\
 \emptyset & \text{otherwise.}\\
 \end{cases}
-\]
+\end{align*}
 \end{definition}
 
 We say that a state $s\in\PHl$ \emph{matches} a context $\ctx$ if and only if
