@@ -68,7 +68,31 @@ The (possibly partial) inferred Parametrization will be returned on the standard
 The admissible Parametrizations enumeration is performed when adding the \texttt{-{}-enumerate}
 parameter to the command.
 
-Applied to the examples given in \pref{fig:runningPH-1} and \pref{fig:runningPH-2}, our method \todo{dire que l'on infere le IG \pref{fig:runningBRN-ig} et donner les
+Applied to the examples given in \pref{fig:runningPH-1} and \pref{fig:runningPH-2}, our method
+infers the IG given in \pref{fig:runningBRN-ig} in both cases, and the parameters given in
+\pref{fig:examples-param}. In the case of PH in \pref{fig:runningPH-1}, the inferred Parametrization
+is partial and allows to enumerate 9 admissible Parametrizations with respect to the inferred parameters.
+
+\begin{figure}[t]
+\centering
+\begin{tabular}{l|c|c}
+Parameter & \pref{fig:runningPH-1} & \pref{fig:runningPH-2} \\ \hline
+$K_{a,\{b, c\},\emptyset}$ & $[2; 2]$ & $[2; 2]$ \\
+$K_{a,\{b\},\{c\}}$ & ? & $[1; 1]$ \\
+$K_{a,\{c\},\{b\}}$ & ? & $[1; 1]$ \\
+$K_{a,\emptyset,\{b, c\}}$ & $[0; 0]$ & $[0; 0]$ \\
+$K_{b,\{a\},\emptyset}$ & $[0; 1]$ & $[0; 1]$ \\
+$K_{b,\emptyset,\{a\}}$ & $[0; 0]$ & $[0; 0]$ \\
+$K_{c,\emptyset,\emptyset}$ & $[0; 1]$ & $[0; 1]$
+\end{tabular}
+\caption{\label{fig:examples-param}
+Results of the parameters inference performed on the PH models given in
+\pref{fig:runningPH-1} and \pref{fig:runningPH-2}.
+A question mark denotes a non-conclusive parameter inference.
+}
+\end{figure}
+
+\todo{dire que l'on infere le IG \pref{fig:runningBRN-ig} et donner les
 paramétres trouvés dans les deux cas (deux colonnes) , et dire que dans le premier cas,
 l'énumération renvoie 9 paramétrisation possibles}.
 
