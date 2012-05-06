@@ -11,14 +11,14 @@ in \pref{ssec:wf}, and as well used by the parametrization inference presented i
 Finally, the rules for infering the interactions between components from a Process Hitting are
 described in \pref{ssec:infer-IG}.
 
-We assume hereafter a global Process Hitting $(\PHs,\PHl,\PHa)$ on which the IG inference is to be
+We consider hereafter a global Process Hitting $(\PHs,\PHl,\PHa)$ on which the IG inference is to be
 performed.
 
 \subsection{Focal Processes}\label{ssec:focal}
 
 Many of the inferences defined in the rest of this paper rely on the knowledge of \emph{focal
 processes} w.r.t. a given context (a set of processes that are potentially present).
-When such a context applies, we expect to (always) reach one focal process in a bound number of
+When such a context applies, we expect to (always) reach one focal process in a bounded number of
 actions.
 
 Let us first define as $\PHa(S_a,\ctx)$ the set of actions on the sort $a$ having their hitter in
@@ -53,7 +53,7 @@ $\focals(a,S_a,\ctx)$ is the set of focal processes of sort $a$ in the context $
 \end{definition}
 
 We say that a state $s\in\PHl$ \emph{matches} a context $\ctx$ if and only if
-$\forall a\in\PHsort(\ctx), \PHget{s}{a}\in\ctx$, where $\PHsort(\ctx)$ is the set of sorts of
+$\forall a\in\PHsort(\ctx), \PHget{s}{a}\in\ctx$, where $\PHsort(\ctx)$ is the set of sorts with
 processes in $\ctx$.
 From \pref{def:focals}, it derives that:
 \begin{enumerate}
@@ -68,12 +68,12 @@ either
 \item $(s\play h^1\cdots h^k)[a] \in \focals(a,S_a,\ctx)$;
 \item or, $\exists h^{k+1}\in \PHa(a,\ctx)$ playable in $s\play h^1\cdots h^k$.
 \end{itemize}
-Moreover $k\leq|\PHa(S_a,\ctx)|$ (no cycle of actions possible).
+Moreover $k\leq|\PHa(S_a,\ctx)|$ (i.e. no cycle of actions possible).
 \end{enumerate}
 
 In other words, if $\focals(a,S_a,\ctx)$ is empty, there exists a set of actions in
 $\PHa(S_a,\ctx)$ that may be played as many number of times as we want (cycle);
-if it is non-empty, all possible succession of actions in $\PHa(S_a,\ctx)$ have a bound length and
+if it is non-empty, all possible succession of actions in $\PHa(S_a,\ctx)$ have a bounded length and
 lead $a$ either to a process in $S_a$ that is not hit by processes in $\ctx$, or to a process in
 $L_a\setminus S_a$.
 
@@ -142,9 +142,9 @@ of a unique focal process.
 
 Finally, \pref{pro:wf-ph} sums up the conditions for a Process Hitting to be suitable for IG
 inference.
-In addition of having either component sorts or well-formed cooperative sorts, we also impose that
+In addition of having either component sorts or well-formed cooperative sorts, we also require that
 there is no cycle between cooperative sorts, and that
-sorts being not hit (\ie{}, serving as invariant environment) are components.
+sorts being not hit (\ie{}, serving as an invariant environment) are components.
 
 \begin{property}[Well-formed Process Hitting for IG inference]\label{pro:wf-ph}
 A Process Hitting is well-formed for IG inference if and only if the following conditions are
@@ -233,7 +233,7 @@ At this point we can divide the set of sorts $\PHs$ into components ($\Gamma$) a
 ($\PHs \setminus \Gamma$) that will not appear in the IG. 
 We define in \pref{eq:ph_predec} the set of predecessors of a sort $a$, that is, the sorts influencing $a$
 by considering direct actions and possible intermediate cooperative sorts.
-The predecessors of $a$ that are components are the regulators of $a$, noted $\PHpredecgene{a}$
+The predecessors of $a$ that are components are the regulators of $a$, denoted $\PHpredecgene{a}$
 (\pref{eq:regulators}).
 \begin{align}
 \begin{split}
@@ -272,7 +272,7 @@ regulated by $b$ that can hit the sort $a$ (\pref{eq:ctx-sigma}).
 This set is composed of the active process of sort $b$ ($\sigma[b]$), and the focal process (assumed
 unique) of the cooperative sorts $\upsilon$ hitting $a$ that have $b$ as a predecessor.
 The evaluation of the focal process of $\upsilon$ in context $\sigma$, denoted $\upsilon(\sigma)$,
-rely on \pref{pro:wf-cooperative-sort}, which gives its value when all the direct predecessors of
+relies on \pref{pro:wf-cooperative-sort}, which gives its value when all the direct predecessors of
 $\upsilon$ are defined in $\sigma$.
 When a predecessor $\upsilon'$ is not in $\sigma$, we extend the evaluation by recursively computing
 the focal value of $\upsilon'$ is $\sigma$, as stated in \pref{eq:cooperative-eval}.

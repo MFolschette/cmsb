@@ -10,7 +10,7 @@ In order to obtain a complete BRN of the studied system, one has to find both an
 \todo{say this is equivalent to the inference in \cite{PMR10-TCSB}, but with notations shared with
 the previous section}.
 
-This subsection assumes a global Process Hitting $(\PHs,\PHl,\PHa)$ and the related inferred IG $(\Gamma, E_+, E_-)$, on which the parametrization inference is to be performed.
+This subsection considers a global Process Hitting $(\PHs,\PHl,\PHa)$ and the related inferred IG $(\Gamma, E_+, E_-)$, on which the parametrization inference has now to be performed.
 Let $K_{a,A,B}$ be the parameter we want to infer, for a given component $a \in \Gamma$, and $A \subset \PHpredecgene{a}$ (resp. $B \subset \PHpredecgene{a}$) \todo{Explain (here or when defining it) that $\f{reg}$ in PH is now equivalent as in IG} a set of activators (resp. inhibitors) in the regulators of $a$.
 This inference, as for the Interaction Graph inference, relies on the search of focal processes of the component for the given configuration of its regulators.
 
@@ -64,7 +64,7 @@ No result is found for parameters $K_{a,\{b\},\{c\}}$ and $K_{a,\{c\},\{b\}}$ as
 When performed on the PH in \pref{fig:runningPH-2}, parameters inference returns the complete Parametrization given in \pref{fig:runningBRN-param}.
 \end{example*}
 
-Given the \pref{def:param_K}, we see that in some cases, the inference of the desired parameter is impossible.
+Given the \pref{def:param_K}, we see that in some cases, the inference of the targeted parameter is impossible.
 This can be due to a lack of cooperation between regulators: when two regulators independently hit a component, their actions can have opposite effects, leading to either an indeterministic evolution or to oscillations.
 Such an indeterminism is not possible in a GRN as in a given configuration of regulators, a component can only have an interval attractor, and eventually reaches a steady-state.
 In order to avoid such inconclusive cases, one has to ensure that no such behavior is allowed by either removing undesired actions or using cooperative sorts to avoid opposite influences between regulators of a component.
