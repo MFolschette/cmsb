@@ -39,7 +39,7 @@ which gives: $a \xrightarrow{2} b \in \hat{E}_-$, but no influence of $a$ on $b$
 In the end, we have: $\hat{E}_+ = \{b \xrightarrow{1} a, c \xrightarrow{1} a\}$ and $\hat{E}_- = \{a \xrightarrow{2} b\}$.
 In this example, the sets of influences do not contain several influences of the same gene with different thresholds. Furthermore, no influence turns out to be both positive and negative. Hence, the IG inference gives the following extended IG:
 $(\{a, b, c\}, \hat{E}_+, \hat{E}_-, \emptyset)$,
-which can also be seen as the IG in \pref{fig:runningBRN-ig}, as its fourth component is an empty set.
+which can also be seen as the IG in \pref{fig:runningBRN}, as its fourth component is an empty set.
 
 As a second step, we can now perform the inference of Thomas' parameters, using the previously inferred IG which is well-formed for this task.
 For example, in order to determine the parameter $K_{b,\emptyset,\{a\}}$, that is, the focal point of $b$ when $a$ has a negative action on it, we have to determine the value of: $\focals(b,C^b_{b,A,B},C_{b,A,B})$. We have:
@@ -69,7 +69,7 @@ The admissible Parametrizations enumeration is performed when adding the \texttt
 parameter to the command.
 
 Applied to the examples given in \pref{fig:runningPH-1} and \pref{fig:runningPH-2}, our method
-infers the IG given in \pref{fig:runningBRN-ig} in both cases, and the parameters given in
+infers the IG given in \pref{fig:runningBRN} in both cases, and the parameters given in
 \pref{fig:examples-param}. In the case of PH in \pref{fig:runningPH-1}, the inferred Parametrization
 is partial and allows to enumerate 9 admissible Parametrizations with respect to the inferred parameters.
 
@@ -92,7 +92,7 @@ A question mark denotes a non-conclusive parameter inference.
 }
 \end{figure}
 
-\todo{dire que l'on infere le IG \pref{fig:runningBRN-ig} et donner les
+\todo{dire que l'on infere le IG \pref{fig:runningBRN} et donner les
 paramétres trouvés dans les deux cas (deux colonnes) , et dire que dans le premier cas,
 l'énumération renvoie 9 paramétrisation possibles}.
 
