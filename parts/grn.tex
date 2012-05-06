@@ -145,40 +145,7 @@ The state that succeeds to $s$ is given by the indeterministic function $f(s)$:
 \end{definition}
 
 \begin{example*}
-\pref{fig:runningBRN-sg} gives the State Graph of the BRN that consists of the IG in \pref{fig:runningBRN-ig} and the Parametrization in \pref{fig:runningBRN-param}.
-
-\begin{figure}[t]
-\centering
-\begin{tikzpicture}[sg]
-\matrix [column sep=0.7cm, row sep=0.7cm]
-{
-\node (000) {\PHetat{a_0,b_0,c_0}}; &
-\node (100) {\PHetat{a_1,b_0,c_0}}; &
-\node (200) {\PHetat{a_2,b_0,c_0}}; \\
-\node (010) {\PHetat{a_0,b_1,c_0}}; &
-\node (110) {\PHetat{a_1,b_1,c_0}}; &
-\node (210) {\PHetat{a_2,b_1,c_0}}; \\
-\node (001) {\PHetat{a_0,b_0,c_1}}; &
-\node (101) {\PHetat{a_1,b_0,c_1}}; &
-\node (201) {\PHetat{a_2,b_0,c_1}}; \\
-\node (011) {\PHetat{a_0,b_1,c_1}}; &
-\node (111) {\PHetat{a_1,b_1,c_1}}; &
-\node (211) {\PHetat{a_2,b_1,c_1}}; \\
-};
-\path[->]
-  (200) edge (100)
-  (100) edge (000)
-  (010) edge (110)
-  (210) edge (110) edge (200)
-  (201) edge (101)
-  (001) edge (101)
-  (011) edge (111)
-  (111) edge (211)
-  (211) edge (201);
-\end{tikzpicture}
-\caption{\label{fig:runningBRN-sg}
-The State Graph of the BRN composed of the IG of \pref{fig:runningBRN-ig} and the Parametrization of \pref{fig:runningBRN-param}.
-Each node represents a state and edges represent possible transition between these states, given the dynamics defined in \pref{def:dynamics}.
-}
-\end{figure}
+In the BRN that consists of the IG in \pref{fig:runningBRN-ig} and the Parametrization in \pref{fig:runningBRN-param}, the following transitions are possible given the dynamics defined in \pref{def:dynamics}:
+\[\GRNetat{a_0, b_1, c_1} \rightarrow \GRNetat{a_1, b_1, c_1} \rightarrow \GRNetat{a_2, b_1, c_1} \rightarrow
+\GRNetat{a_2, b_0, c_1} \rightarrow \GRNetat{a_1, b_0, c_1}.\]
 \end{example*}

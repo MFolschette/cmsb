@@ -53,7 +53,15 @@ If $\focals(a,C^a_{a,A,B},C_{a,A,B})$ is a non-empty interval,
 \end{definition}
 
 \begin{example*}
-\todo{Illustrate the definitions}
+Parameters inference performed on the PH in \pref{fig:runningPH-1} gives the following partial Parametrization:
+\begin{align*}
+K_{b,\{a\},\emptyset} &= [0 ; 1] & K_{a,\{b,c\},\emptyset} &= [2 ; 2] \\
+K_{b,\emptyset,\{a\}} &= [0 ; 0] & K_{a,\emptyset,\{b,c\}} &= [0 ; 0] \\
+K_{c,\emptyset,\emptyset} &= [0 ; 1]
+\end{align*}
+No result is found for parameters $K_{a,\{b\},\{c\}}$ and $K_{a,\{c\},\{b\}}$ as the opposite influences of $b$ and $c$ on $a$ prevent any inference.
+
+When performed on the PH in \pref{fig:runningPH-2}, parameters inference returns the complete Parametrization given in \pref{fig:runningBRN-param}.
 \end{example*}
 
 Given the \pref{def:param_K}, we see that in some cases, the inference of the desired parameter is impossible.
@@ -117,6 +125,12 @@ inferred parameters} iff it is admissible and that all parameters that can be in
 \end{definition}
 
 \todo{utilité de “Admissible parametrization” seul ?}
+
+\begin{example*}
+The PH of \pref{fig:runningPH-1} allows 36 admissible Parametrizations with respect to the inferred parameters,
+as two parameters could not be inferred.
+\end{example*}
+
 
 \subsection{Answer-Set Programming implementation concepts}
 
