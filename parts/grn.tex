@@ -36,7 +36,7 @@ Let $(\Gamma,E_+,E_-)$ be an IG and $a, b \in \Gamma$ two of its components:
 
 For all component $a \in \Gamma$, we also denote $\GRNreg{a} = \{b \in \Gamma \mid \exists b \xrightarrow{t} a \in E_+ \cup E_-\}$ the set of its regulators,
 and $E_+(a) = \{b \in \Gamma \mid \exists b \xrightarrow{t} a \in E_+\}$ (resp. $E_-(a) = \{b \in \Gamma \mid \exists b \xrightarrow{t} a \in E_-\}$) the set of its positive (resp. negative) regulators.
-\todo{Check if it is a good idea to use the same symbol $\f{Reg}$ for both GRN and PH.}
+\todo{Check if it is a good idea to use the same symbol $\f{Reg}$ for both BRN and PH.}
 
 \begin{example*}
 \pref{fig:runningBRN-ig} represents an Interaction Graph $(\Gamma,E_+,E_-)$ with
@@ -124,7 +124,7 @@ This Parametrization ensures the same behavior as the PH given in \pref{fig:runn
 \end{figure}
 \end{example*}
 
-At last, we describe the asynchronous dynamics of a GRN using Thomas' parameters.
+At last, we describe the asynchronous dynamics of a BRN using Thomas' parameters.
 From a given state $s$, a transition to another state $s'$ is possible provided that only one component $a$ will evolve of one expression level towards the nearest value of $K_{a,\GRNres{a}{s}}$.
 
 \begin{definition}[Asynchronous dynamics]\label{def:dynamics}
