@@ -5,13 +5,12 @@ constraints on the Parametrization rely on it.
 Inferring the IG is an abstraction step which consists in determining the global influence of
 components on each of its successors.
 
-This section introduces first the notion of focal processes within a Process Hitting
-(\pref{ssec:focal}) which is used to characterize well-formed Process Hittings for IG inference
+This section introduces first the notion of focal processes within a PH
+(\pref{ssec:focal}) which is used to characterize well-formed PH for IG inference
 in \pref{ssec:wf}, and as well used by the parametrization inference presented in \pref{sec:infer-K}.
-Finally, the rules for infering the interactions between components from a Process Hitting are
+Finally, the rules for inferring the interactions between components from a PH are
 described in \pref{ssec:infer-IG}.
-
-We consider hereafter a global Process Hitting $(\PHs,\PHl,\PHa)$ on which the IG inference is to be
+We consider hereafter a global PH $(\PHs,\PHl,\PHa)$ on which the IG inference is to be
 performed.
 
 \subsection{Focal Processes}\label{ssec:focal}
@@ -22,29 +21,35 @@ When such a context applies, we expect to (always) reach one focal process in a 
 actions.
 
 Let us define as $\PHa(S_a,\ctx)$ the set of actions on the sort $a$ having their hitter in
-$\ctx$ and target in $S_a$ (\pref{eq:PHa-ctx}).
+$\ctx$ and target in $S_a$ (\pref{eq:PHa-ctx});
+and the the digraph $(V, E)$ where arcs are the bounces within the sort $a$ triggered by actions
+having in $\PHa(S_a,\ctx)$ (\pref{eq:bounce-graph}).
 $\focals(a,S_a,\ctx)$ denotes the set of focal processes of sort $a$ in the scope of
 $\PHa(S_a,\ctx)$ (\pref{def:focals}).
-\begin{equation}
-\PHa(S_a,\ctx) \DEF \{ \PHfrappe{b_i}{a_j}{a_k}\in\PHa \mid b_i\in\ctx \wedge a_j\in S_a \}
-\enspace.
+\begin{align}
+\PHa(S_a,\ctx) & \DEF \{ \PHfrappe{b_i}{a_j}{a_k}\in\PHa \mid b_i\in\ctx \wedge a_j\in S_a \}
 \label{eq:PHa-ctx}
-\end{equation}
-\begin{definition}[$\focals(a,S_a,\ctx)$]\label{def:focals}
-Let us define the digraph $(V, E)$ where arcs are the bounces within the sort $a$
-triggered by actions having in $\PHa(S_a,\ctx)$:
-%$\focals(a,S_a,\ctx)$ is the set of focal processes of sort $a$ in the context $\ctx$:
-\begin{align*}
+\\
+\begin{split}
 E  & \DEF \{(a_j,a_k)\in (S_a \times \PHl_a) \mid 
 			\exists\PHfrappe{b_i}{a_j}{a_k}\in \PHa(S_a,\ctx) \}
 \\
-V & \DEF S_a \cup \{ a_k\in L_a\mid \exists (a_j,a_k)\in E\}\\
-\focals(a,S_a,\ctx) & \DEF
+V & \DEF S_a \cup \{ a_k\in L_a\mid \exists (a_j,a_k)\in E\}
+\end{split}
+\label{eq:bounce-graph}
+\end{align}
+
+\begin{definition}[$\focals(a,S_a,\ctx)$]\label{def:focals}
+The set of processes that are focal for processes in $S_a$ in the scope of $\PHa(S_a,\ctx)$
+are given by:
+%$\focals(a,S_a,\ctx)$ is the set of focal processes of sort $a$ in the context $\ctx$:
+\[
+\focals(a,S_a,\ctx) \DEF
 \begin{cases}
 \{ a_i \in V \mid \nexists (a_i,a_j)\in E\} & \text{if the digraph $(V,E)$ is acyclic},\\
 \emptyset & \text{otherwise.}\\
 \end{cases}
-\end{align*}
+\]
 \end{definition}
 
 We say that a state $s\in\PHl$ \emph{matches} a context $\ctx$ if and only if
@@ -352,10 +357,10 @@ sign $s$ and threshold $k=j$.
 \end{comment}
 
 
-\pref{def:inference-edges} details the inference of all existing influences between genes occurring
+\pref{pps:inference-edges} details the inference of all existing influences between genes occurring
 with a threshold $l$.
 These influences are split into positive and negative ones, and represent possible edges in the final IG.
-\begin{definition}[Edges inference]\label{def:inference-edges}
+\begin{proposition}[Edges inference]\label{pps:inference-edges}
 We define the set of positive (resp. negative) influences $\hat{E}_+$ (resp. $\hat{E}_-$) for any
 $a\in\Gamma$ by:
 \begin{align}
@@ -390,7 +395,7 @@ where $s \in \{ +, - \}$, $\bar s = + \EQDEF s = -$, $\bar s = - \EQDEF s = +$,
 $\f{sign}(n) = + \EQDEF n > 0$,
 $\f{sign}(n) = - \EQDEF n < 0$,
 and $\f{sign}(0) \EQDEF 0$.
-\end{definition}
+\end{proposition}
 
 \begin{comment}
 \begin{align*}
@@ -436,9 +441,14 @@ a \xrightarrow k a \in \hat{E}_s & \Longleftrightarrow
 \end{align*}
 \end{comment}
 
-We are now able to infer the edges of the final IG by considering positive and negative influences. We infer a positive (resp. negative) edge if there exists a corresponding influence with the same sign. If an influence is both positive and negative, we infer an unsigned edge. In the end, the threshold of each edge is the minimum threshold for which the influence has been found. As unsigned edges represent ambiguous interactions, no threshold is inferred.
-\begin{definition}[Interaction Graph inference]\label{def:inference-IG}
-We infer $\IG = (\Gamma,E_+,E_-,E_\pm)$ from \pref{def:inference-edges} as follows:
+We are now able to infer the edges of the final IG by considering positive and negative influences
+(\pref{pps:inference-IG}).
+We infer a positive (resp. negative) edge if there exists a corresponding influence with the same
+sign. If an influence is both positive and negative, we infer an unsigned edge. In the end, the
+threshold of each edge is the minimum threshold for which the influence has been found. As unsigned
+edges represent ambiguous interactions, no threshold is inferred.
+\begin{proposition}[Interaction Graph inference]\label{pps:inference-IG}
+We infer $\IG = (\Gamma,E_+,E_-,E_\pm)$ from \pref{pps:inference-edges} as follows:
 \begin{align*}
 E_+ &= \{a \xrightarrow{t} b \mid \nexists a \xrightarrow{t'} b \in \hat{E}_-
   \wedge t = \min \{ l \mid a \xrightarrow{l} b \in \hat{E}_+\}\} \\
@@ -446,7 +456,7 @@ E_- &= \{a \xrightarrow{t} b \mid \nexists a \xrightarrow{t'} b \in \hat{E}_+
   \wedge t = \min \{l \mid a \xrightarrow{l} b \in \hat{E}_-\}\} \\
 E_\pm &= \{a \rightarrow b \mid \exists a \xrightarrow{t} b \in \hat{E}_+ \wedge \exists a \xrightarrow{t'} b \in \hat{E}_-\} \\
 \end{align*}
-\end{definition}
+\end{proposition}
 
 
 \begin{example*}

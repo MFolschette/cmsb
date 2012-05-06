@@ -71,7 +71,9 @@ parameter to the command.
 Applied to the examples given in \pref{fig:runningPH-1} and \pref{fig:runningPH-2}, our method
 infers the IG given in \pref{fig:runningBRN} in both cases, and the parameters given in
 \pref{fig:examples-param}. In the case of PH in \pref{fig:runningPH-1}, the inferred Parametrization
-is partial and allows to enumerate 9 admissible Parametrizations with respect to the inferred parameters.
+is partial and allows allows 36 admissible Parametrizations with respect to the inferred parameters,
+as two parameters with 3 potential values could not be inferred.
+If we constrain the parameters so that they contain exactly one element, we obtain only 9 admissible Parametrizations.
 
 \begin{figure}[t]
 \centering
@@ -91,10 +93,6 @@ Results of the parameters inference performed on the PH models given in
 A question mark denotes a non-conclusive parameter inference.
 }
 \end{figure}
-
-\todo{dire que l'on infere le IG \pref{fig:runningBRN} et donner les
-paramétres trouvés dans les deux cas (deux colonnes) , et dire que dans le premier cas,
-l'énumération renvoie 9 paramétrisation possibles}.
 
 The current implementation can successfully handle large PH models of BRNs found in the literature
 such as an ERBB receptor-regulated G1/S transition model from \cite{Sahin09} which contains 20

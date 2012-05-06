@@ -39,10 +39,10 @@ The parameter $K_{a,A,B}$ specifies to which values $a$ eventually evolves as lo
 $C_{a,A,B}$ holds, which is precisely the definition of the $\focals$ function
 (\pref{def:focals} in \pref{ssec:focal}).
 Hence $K_{a,A,B} = \focals(a,C^a_{a,A,B},C_{a,A,B})$ if this latter is a non-empty interval
-(\pref{def:param_K}).
+(\pref{pps:param_K}).
 
-\begin{definition}[Parameter inference]
-\label{def:param_K}
+\begin{proposition}[Parameter inference]
+\label{pps:param_K}
 Let $(\PHs, \PHl, \PHh)$ be a Process Hitting well-defined for IG inference, and $\IG = (\Gamma,
 E_+, E_-)$ the inferred IG with $E_+\cap E_-=\emptyset$.
 Let $A$ (resp. $B$) $\subseteq \Gamma$ be the set of regulators that activate (resp. inhibit) a sort
@@ -50,7 +50,7 @@ $a$.
 %If $\focals(a,C_{a,A,B})$ is a non-empty interval, then $K_{a,A,B} = \focals(a, C_{a,A,B})$.
 If $\focals(a,C^a_{a,A,B},C_{a,A,B})$ is a non-empty interval, 
 	then $K_{a,A,B} = \focals(a, C^a_{a,A,B}, C_{a,A,B})$.
-\end{definition}
+\end{proposition}
 
 \begin{example*}
 Parameters inference performed on the PH in \pref{fig:runningPH-1} gives the following partial Parametrization:
@@ -64,7 +64,7 @@ No result is found for parameters $K_{a,\{b\},\{c\}}$ and $K_{a,\{c\},\{b\}}$ as
 When performed on the PH in \pref{fig:runningPH-2}, parameters inference returns the complete Parametrization given in \pref{fig:runningBRN}.
 \end{example*}
 
-Given the \pref{def:param_K}, we see that in some cases, the inference of the targeted parameter is impossible.
+Given the \pref{pps:param_K}, we see that in some cases, the inference of the targeted parameter is impossible.
 This can be due to a lack of cooperation between regulators: when two regulators independently hit a component, their actions can have opposite effects, leading to either an indeterministic evolution or to oscillations.
 Such an indeterminism is not possible in a GRN as in a given configuration of regulators, a component can only have an interval attractor, and eventually reaches a steady-state.
 In order to avoid such inconclusive cases, one has to ensure that no such behavior is allowed by either removing undesired actions or using cooperative sorts to avoid opposite influences between regulators of a component.
@@ -81,7 +81,6 @@ In the following, we define these constraints and the notion of admissible param
 We propose three constraints that allow to reduce the number of possible parametrizations.
 
 \begin{property}[Extreme values assumption]
-\todo{À voir si on ne l'inclut pas dans la définition de GRN}
 Let $\IG = (\Gamma, E_+, E_-)$ be an IG. A parametrization $K$ on $\IG$ satisfies the \emph{extreme values assumption} iff:
 \label{prop:param_enum_extreme}
 \[
@@ -111,6 +110,7 @@ Let $\IG = (\Gamma, E_+, E_-)$ be an IG. A parametrization $K$ on $\IG$ satisfie
 \end{align*}
 \end{property}
 
+\begin{comment}
 \begin{definition}[Admissible parametrization \& Admissible parametrization with respect to inferred parameters]
 \label{def:param_enum_inf}
 Let $\PH = (\PHs, \PHl, \PHh)$ be a PH so that IG inference is possible, and $\IG = (\Gamma, E_+,
@@ -119,16 +119,11 @@ A parametrization $K$ on $\IG$ is said to be \emph{admissible} iff it respects
 the extreme values assumption, the activity assumption and the monotonicity assumption.
 A parametrization $K$ on $\IG$ is said to be \emph{admissible with respect to the
 inferred parameters} iff it is admissible and that all parameters that can be inferred regarding
-\pref{def:param_K} are equal to their inferred value.
+\pref{pps:param_K} are equal to their inferred value.
 \end{definition}
 
 \todo{utilité de “Admissible parametrization” seul ?}
-
-\begin{example*}
-The PH of \pref{fig:runningPH-1} allows 36 admissible Parametrizations with respect to the inferred parameters,
-as two parameters could not be inferred.
-If we constrain the parameters so that they contain exactly one element, we obtain only 9 admissible Parametrizations.
-\end{example*}
+\end{comment}
 
 
 \subsection{Answer Set Programming implementation concepts}
@@ -166,7 +161,9 @@ means that any parameter of label \aspil{P} and gene \aspil{A} must contain at l
 Indeed, the lower bound is 1, forcing at least one element in the parameter, but no upper bound is specified, allowing up to any number of answers.
 The body (right-hand side) of the rule also checks for the existence of component \aspil{A} and parameter label \aspil{P}, and constrains that the parametrization inference was not conclusive for the considered parameter (otherwise we would consider only the value of the inferred parameter).
 Such a constraint gives multiple results as any set of atoms satisfying the cardinality will lead to a new global set of answers.
-In this way, we can enumerate all possible parametrization which respects the results of parameters inference, but completely disregarding the notion of admissible parametrizations given in definition \ref{def:param_enum_inf}.
+In this way, we can enumerate all possible parametrization which respects the results of parameters
+inference, but completely disregarding the notion of admissible parametrizations given in
+\pref{ssec:admissible-K}.
 
 In order to filter only admissible parametrizations regarding the previous properties from all obtained answers, we rely on integrity constraints.
 Such constraint is a rule with no head, that makes an answer set unsatisfiable if its body turns out to be true.
