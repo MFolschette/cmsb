@@ -8,7 +8,7 @@ As for PH, IG represents information about a finite number of \emph{components} 
 For the sake of simplicity and to establish a parallel with PH, if $a$ represents a component, we call $a_i$ its $i^\text{th}$ expression level.
 The IG is therefore composed of nodes that represent components, and edges labeled with a threshold that stand for interactions and can be either positive or negative.
 For such an interaction to take place, the expression level of its head component has to be higher than its threshold; otherwise, the opposite influence is expressed.
-Therefore, for any component $b$, a predecessor $a$ of $b$ such that we have $a \xrightarrow{t} b$ can be either an activator or an inhibitor of $a$, according to the kind of interaction involved and if the expression level of $b$ if above of below the related threshold $t$.
+Therefore, for any component $b$, a predecessor $a$ of $b$ such that we have $a \xrightarrow{t} b$ can be either an activator or an inhibitor of $a$, according to the type of interaction involved and if the expression level of $b$ if above of below the related threshold $t$.
 We call $\levelsA{a}{b}$ (resp. $\levelsI{a}{b}$) the expression levels of $a$ where it is an activator (resp. inhibitor) of $b$.
 
 \begin{definition}[Interaction Graph]
@@ -77,11 +77,11 @@ otherwise, $b$ inhibits $a$.
 
 A \emph{state} of an IG $(\Gamma, E_+, E_-)$ is an element in $\prod_{a \in \Gamma} \{a_0, \dots, a_{l_a}\}$.
 The specificity of René Thomas' approach lies in the use of discrete \emph{parameters} to represent the focal point towards which the expression level of a component will evolve in each configuration of its regulators.
-Indeed, for each possible state of a BRN, all regulators of a gene are be divided into \emph{activators} and \emph{inhibitors}, given their kind of interaction and expression level.
+Indeed, for each possible state of a BRN, all regulators of a gene are be divided into \emph{activators} and \emph{inhibitors}, given their type of interaction and expression level.
 The direction of evolution of a gene thus depends on these \emph{resources} in the considered state.
 In this paper, we extend the classical definition focal point from a unique integer to an interval of integers.
 \todo{The interval semantic is more expressive: justify!}
-An IG and a related Parametrization form together a \emph{BRN using René Thomas' parameters}, which entirely describes the structure and allows to compute the dynamics of the modeled system.
+The association of an IG and a related Parametrization corresponds to the definition a \emph{BRN using René Thomas' parameters}, which entirely describes the structure and allows to compute the dynamics of the modeled system.
 \todo{Find another name for “BRN using René Thomas' parameters”?}
 
 \begin{definition}[Discrete parameter $K_{a,A,B}$ and Parametrization $K$]\label{def:param}
@@ -105,7 +105,7 @@ For a given state $s$ of a BRN, we define the \emph{activators} and \emph{inhibi
 \begin{definition}[Biological Regulatory Network using Thomas' parameters]\label{def:brn}
 A \emph{biological regulatory network (BRN) using Thomas' parameters} is a pair $(\IG; K)$ where the first entry is an Interaction Graph and the second is a complete Parametrization.
 \end{definition}
-We call $s$ a state of a BRN using Thomas' parameters if $s$ is a state of the IG that consists of its first entry.
+We call $s$ a state of a BRN using Thomas' parameters if $s$ is a state of the IG \IG.
 
 \begin{example*}
 In order to achieve the very same behavior as the PH given in \pref{fig:runningPH-2}, we can use the Parametrization of the IG of \pref{fig:runningBRN-ig} given in \pref{fig:runningBRN-param}.
@@ -124,7 +124,7 @@ This Parametrization ensures the same behavior as the PH given in \pref{fig:runn
 \end{figure}
 \end{example*}
 
-We lastly describe the asynchronous dynamics of a GRN with Thomas' parameters.
+At last, we describe the asynchronous dynamics of a GRN using Thomas' parameters.
 From a given state $s$, a transition to another state $s'$ is possible provided that only one component $a$ will evolve of one expression level towards the nearest value of $K_{a,\GRNres{a}{s}}$.
 
 \begin{definition}[Asynchronous dynamics]\label{def:dynamics}
