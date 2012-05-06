@@ -127,18 +127,22 @@ inferred parameters} iff it is admissible and that all parameters that can be in
 \begin{example*}
 The PH of \pref{fig:runningPH-1} allows 36 admissible Parametrizations with respect to the inferred parameters,
 as two parameters could not be inferred.
+If we constrain the parameters so that they contain exactly one element, we obtain only 9 admissible Parametrizations.
 \end{example*}
 
 
-\subsection{Answer-Set Programming implementation concepts}
+\subsection{Answer Set Programming implementation concepts}
 
 \newcommand{\ti}[1]{\texttt{\textit{#1}}}
 \newcommand{\aspil}[1]{\texttt{#1}}
 \newcommand{\asp}[1]{\begin{itemize} \item[] \aspil{#1} \end{itemize}}
 
-To perform such an enumeration of admissible parametrizations, Answer-Set Programming (ASP) \cite{Baral03} comes in handy, therefore we propose some keys to understand ASP implementation with the enumeration example.
+To perform such an enumeration of admissible parametrizations, Answer Set Programming (ASP) \cite{Baral03} comes especially in handy, as it efficiently tackles with the inherent complexity of the models used, thus allowing an efficient execution of the formal tools defined in this paper.
+Furthermore, it allows to easily constrain the answers regarding properties or cardinalities.
+\todo{Add more?}
+We propose in the following some keys to understand ASP implementation with the enumeration example.
 
-When this last step is reached, a lot of information has been gathered about the studied system: in addition to the starting PH model, corresponding data have been inferred about a complete IG and a possibly partial parametrization.
+When the step of admissible Parametrizations enumeration is reached, a lot of information has been gathered about the studied system: in addition to the starting PH model, corresponding data have been inferred about a complete IG and a possibly partial parametrization.
 All this information describing the model can be expressed in ASP using facts.
 For functional purposes, to all discrete parameters of a given component is assigned a unique label, which allows to refer to a parameter using two variables (in other terms, we define a unique label for each couple $A,B$ of activators and inhibitors).
 For example, if we want to express that a parameter of component \ti{a} has the label \ti{i}, we can use an atom named \aspil{param\_label} in the following fact:
