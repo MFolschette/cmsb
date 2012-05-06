@@ -17,18 +17,17 @@ delimit the set of compatible Thomas' parametrizations that are compatible with 
 The enumeration of such parametrizations is efficiently tackled using Answer-Set Programming.
 We illustrate the overall method on simple examples and large biological models.
 
-Several extensions of the presented work are envisaged.
-First, the inference of Thomas' parameters in the presence of unsigned interactions in the
-inferred IG has to be explored, as some particular cases having such IGs are known to have correct
+Several extensions of the presented work are now to be considered.
+First, we now plan to explore the inference of Thomas' parameters when the inferred IG involves unsigned interactions, as some particular cases having such IGs are known to have correct
 Thomas' parametrization (not respecting some assumptions imposed in \pref{ssec:admissible-K},
 however).
 Second, the inference of BRN multiplexes \cite{BernotMultiplexes} may be of practical interest 
-as they allow to implicitly reduce the possible parametrizations by making cooperations appearing
+as they allow to implicitly reduce the possible parametrizations by making cooperations appear
 in the IG.
 Because of its atomicity, the PH allows to specify a range of cooperations that can not be
 completely captured by a single instance of BRN multiplexes, then encouraging the inference of a set
 of compatible BRN multiplexes.
-Finally, in order to gain some performance in the IG inference, we consider projection operations on
-the PH structure to undo cooperations between components, then reducing the cardinality of
+Finally, in order to improve the performances in the IG inference, we will consider projection operations on
+the PH structure to undo cooperations between components, then reduce the cardinality of
 configurations to explore by making the interactions independent.
 
