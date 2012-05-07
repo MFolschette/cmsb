@@ -1,21 +1,21 @@
 \section{Parametrization inference}\label{sec:infer-K}
 
-\resume{The second part of the translation process is to infer the Parametrization. It relies on an exhaustive enumeration of all predecessors of each gene in order to fin attractor processes. The implementation returns a possibly incomplete of all necessary parameters, given the exhaustiveness of the cooperations. The last step consists of the enumeration of all possible configurations, given this set of inferred parameters, and some constraints on the Parametrization.}
+Given the IG inference results from a PH, as presented in the previous section, one can find the discrete parameters that model the behavior of the studied PH using the method presented in the following.
+It relies on an exhaustive enumeration of all predecessors of each component in order to find attractor processes and returns a possibly incomplete Parametrization, given the exhaustiveness of the cooperations.
+The last step consists of the enumeration of all possible Parametrizations, given this set of inferred parameters and some biological constraints on parameters.
 
-In order to obtain a complete BRN of the studied system, one has to find both an IG and an adequate René Thomas' parametrization. This can be achieved as described in the following, using the results of the previous section regarding IG inference from a PH.
-
-\todo{outline + merge resume with previous sentence}
+\todo{(outline + merge resume with previous sentence) Is this okay?}
 
 \subsection{Parameters inference}
-\todo{say this is equivalent to the inference in \cite{PMR10-TCSB}, but with notations shared with
-the previous section}.
 
-This subsection considers a global Process Hitting $(\PHs,\PHl,\PHa)$ and the related inferred IG $(\Gamma, E_+, E_-)$, on which the parametrization inference has now to be performed.
-Let $K_{a,A,B}$ be the parameter we want to infer, for a given component $a \in \Gamma$, and $A \subset \PHpredecgene{a}$ (resp. $B \subset \PHpredecgene{a}$) \todo{Explain (here or when defining it) that $\f{reg}$ in PH is now equivalent as in IG} a set of activators (resp. inhibitors) in the regulators of $a$.
-\todo{dire que l'on suppose $E_\pm=\emptyset$ de \pref{pps:inference-edges}}
+This subsection presents some results related to the inference of independent discrete parameters from a given PH. These results are equivalent to those presented in \cite{PMR10-TCSB}, with notation adapted to be shared with the previous section.
+We consider here a global PH $(\PHs,\PHl,\PHa)$ well-formed for IG inference, on which the parametrization inference has now to be performed. We suppose that the extended IG $(\Gamma, E_+, E_-, E_\pm)$ inferred from this PH contains no unsigned edge, that is: $E_\pm = \emptyset$, and thus can be seen as the regular IG $(\Gamma, E_+, E_-)$.
+Let $K_{a,A,B}$ be the parameter we want to infer, for a given component $a \in \Gamma$,
+%and $A,B \in \GRNallres{a}$ a configuration of resources of $a$ (activators and inhibitors).
+and $A \subset \GRNreg{a}$ (resp. $B \subset \GRNreg{a}$) a set of activators (resp. inhibitors) in the regulators of $a$.
 This inference, as for the Interaction Graph inference, relies on the search of focal processes of the component for the given configuration of its regulators.
 
-For each sort $b \in \PHpredecgene{a}$, we define a context $C^b_{a,A,B}$ in \pref{eq:param_context} that contains all processes representing the influence of the regulators in the configuration $A,B$.
+For each sort $b \in \GRNreg{a}$, we define a context $C^b_{a,A,B}$ in \pref{eq:param_context} that contains all processes representing the influence of the regulators in the configuration $A,B$.
 The context of a cooperative sort $\upsilon$ that regulates $a$ is given in \pref{eq:param_context_coop} as the set of processes that represent the given configuration.
 $C_{a,A,B}$ refers to the union of all these contexts (\pref{eq:K-ctx}).
 \begin{align}
@@ -85,7 +85,7 @@ up in the following three properties:
 Let $\IG = (\Gamma, E_+, E_-)$ be an IG. A parametrization $K$ on $\IG$ satisfies the \emph{extreme values assumption} iff:
 \label{prop:param_enum_extreme}
 \[
-  \forall b \in \Gamma, \PHpredecgene{b} \neq \emptyset \Rightarrow 0 \in K_{b,\emptyset,\PHpredecgene{b}} \wedge l_b \in K_{b,\PHpredecgene{b},\emptyset}
+  \forall b \in \Gamma, \GRNreg{b} \neq \emptyset \Rightarrow 0 \in K_{b,\emptyset,\GRNreg{b}} \wedge l_b \in K_{b,\GRNreg{b},\emptyset}
 \]
 \end{property}
 
@@ -93,22 +93,19 @@ Let $\IG = (\Gamma, E_+, E_-)$ be an IG. A parametrization $K$ on $\IG$ satisfie
 \label{prop:param_enum_activity}
 Let $\IG = (\Gamma, E_+, E_-)$ be an IG. A parametrization $K$ on $\IG$ satisfies the \emph{activity assumption} iff:
 \begin{align*}
-  \forall b \in \Gamma, \forall a \in E_+(b), \exists A \subset E_+(b), \exists B \subset E_-(b),
-    K_{b,A,B} <_{[]} K_{b,A \cup \{b\},B}
+  \forall b \in \Gamma, \forall a \in \GRNreg{b}, \exists A,B \in \GRNallres{a}, K_{b,A,B} <_{[]} K_{b,A \cup \{b\},B \setminus \{b\}}
 \\
-  \forall b \in \Gamma, \forall a \in E_-(b), \exists A \subset E_+(b), \exists B \subset E_-(b),
-    K_{b,A,B \cup \{b\}} <_{[]} K_{b,A,B}
+  \forall b \in \Gamma, \forall a \in \GRNreg{b}, \exists A,B \in \GRNallres{a}, K_{b,A \setminus \{b\},B \cup \{b\}} <_{[]} K_{b,A,B}
 \end{align*}
 \end{property}
 
 \begin{property}[Monotonicity assumption]
 \label{prop:param_enum_monotonicity}
 Let $\IG = (\Gamma, E_+, E_-)$ be an IG. A parametrization $K$ on $\IG$ satisfies the \emph{monotonicity assumption} iff:
-\begin{align*}
-  \forall b \in \Gamma, \forall A, A' \in E_+(b), &\forall B, B' \in E_-(b),
-\\
-  &A \subset A' \wedge B' \subset B \Rightarrow K_{b,A,B} \leq_{[]} K_{b,A',B'}
-\end{align*}
+\[
+  \forall b \in \Gamma, \forall A,B \in \GRNallres{b}, \forall A',B' \in \GRNallres{b},
+  A \subset A' \wedge B' \subset B \Rightarrow K_{b,A,B} \leq_{[]} K_{b,A',B'}
+\]
 \end{property}
 
 \begin{comment}
@@ -135,7 +132,6 @@ inferred parameters} iff it is admissible and that all parameters that can be in
 
 To perform such an enumeration of admissible parametrizations, Answer Set Programming (ASP) \cite{Baral03} comes especially in handy, as it efficiently tackles with the inherent complexity of the models used, thus allowing an efficient execution of the formal tools defined in this paper.
 Furthermore, it allows to easily constrain the answers regarding properties or cardinalities.
-\todo{Add more?}
 We propose in the following some keys to understand ASP implementation with the enumeration example.
 
 When the step of admissible Parametrizations enumeration is reached, a lot of information has been gathered about the studied system: in addition to the starting PH model, corresponding data have been inferred about a complete IG and a possibly partial parametrization.

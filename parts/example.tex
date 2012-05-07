@@ -98,7 +98,7 @@ The current implementation can successfully handle large PH models of BRNs found
 such as an ERBB receptor-regulated G1/S transition model from \cite{Sahin09} which contains 20
 components, and a T-cells receptor model from \cite{Klamt06} which contains 40
 components\footnote{Both models are available as examples along with the \textsc{Pint} library.}.
-For both models, IG and parameters inferences are performed together in less than a second on a
+For each models, IG and parameters inferences are performed together in less than a second on a
 standard desktop computer%
 %\footnote{Using a Dell Inspiron 1720 laptop, with an Intel Core 2 Duo CPU T5550 ($2 \times 1.83\text{GHz}$)
 %and 3.9 Gib memory, on an Ubuntu 11.10 64-bits OS}
@@ -106,7 +106,7 @@ standard desktop computer%
 (all cooperative sorts removed, leaving only raw actions) lead to
 respectively xxx??? and yyy??? admissible Parametrization with regard to the inferred parameters,
 which are found in xxx??? and yyy??? seconds.
-\todo{Check if still true with enumeration:}
+\todo{Fill!}
 We note that the complexity of the method is exponential in the number of regulators of one
 component and linear in the number of components.
 % We note that despite its smaller size in term of components, the ERBB transmission model takes more time to be computed because the biggest cooperative sorts contain more processes (up to 32 processes) than in the T-cells receptor model (up to 8 processes).
