@@ -5,13 +5,12 @@ constraints on the Parametrization rely on it.
 Inferring the IG is an abstraction step which consists in determining the global influence of
 components on each of its successors.
 
-This section introduces first the notion of focal processes within a Process Hitting
-(\pref{ssec:focal}) which is used to characterize well-formed Process Hittings for IG inference
+This section introduces first the notion of focal processes within a PH
+(\pref{ssec:focal}) which is used to characterize well-formed PH for IG inference
 in \pref{ssec:wf}, and as well used by the parametrization inference presented in \pref{sec:infer-K}.
-Finally, the rules for infering the interactions between components from a Process Hitting are
+Finally, the rules for inferring the interactions between components from a PH are
 described in \pref{ssec:infer-IG}.
-
-We consider hereafter a global Process Hitting $(\PHs,\PHl,\PHa)$ on which the IG inference is to be
+We consider hereafter a global PH $(\PHs,\PHl,\PHa)$ on which the IG inference is to be
 performed.
 
 \subsection{Focal Processes}\label{ssec:focal}
@@ -21,32 +20,33 @@ processes} w.r.t. a given context (a set of processes that are potentially prese
 When such a context applies, we expect to (always) reach one focal process in a bounded number of
 actions.
 
-Let us first define as $\PHa(S_a,\ctx)$ the set of actions on the sort $a$ having their hitter in
-$\ctx$ and target in $S_a$ (\pref{eq:PHa-ctx}).
-\begin{equation}
-\PHa(S_a,\ctx) \DEF \{ \PHfrappe{b_i}{a_j}{a_k}\in\PHa \mid b_i\in\ctx \wedge a_j\in S_a \}
-\enspace.
+Let us define as $\PHa(S_a,\ctx)$ the set of actions on the sort $a$ having their hitter in
+$\ctx$ and target in $S_a$ (\pref{eq:PHa-ctx});
+and the the digraph $(V, E)$ where arcs are the bounces within the sort $a$ triggered by actions
+in $\PHa(S_a,\ctx)$ (\pref{eq:bounce-graph}).
+$\focals(a,S_a,\ctx)$ denotes the set of focal processes of sort $a$ in the scope of
+$\PHa(S_a,\ctx)$ (\pref{def:focals}).
+\begin{align}
+\PHa(S_a,\ctx) & \DEF \{ \PHfrappe{b_i}{a_j}{a_k}\in\PHa \mid b_i\in\ctx \wedge a_j\in S_a \}
 \label{eq:PHa-ctx}
-\end{equation}
-
-We denote $\focals(a,S_a,\ctx)$ the set of focal processes of sort $a$ in the context
-$\ctx\cup S_a$
-(\pref{def:focals}).
-
-\begin{definition}[$\focals(a,S_a,\ctx)$]\label{def:focals}
-Let us define the digraph $G = (V, E)$ where arcs are the bounces within the sort $a$
-triggered by actions having their hitter in $\ctx$ and target in $S_a\subseteq L_a$:
-\begin{align*}
+\\
+\begin{split}
 E  & \DEF \{(a_j,a_k)\in (S_a \times \PHl_a) \mid 
 			\exists\PHfrappe{b_i}{a_j}{a_k}\in \PHa(S_a,\ctx) \}
 \\
 V & \DEF S_a \cup \{ a_k\in L_a\mid \exists (a_j,a_k)\in E\}
-\end{align*}
-$\focals(a,S_a,\ctx)$ is the set of focal processes of sort $a$ in the context $\ctx$:
+\end{split}
+\label{eq:bounce-graph}
+\end{align}
+
+\begin{definition}[$\focals(a,S_a,\ctx)$]\label{def:focals}
+The set of processes that are focal for processes in $S_a$ in the scope of $\PHa(S_a,\ctx)$
+are given by:
+%$\focals(a,S_a,\ctx)$ is the set of focal processes of sort $a$ in the context $\ctx$:
 \[
 \focals(a,S_a,\ctx) \DEF
 \begin{cases}
-\{ a_i \in V \mid \nexists (a_i,a_j)\in E\} & \text{if $G$ is acyclic},\\
+\{ a_i \in V \mid \nexists (a_i,a_j)\in E\} & \text{if the digraph $(V,E)$ is acyclic},\\
 \emptyset & \text{otherwise.}\\
 \end{cases}
 \]
@@ -249,28 +249,11 @@ The predecessors of $a$ that are components are the regulators of $a$, denoted $
 \label{eq:regulators}
 \end{align}
 
-We now aim to determine what kind of influence gets each component from its component predecessors.
-Let $a \in \Gamma$ be a component and $b \in \PHpredecgene{b}$ a component that may influence it.
-\pref{eq:cooperating-with-b} defines 
-$\gamma(b\rightarrow a)$ as the set of components cooperating with $b$ to hit $a$, including $b$ and
-$a$.
-We note $\configs b$ the set of configurations of such components (\pref{eq:configurations}).
-\begin{align}
-\begin{split}
-\gamma(b\rightarrow a)  &\DEF \{ a, b \} \cup \{ c \in \Gamma \mid 
-			\exists \upsilon\in\PHs\setminus\Gamma,
-				\upsilon\in\PHpredec{a} \wedge \{b,c\}\subset\PHpredec{\upsilon} \}
-\end{split}
-\label{eq:cooperating-with-b}
-\\
-\configs b & \DEF \textstyle\prod_{c\in\gamma(b\rightarrow a)} L_c
-\label{eq:configurations}
-\end{align}
-
-Given a configuration $\sigma\in\configs b$, $\ctx(\sigma)$ refers to the set of focal processes
-regulated by $b$ that can hit the sort $a$ (\pref{eq:ctx-sigma}).
-This set is composed of the active process of sort $b$ ($\sigma[b]$), and the focal process (assumed
-unique) of the cooperative sorts $\upsilon$ hitting $a$ that have $b$ as a predecessor.
+Given a set $g$ of components and a configuration (\ie a sub-state) $\sigma$, $\ctx_g(\sigma)$
+refers to the set of focal processes hitting $a$ regulated by any sort in $g$ (\pref{eq:ctx-sigma}).
+If $g=\{b\}$, we simple note $\ctx_b(\sigma)$.
+This set is composed of the active processes of sort $g$, and the focal process (assumed
+unique) of the cooperative sorts $\upsilon$ hitting $a$ that have a predecessor in $g$.
 The evaluation of the focal process of $\upsilon$ in context $\sigma$, denoted $\upsilon(\sigma)$,
 relies on \pref{pro:wf-cooperative-sort}, which gives its value when all the direct predecessors of
 $\upsilon$ are defined in $\sigma$.
@@ -278,10 +261,10 @@ When a predecessor $\upsilon'$ is not in $\sigma$, we extend the evaluation by r
 the focal value of $\upsilon'$ is $\sigma$, as stated in \pref{eq:cooperative-eval}.
 Because there is no cycle between cooperative sorts, this recursive evaluation of $\upsilon(\sigma)$
 always terminates.
-
 \begin{align}
-\ctx(\sigma) & \DEF \{ \sigma[b] \} \cup \{ \upsilon(\sigma) \mid
-\upsilon\in\PHdirectpredec{a} \wedge  \upsilon \notin\Gamma \wedge b\in \PHpredecgene{\upsilon} \}
+\forall g\subset \Gamma,
+	\ctx_g(\sigma) & \DEF \{ \sigma[b] \mid b\in g \} \cup \{ \upsilon(\sigma) \mid
+\upsilon\in\PHdirectpredec{a} \setminus \Gamma \wedge g\cap \PHpredecgene{\upsilon} \neq \emptyset \}
 \label{eq:ctx-sigma}
 \\
 \upsilon(\sigma) & \DEF
@@ -293,35 +276,54 @@ always terminates.
 
 We aim at inferring that $b$ activates (inhibits) $a$ if there exists a configuration where increasing
 the level of $b$ makes possible the increase (decrease) of the level of $a$.
-This is analogous to standard IG inferences from boolean and discrete maps 
-\cite{RiCo07}.
+This is analogous to standard IG inferences from discrete maps \cite{RiCo07}.
 
-This reasoning can be straightforwardly applied to PH when inferring the influence of $b$ for $a$ when
-$b\neq a$ (\pref{eq:edges-inference-b}).
-Given a configuration $\sigma\in\configs b$, 
-$\focals(a,\{a_i\},\ctx(\sigma))$ gives the bounces that a given process $a_i$ can make in the
-context $\ctx(\sigma)$.
+This reasoning can be straightforwardly applied to PH when inferring the influence of $b$ for $a$
+when $b\neq a$ (\pref{eq:edges-inference-b}).
+Let us define $\gamma(b\rightarrow a)$ as the set of components cooperating with $b$ to hit $a$,
+including $b$ and $a$ (\pref{eq:cooperating-with-b}).
+Given a configuration $\sigma\in\prod_{c\in\gamma(b\rightarrow a)} L_c$, 
+$\focals(a,\{a_i\},\ctx_b(\sigma))$ gives the bounces that a given process $a_i$ can make in the
+context $\ctx_b(\sigma)$.
 We note $\sigma\{b_i\}$ the configuration $\sigma$ where the process of sort $b$ has been replaced
 by $b_i$.
 If there exists $b_i,b_{i+1}\in L_b$ such that one bounce in 
-$\focals(a, \{\sigma[a]\}, \ctx(\sigma\{b_i\}))$
+$\focals(a, \{\sigma[a]\}, \ctx_b(\sigma\{b_i\}))$
 has a lower (resp. higher) level that one bounce in
-$\focals(a, \{\sigma[a]\}, \ctx(\sigma\{b_{i+1}\}))$, then
+$\focals(a, \{\sigma[a]\}, \ctx_b(\sigma\{b_{i+1}\}))$, then
 $b$ as positive (resp. negative) influence on $a$ with a maximum threshold $l=j$.
+\begin{equation}
+\gamma(b\rightarrow a)  \DEF \{ a, b \} \cup \{ c \in \Gamma \mid 
+			\exists \upsilon\in\PHs\setminus\Gamma,
+				\upsilon\in\PHpredec{a} \wedge \{b,c\}\subset\PHpredec{\upsilon} \}
+\label{eq:cooperating-with-b}
+\end{equation}
 
-Then, we infer that $a$ has a self-influence if its current level has an impact on its own evolution
-driven by a process $b_h$ hitting $a$ ($b\in\PHdirectpredec{a}$).
-Given $a_i,a_{i+1}\in L_a$, we pick $a_j\in\focals(a,\{a_i\},\{a_i,b_h\})$ and
-$a_k\in\focals(a,\{a_{i+1}\},\{a_{i+1},b_h\})$.
+
+Then, we infer that $a$ has a self-influence if its current level can have an impact on its own
+evolution at given configuration $\sigma$.
+We consider here a configuration $\sigma$ of a group $g$ of sorts having a cooperation on $a$.
+This set of sort groups is given by $X(a)$ (\pref{eq:influence-groups}) which returns the set of
+connected components (noted $\mathcal C$) of the graph linking two regulators $b,c$ of $a$ if there
+is a cooperative sort hitting $a$ regulated by them.
+Given $a_i,a_{i+1}\in L_a$, we pick $a_j\in\focals(a,\{a_i\},\ctx_g(\sigma\{a_i\}))$ and
+$a_k\in\focals(a,\{a_{i+1}\},\ctx_g(\sigma\{a_{i+1}\}))$.
 If $k=j+1$, we can not conclude as there is no difference in the evolution of both levels.
 If $k\neq j+1$ and $k-j\neq 0$, then $a_i$ and $a_{i+1}$ have divergent evolutions: we infer an
 influence of sign of $k-j$ at threshold $i+1$.
-We note that some aspects of this inference are arbitrary and may have impact on the number of
-parameters to infer in the next section.
-In particular, in some cases, the use of intervals for Thomas' parameters drop the requirement of
+We note that some aspects of this inference are arbitrary and may impact the number of parameters to
+infer in the next section.
+In particular, in some cases, the use of intervals for Thomas' parameters drops the requirement of
 inferring a self-activation.
-Future work may propose alternative definitions of self-influences inference in order to range over
-different parametrization configurations.
+%Future work may propose alternative definitions of self-influences inference in order to range over
+%different parametrization configurations.
+
+\begin{equation}
+X(a) = \mathcal C\left( (\PHpredecgene{a}, \{ \{b,c\} \mid
+				\exists \upsilon\in \PHdirectpredec{a} \setminus \Gamma,
+					\{b,c\} \subset \PHpredecgene{\upsilon} \}) \right)
+\label{eq:influence-groups}
+\end{equation}
 
 \begin{comment}
 a global overview of the evolution of each level
@@ -355,21 +357,21 @@ sign $s$ and threshold $k=j$.
 \end{comment}
 
 
-\pref{def:inference-edges} details the inference of all existing influences between genes occurring
+\pref{pps:inference-edges} details the inference of all existing influences between genes occurring
 with a threshold $l$.
 These influences are split into positive and negative ones, and represent possible edges in the final IG.
-\begin{definition}[Edges inference]\label{def:inference-edges}
+\begin{proposition}[Edges inference]\label{pps:inference-edges}
 We define the set of positive (resp. negative) influences $\hat{E}_+$ (resp. $\hat{E}_-$) for any
 $a\in\Gamma$ by:
 \begin{align}
 \begin{split}
 \forall b\in\PHpredecgene{a}, b\neq a, \\
 b\xrightarrow l a \in \hat{E}_s & \Longleftrightarrow
- \exists \sigma\in\configs b, \exists b_i,b_{i+1}\in \PHl_b,\\
+ \exists \sigma\in\textstyle\prod_{c\in\gamma(b\rightarrow a)} L_c, \exists b_i,b_{i+1}\in \PHl_b,\\
 & \qquad\qquad
-        \exists a_{j}\in\focals(a, \{\sigma[a]\}, \varsigma(\sigma\{b_i\})), \\
+        \exists a_{j}\in\focals(a, \{\sigma[a]\}, \ctx_b(\sigma\{b_i\})), \\
 & \qquad\qquad
-        \exists a_{k}\in\focals(a, \{\sigma[a]\}, \varsigma(\sigma\{b_{i+1}\})), \\
+        \exists a_{k}\in\focals(a, \{\sigma[a]\}, \ctx_b(\sigma\{b_{i+1}\})), \\
 & \qquad\qquad\qquad
                         s = \f{sign}(k - j) \wedge l = i+1
 \end{split}
@@ -377,12 +379,12 @@ b\xrightarrow l a \in \hat{E}_s & \Longleftrightarrow
 \\
 \begin{split}
 a \xrightarrow l a \in \hat{E}_s & \Longleftrightarrow
-\exists b\in \PHdirectpredec{a}, \exists b_h \in L_b,
-       \exists a_i,a_{i+1}\in \PHl_a, \\
+\exists g \in X(a), \sigma \in L_a\times \textstyle\prod_{b\in g} L_b,
+			\exists a_i,a_{i+1}\in \PHl_a, \\
 & \qquad\qquad
-        \exists a_{j}\in\focals(a, \{a_i\}, \{a_i,b_h\}), \\
+        \exists a_{j}\in\focals(a, \{a_i\}, \ctx_g(\sigma\{a_i\})), \\
 & \qquad\qquad
-        \exists a_{k}\in\focals(a, \{a_{i+1}\}, \{a_{i+1},b_h\}), \\
+        \exists a_{k}\in\focals(a, \{a_{i+1}\},  \ctx_g(\sigma\{a_{i+1}\})), \\
 & \qquad\qquad\quad
 			k \neq j+1
 				\wedge s = \f{sign}(k - j) \wedge l = i+1
@@ -393,7 +395,7 @@ where $s \in \{ +, - \}$, $\bar s = + \EQDEF s = -$, $\bar s = - \EQDEF s = +$,
 $\f{sign}(n) = + \EQDEF n > 0$,
 $\f{sign}(n) = - \EQDEF n < 0$,
 and $\f{sign}(0) \EQDEF 0$.
-\end{definition}
+\end{proposition}
 
 \begin{comment}
 \begin{align*}
@@ -439,10 +441,14 @@ a \xrightarrow k a \in \hat{E}_s & \Longleftrightarrow
 \end{align*}
 \end{comment}
 
-We are now able to infer the edges of the final IG by considering positive and negative influences. We infer a positive (resp. negative) edge if there exists a corresponding influence with the same sign. If an influence is both positive and negative, we infer an unsigned edge. In the end, the threshold of each edge is the minimum threshold for which the influence has been found. As unsigned edges represent ambiguous interactions, no threshold is inferred.
-\begin{definition}[Interaction Graph inference]\label{def:inference-IG}
-\todo{We deduce IG from the Edges Inference:}
-$\IG = (\Gamma,E_+,E_-,E_\pm)$, where
+We are now able to infer the edges of the final IG by considering positive and negative influences
+(\pref{pps:inference-IG}).
+We infer a positive (resp. negative) edge if there exists a corresponding influence with the same
+sign. If an influence is both positive and negative, we infer an unsigned edge. In the end, the
+threshold of each edge is the minimum threshold for which the influence has been found. As unsigned
+edges represent ambiguous interactions, no threshold is inferred.
+\begin{proposition}[Interaction Graph inference]\label{pps:inference-IG}
+We infer $\IG = (\Gamma,E_+,E_-,E_\pm)$ from \pref{pps:inference-edges} as follows:
 \begin{align*}
 E_+ &= \{a \xrightarrow{t} b \mid \nexists a \xrightarrow{t'} b \in \hat{E}_-
   \wedge t = \min \{ l \mid a \xrightarrow{l} b \in \hat{E}_+\}\} \\
@@ -450,15 +456,12 @@ E_- &= \{a \xrightarrow{t} b \mid \nexists a \xrightarrow{t'} b \in \hat{E}_+
   \wedge t = \min \{l \mid a \xrightarrow{l} b \in \hat{E}_-\}\} \\
 E_\pm &= \{a \rightarrow b \mid \exists a \xrightarrow{t} b \in \hat{E}_+ \wedge \exists a \xrightarrow{t'} b \in \hat{E}_-\} \\
 \end{align*}
-\end{definition}
+\end{proposition}
 
 
 \begin{example*}
-The PH of \pref{fig:runningPH-2} gives the following influences:
-\begin{align*}
-  \hat{E}_+ = \{b \xrightarrow{1} a, c \xrightarrow{1} a\} && \hat{E}_- = \{a \xrightarrow{2} b\}
-\end{align*}
-As no influence is found in both $\hat{E}_+$ and $\hat{E}_-$, IG inference therefore leads to a regular IG which is identical to the one given in \pref{fig:runningBRN-ig}.
-
-The IG inference performed on the PH of \pref{fig:runningPH-1} gives the same results.
+The IG inference from the PH of \pref{fig:runningPH-2} gives
+$\hat{E}_+ = \{b \xrightarrow{1} a, c \xrightarrow{1} a\}$ and 
+$\hat{E}_- = \{a \xrightarrow{2} b\}$, corresponding the IG of \pref{fig:runningBRN}.
+No self-influence are inferred ($X(a) = \{ \{b,c\} \}$ and $X(b)=X(c)=\emptyset$).
 \end{example*}

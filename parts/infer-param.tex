@@ -1,20 +1,21 @@
 \section{Parametrization inference}\label{sec:infer-K}
 
-\resume{The second part of the translation process is to infer the Parametrization. It relies on an exhaustive enumeration of all predecessors of each gene in order to fin attractor processes. The implementation returns a possibly incomplete of all necessary parameters, given the exhaustiveness of the cooperations. The last step consists of the enumeration of all possible configurations, given this set of inferred parameters, and some constraints on the Parametrization.}
+Given the IG inference results from a PH, as presented in the previous section, one can find the discrete parameters that model the behavior of the studied PH using the method presented in the following.
+It relies on an exhaustive enumeration of all predecessors of each component in order to find attractor processes and returns a possibly incomplete Parametrization, given the exhaustiveness of the cooperations.
+The last step consists of the enumeration of all possible Parametrizations, given this set of inferred parameters and some biological constraints on parameters.
 
-In order to obtain a complete BRN of the studied system, one has to find both an IG and an adequate René Thomas' parametrization. This can be achieved as described in the following, using the results of the previous section regarding IG inference from a PH.
-
-\todo{outline + merge resume with previous sentence}
+\todo{(outline + merge resume with previous sentence) Is this okay?}
 
 \subsection{Parameters inference}
-\todo{say this is equivalent to the inference in \cite{PMR10-TCSB}, but with notations shared with
-the previous section}.
 
-This subsection considers a global Process Hitting $(\PHs,\PHl,\PHa)$ and the related inferred IG $(\Gamma, E_+, E_-)$, on which the parametrization inference has now to be performed.
-Let $K_{a,A,B}$ be the parameter we want to infer, for a given component $a \in \Gamma$, and $A \subset \PHpredecgene{a}$ (resp. $B \subset \PHpredecgene{a}$) \todo{Explain (here or when defining it) that $\f{reg}$ in PH is now equivalent as in IG} a set of activators (resp. inhibitors) in the regulators of $a$.
+This subsection presents some results related to the inference of independent discrete parameters from a given PH. These results are equivalent to those presented in \cite{PMR10-TCSB}, with notation adapted to be shared with the previous section.
+We consider here a global PH $(\PHs,\PHl,\PHa)$ well-formed for IG inference, on which the parametrization inference has now to be performed. We suppose that the extended IG $(\Gamma, E_+, E_-, E_\pm)$ inferred from this PH contains no unsigned edge, that is: $E_\pm = \emptyset$, and thus can be seen as the regular IG $(\Gamma, E_+, E_-)$.
+Let $K_{a,A,B}$ be the parameter we want to infer, for a given component $a \in \Gamma$,
+%and $A,B \in \GRNallres{a}$ a configuration of resources of $a$ (activators and inhibitors).
+and $A \subset \GRNreg{a}$ (resp. $B \subset \GRNreg{a}$) a set of activators (resp. inhibitors) in the regulators of $a$.
 This inference, as for the Interaction Graph inference, relies on the search of focal processes of the component for the given configuration of its regulators.
 
-For each sort $b \in \PHpredecgene{a}$, we define a context $C^b_{a,A,B}$ in \pref{eq:param_context} that contains all processes representing the influence of the regulators in the configuration $A,B$.
+For each sort $b \in \GRNreg{a}$, we define a context $C^b_{a,A,B}$ in \pref{eq:param_context} that contains all processes representing the influence of the regulators in the configuration $A,B$.
 The context of a cooperative sort $\upsilon$ that regulates $a$ is given in \pref{eq:param_context_coop} as the set of processes that represent the given configuration.
 $C_{a,A,B}$ refers to the union of all these contexts (\pref{eq:K-ctx}).
 \begin{align}
@@ -39,18 +40,18 @@ The parameter $K_{a,A,B}$ specifies to which values $a$ eventually evolves as lo
 $C_{a,A,B}$ holds, which is precisely the definition of the $\focals$ function
 (\pref{def:focals} in \pref{ssec:focal}).
 Hence $K_{a,A,B} = \focals(a,C^a_{a,A,B},C_{a,A,B})$ if this latter is a non-empty interval
-(\pref{def:param_K}).
+(\pref{pps:param_K}).
 
-\begin{definition}[Parameter inference]
-\label{def:param_K}
+\begin{proposition}[Parameter inference]
+\label{pps:param_K}
 Let $(\PHs, \PHl, \PHh)$ be a Process Hitting well-defined for IG inference, and $\IG = (\Gamma,
-E_+, E_-)$ the inferred IG with $E_+\cap E_-=\emptyset$.
+E_+, E_-)$ the inferred IG.
 Let $A$ (resp. $B$) $\subseteq \Gamma$ be the set of regulators that activate (resp. inhibit) a sort
 $a$.
 %If $\focals(a,C_{a,A,B})$ is a non-empty interval, then $K_{a,A,B} = \focals(a, C_{a,A,B})$.
-If $\focals(a,C^a_{a,A,B},C_{a,A,B})$ is a non-empty interval, 
-	then $K_{a,A,B} = \focals(a, C^a_{a,A,B}, C_{a,A,B})$.
-\end{definition}
+If $\focals(a,C^a_{a,A,B},C_{a,A,B})=[a_i;a_j]$ is a non-empty interval, 
+	then $K_{a,A,B} = [i;j]$.
+\end{proposition}
 
 \begin{example*}
 Parameters inference performed on the PH in \pref{fig:runningPH-1} gives the following partial Parametrization:
@@ -61,10 +62,10 @@ K_{c,\emptyset,\emptyset} &= [0 ; 1]
 \end{align*}
 No result is found for parameters $K_{a,\{b\},\{c\}}$ and $K_{a,\{c\},\{b\}}$ as the opposite influences of $b$ and $c$ on $a$ prevent any inference.
 
-When performed on the PH in \pref{fig:runningPH-2}, parameters inference returns the complete Parametrization given in \pref{fig:runningBRN-param}.
+When performed on the PH in \pref{fig:runningPH-2}, parameters inference returns the complete Parametrization given in \pref{fig:runningBRN}.
 \end{example*}
 
-Given the \pref{def:param_K}, we see that in some cases, the inference of the targeted parameter is impossible.
+Given the \pref{pps:param_K}, we see that in some cases, the inference of the targeted parameter is impossible.
 This can be due to a lack of cooperation between regulators: when two regulators independently hit a component, their actions can have opposite effects, leading to either an indeterministic evolution or to oscillations.
 Such an indeterminism is not possible in a GRN as in a given configuration of regulators, a component can only have an interval attractor, and eventually reaches a steady-state.
 In order to avoid such inconclusive cases, one has to ensure that no such behavior is allowed by either removing undesired actions or using cooperative sorts to avoid opposite influences between regulators of a component.
@@ -75,19 +76,16 @@ When building a BRN, one has to find the parametrization that best describes the
 Complexity is inherent to this process as the number of possible parametrizations for a given IG is exponential w.r.t. the number of components.
 However, the method of parameters inference presented in this section gives some information about necessary parameters given a certain dynamics described by a PH.
 This information thus drops the number of possible parametrizations, allowing to find the desired behavior more easily.
-The last step of our method is to enumerate all possible parametrizations regarding the results of the parameters inference and some biological constraints given in \cite{BernotSemBRN}.
-In the following, we define these constraints and the notion of admissible parametrization of an IG with respect to the results of parameters inference.
 
-We propose three constraints that allow to reduce the number of possible parametrizations.
-
-\todo{adapter avec les intervalles}
+The last step of our method is to enumerate all possible parametrizations regarding the results of
+the parameters inference and some biological constraints given in \cite{BernotSemBRN}, that we sum
+up in the following three properties:
 
 \begin{property}[Extreme values assumption]
-\todo{À voir si on ne l'inclut pas dans la définition de GRN}
 Let $\IG = (\Gamma, E_+, E_-)$ be an IG. A parametrization $K$ on $\IG$ satisfies the \emph{extreme values assumption} iff:
 \label{prop:param_enum_extreme}
 \[
-  \forall b \in \Gamma, \PHpredecgene{b} \neq \emptyset \Rightarrow 0 \in K_{b,\emptyset,\PHpredecgene{b}} \wedge l_b \in K_{b,\PHpredecgene{b},\emptyset}
+  \forall b \in \Gamma, \GRNreg{b} \neq \emptyset \Rightarrow 0 \in K_{b,\emptyset,\GRNreg{b}} \wedge l_b \in K_{b,\GRNreg{b},\emptyset}
 \]
 \end{property}
 
@@ -95,24 +93,22 @@ Let $\IG = (\Gamma, E_+, E_-)$ be an IG. A parametrization $K$ on $\IG$ satisfie
 \label{prop:param_enum_activity}
 Let $\IG = (\Gamma, E_+, E_-)$ be an IG. A parametrization $K$ on $\IG$ satisfies the \emph{activity assumption} iff:
 \begin{align*}
-  \forall b \in \Gamma, \forall a \in E_+(b), \exists A \subset E_+(b), \exists B \subset E_-(b),
-    K_{b,A,B} <_{[]} K_{b,A \cup \{b\},B}
+  \forall b \in \Gamma, \forall a \in \GRNreg{b}, \exists A,B \in \GRNallres{a}, K_{b,A,B} <_{[]} K_{b,A \cup \{b\},B \setminus \{b\}}
 \\
-  \forall b \in \Gamma, \forall a \in E_-(b), \exists A \subset E_+(b), \exists B \subset E_-(b),
-    K_{b,A,B \cup \{b\}} <_{[]} K_{b,A,B}
+  \forall b \in \Gamma, \forall a \in \GRNreg{b}, \exists A,B \in \GRNallres{a}, K_{b,A \setminus \{b\},B \cup \{b\}} <_{[]} K_{b,A,B}
 \end{align*}
 \end{property}
 
 \begin{property}[Monotonicity assumption]
 \label{prop:param_enum_monotonicity}
 Let $\IG = (\Gamma, E_+, E_-)$ be an IG. A parametrization $K$ on $\IG$ satisfies the \emph{monotonicity assumption} iff:
-\begin{align*}
-  \forall b \in \Gamma, \forall A, A' \in E_+(b), &\forall B, B' \in E_-(b),
-\\
-  &A \subset A' \wedge B' \subset B \Rightarrow K_{b,A,B} \leq_{[]} K_{b,A',B'}
-\end{align*}
+\[
+  \forall b \in \Gamma, \forall A,B \in \GRNallres{b}, \forall A',B' \in \GRNallres{b},
+  A \subset A' \wedge B' \subset B \Rightarrow K_{b,A,B} \leq_{[]} K_{b,A',B'}
+\]
 \end{property}
 
+\begin{comment}
 \begin{definition}[Admissible parametrization \& Admissible parametrization with respect to inferred parameters]
 \label{def:param_enum_inf}
 Let $\PH = (\PHs, \PHl, \PHh)$ be a PH so that IG inference is possible, and $\IG = (\Gamma, E_+,
@@ -121,26 +117,24 @@ A parametrization $K$ on $\IG$ is said to be \emph{admissible} iff it respects
 the extreme values assumption, the activity assumption and the monotonicity assumption.
 A parametrization $K$ on $\IG$ is said to be \emph{admissible with respect to the
 inferred parameters} iff it is admissible and that all parameters that can be inferred regarding
-\pref{def:param_K} are equal to their inferred value.
+\pref{pps:param_K} are equal to their inferred value.
 \end{definition}
 
 \todo{utilité de “Admissible parametrization” seul ?}
-
-\begin{example*}
-The PH of \pref{fig:runningPH-1} allows 36 admissible Parametrizations with respect to the inferred parameters,
-as two parameters could not be inferred.
-\end{example*}
+\end{comment}
 
 
-\subsection{Answer-Set Programming implementation concepts}
+\subsection{Answer Set Programming implementation concepts}
 
 \newcommand{\ti}[1]{\texttt{\textit{#1}}}
 \newcommand{\aspil}[1]{\texttt{#1}}
 \newcommand{\asp}[1]{\begin{itemize} \item[] \aspil{#1} \end{itemize}}
 
-To perform such an enumeration of admissible parametrizations, Answer-Set Programming (ASP) comes in handy, therefore we propose some keys to understand ASP implementation with the enumeration example.
+To perform such an enumeration of admissible parametrizations, Answer Set Programming (ASP) \cite{Baral03} comes especially in handy, as it efficiently tackles with the inherent complexity of the models used, thus allowing an efficient execution of the formal tools defined in this paper.
+Furthermore, it allows to easily constrain the answers regarding properties or cardinalities.
+We propose in the following some keys to understand ASP implementation with the enumeration example.
 
-When this last step is reached, a lot of information has been gathered about the studied system: in addition to the starting PH model, corresponding data have been inferred about a complete IG and a possibly partial parametrization.
+When the step of admissible Parametrizations enumeration is reached, a lot of information has been gathered about the studied system: in addition to the starting PH model, corresponding data have been inferred about a complete IG and a possibly partial parametrization.
 All this information describing the model can be expressed in ASP using facts.
 For functional purposes, to all discrete parameters of a given component is assigned a unique label, which allows to refer to a parameter using two variables (in other terms, we define a unique label for each couple $A,B$ of activators and inhibitors).
 For example, if we want to express that a parameter of component \ti{a} has the label \ti{i}, we can use an atom named \aspil{param\_label} in the following fact:
@@ -164,7 +158,9 @@ means that any parameter of label \aspil{P} and gene \aspil{A} must contain at l
 Indeed, the lower bound is 1, forcing at least one element in the parameter, but no upper bound is specified, allowing up to any number of answers.
 The body (right-hand side) of the rule also checks for the existence of component \aspil{A} and parameter label \aspil{P}, and constrains that the parametrization inference was not conclusive for the considered parameter (otherwise we would consider only the value of the inferred parameter).
 Such a constraint gives multiple results as any set of atoms satisfying the cardinality will lead to a new global set of answers.
-In this way, we can enumerate all possible parametrization which respects the results of parameters inference, but completely disregarding the notion of admissible parametrizations given in definition \ref{def:param_enum_inf}.
+In this way, we can enumerate all possible parametrization which respects the results of parameters
+inference, but completely disregarding the notion of admissible parametrizations given in
+\pref{ssec:admissible-K}.
 
 In order to filter only admissible parametrizations regarding the previous properties from all obtained answers, we rely on integrity constraints.
 Such constraint is a rule with no head, that makes an answer set unsatisfiable if its body turns out to be true.
