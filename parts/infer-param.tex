@@ -2,9 +2,8 @@
 
 Given the IG inference results from a PH, as presented in the previous section, one can find the discrete parameters that model the behavior of the studied PH using the method presented in the following.
 It relies on an exhaustive enumeration of all predecessors of each component in order to find attractor processes and returns a possibly incomplete Parametrization, given the exhaustiveness of the cooperations.
-The last step consists of the enumeration of all possible Parametrizations, given this set of inferred parameters and some biological constraints on parameters.
-
-\todo{(outline + merge resume with previous sentence) Is this okay?}
+The last step consists of the enumeration of all possible Parametrizations, given this set of
+inferred parameters, \todo{the PH structure}, and some biological constraints on parameters.
 
 \subsection{Parameters inference}
 
@@ -54,6 +53,8 @@ If $\focals(a,C^a_{a,A,B},C_{a,A,B})=[a_i;a_j]$ is a non-empty interval,
 \end{proposition}
 
 \begin{example*}
+\todo{parler uniquement de $K_b,\{a\},\emptyset$, $K_a,\{b,c\},\emptyset$ et $k_a,\{b\},\{c\}$ dans
+le cas de \pref{fig:runningPH-1}.}
 Parameters inference performed on the PH in \pref{fig:runningPH-1} gives the following partial Parametrization:
 \begin{align*}
 K_{b,\{a\},\emptyset} &= [0 ; 1] & K_{a,\{b,c\},\emptyset} &= [2 ; 2] \\
@@ -70,6 +71,8 @@ This can be due to a lack of cooperation between regulators: when two regulators
 Such an indeterminism is not possible in a GRN as in a given configuration of regulators, a component can only have an interval attractor, and eventually reaches a steady-state.
 In order to avoid such inconclusive cases, one has to ensure that no such behavior is allowed by either removing undesired actions or using cooperative sorts to avoid opposite influences between regulators of a component.
 
+\todo{conclure sur la correction de l'inférence d'un paramètre}
+
 \subsection{Admissible parametrizations enumeration}\label{ssec:admissible-K}
 
 When building a BRN, one has to find the parametrization that best describes the desired behavior of the studied system.
@@ -77,9 +80,27 @@ Complexity is inherent to this process as the number of possible parametrization
 However, the method of parameters inference presented in this section gives some information about necessary parameters given a certain dynamics described by a PH.
 This information thus drops the number of possible parametrizations, allowing to find the desired behavior more easily.
 
-The last step of our method is to enumerate all possible parametrizations regarding the results of
-the parameters inference and some biological constraints given in \cite{BernotSemBRN}, that we sum
-up in the following three properties:
+\todo{s'assurer qu'un paramètre ne dépasse pas la dynamique imposée par le PH \pref{pro:K-valid};
+donner un argument pour la correction}
+
+\begin{property}[Parameter validity]\label{pro:K-valid}
+A parameter $K_{a,A,B}$ is valid w.r.t. the PH iff the following equation is verified:
+\begin{align*}
+\forall \sigma\in \textstyle\prod_{c\in\PHdirectpredec{a} \cup \{a\}} C^c_{a,A,B},
+	\sigma[a] = a_i,  & \\
+		a_i \notin K_{a,A,B} \Longrightarrow (
+  \exists \PHfrappe{c_k}{a_i}{a_j}\in\PHa, \sigma[c] = c_k, & \\
+ \qquad a_i < K_{a,A,B} & \Rightarrow j > i  \\
+ \qquad \wedge a_i > K_{a,A,B} & \Rightarrow j <i )
+\end{align*}
+\end{property}
+		
+
+%The last step of our method is to enumerate all possible parametrizations regarding the results of
+%the parameters inference and
+\todo{+ 
+some biological constraints given in \cite{BernotSemBRN}, that we sum
+up in the following three properties:}
 
 \begin{property}[Extreme values assumption]
 Let $\IG = (\Gamma, E_+, E_-)$ be an IG. A parametrization $K$ on $\IG$ satisfies the \emph{extreme values assumption} iff:
@@ -176,6 +197,6 @@ then the monotonicity assumption can be formulated as the following integrity co
 \asp{:- less\_active(A,P1,P2), not param\_inf(A,P1,P2).}
 where the \aspil{not} keyword stands for a negation: the whole body becomes false if the atom in the negation is true. This integrity constraint indeed removes all parametrization results where a couple of parameters $K_{a,A,B}$ and $K_{a,A',B'}$ exists such that $A \subset A'$ and $K_{a,A,B} > K_{a,A',B'}$, which would violate the monotonicity assumption. Of course, other assumptions can be formulated in the same way.
 
-In conclusion, the approach succinctly described above allows to describe all given information about a GRN (PH model and informations about IG and Thomas' parameters) in order to allow ASP programs execution.
+In conclusion, the approach succinctly described above allows to describe all given information about a BRN (PH model and informations about IG and Thomas' parameters) in order to allow ASP programs execution.
 Such logic programming have been used to solve all steps of Thomas' modeling inference, but it finds a particularly interesting application in the enumeration of parameters: all possible parametrizations are generated in separate answer sets, and integrity constraints are formulated to remove answer sets that do not fit the assumptions of admissible parametrizations.
 This method allows to efficiently use the parameter inference results to cut the number of possible parametrization, and reduce the number of interesting parametrizations to consider in the end.
