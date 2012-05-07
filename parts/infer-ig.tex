@@ -23,7 +23,7 @@ actions.
 Let us define as $\PHa(S_a,\ctx)$ the set of actions on the sort $a$ having their hitter in
 $\ctx$ and target in $S_a$ (\pref{eq:PHa-ctx});
 and the the digraph $(V, E)$ where arcs are the bounces within the sort $a$ triggered by actions
-having in $\PHa(S_a,\ctx)$ (\pref{eq:bounce-graph}).
+in $\PHa(S_a,\ctx)$ (\pref{eq:bounce-graph}).
 $\focals(a,S_a,\ctx)$ denotes the set of focal processes of sort $a$ in the scope of
 $\PHa(S_a,\ctx)$ (\pref{def:focals}).
 \begin{align}
@@ -303,7 +303,7 @@ $b$ as positive (resp. negative) influence on $a$ with a maximum threshold $l=j$
 Then, we infer that $a$ has a self-influence if its current level can have an impact on its own
 evolution at given configuration $\sigma$.
 We consider here a configuration $\sigma$ of a group $g$ of sorts having a cooperation on $a$.
-This set of sort groups is given by $X(a)$ (\pref{eq:influence-groups}) which returns the set of
+This set of sorts is given by $X(a)$ (\pref{eq:influence-groups}) which returns the set of
 connected components (noted $\mathcal C$) of the graph linking two regulators $b,c$ of $a$ if there
 is a cooperative sort hitting $a$ regulated by them.
 Given $a_i,a_{i+1}\in L_a$, we pick $a_j\in\focals(a,\{a_i\},\ctx_g(\sigma\{a_i\}))$ and
@@ -313,7 +313,7 @@ If $k\neq j+1$ and $k-j\neq 0$, then $a_i$ and $a_{i+1}$ have divergent evolutio
 influence of sign of $k-j$ at threshold $i+1$.
 We note that some aspects of this inference are arbitrary and may impact the number of parameters to
 infer in the next section.
-In particular, in some cases, the use of intervals for Thomas' parameters drop the requirement of
+In particular, in some cases, the use of intervals for Thomas' parameters drops the requirement of
 inferring a self-activation.
 %Future work may propose alternative definitions of self-influences inference in order to range over
 %different parametrization configurations.
