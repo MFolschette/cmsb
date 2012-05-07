@@ -1,4 +1,10 @@
 * section 3.1: exemple avec S_a ≠ L_a
+* Expliciter ce que l'on entend par paramétrization compatible :
+	- quand on trouve un paramètre, tant que le contexte est vérifié, l'évolution du composant est
+	  la même dans PH et GRN
+ 	- quand on ne trouve pas de paramètre, on énumère ceux qui donnent un comportement inclu dans le
+	  comportement du PH
+=> le dire à l'intro / section 4 / discussion
 * Process Hitting -> PH
 * typographical homogeneity
 * gene -> component
