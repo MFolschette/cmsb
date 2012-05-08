@@ -2,17 +2,17 @@
 
 Given the IG inference results from a PH, as presented in the previous section, one can find the discrete parameters that model the behavior of the studied PH using the method presented in the following.
 It relies on an exhaustive enumeration of all predecessors of each component in order to find attractor processes and returns a possibly incomplete Parametrization, given the exhaustiveness of the cooperations.
-The last step consists of the enumeration of all possible Parametrizations, given this set of
-inferred parameters, \todo{the PH structure}, and some biological constraints on parameters.
+The last step consists of the enumeration of all compatible complete Parametrizations, given this
+set of inferred parameters, the PH dynamics, and some biological constraints on parameters.
 
 \subsection{Parameters inference}
 
 This subsection presents some results related to the inference of independent discrete parameters from a given PH. These results are equivalent to those presented in \cite{PMR10-TCSB}, with notation adapted to be shared with the previous section.
-We consider here a global PH $(\PHs,\PHl,\PHa)$ well-formed for IG inference, on which the parametrization inference has now to be performed. We suppose that the extended IG $(\Gamma, E_+, E_-, E_\pm)$ inferred from this PH contains no unsigned edge, that is: $E_\pm = \emptyset$, and thus can be seen as the regular IG $(\Gamma, E_+, E_-)$.
+We consider here a global PH $(\PHs,\PHl,\PHa)$ well-formed for IG inference. We suppose that the extended IG $(\Gamma, E_+, E_-, E_\pm)$ inferred from this PH contains no unsigned edge, that is: $E_\pm = \emptyset$, and thus can be seen as the regular IG $(\Gamma, E_+, E_-)$.
 Let $K_{a,A,B}$ be the parameter we want to infer, for a given component $a \in \Gamma$,
 %and $A,B \in \GRNallres{a}$ a configuration of resources of $a$ (activators and inhibitors).
 and $A \subset \GRNreg{a}$ (resp. $B \subset \GRNreg{a}$) a set of activators (resp. inhibitors) in the regulators of $a$.
-This inference, as for the Interaction Graph inference, relies on the search of focal processes of the component for the given configuration of its regulators.
+This inference, as for the IG inference, relies on the search of focal processes of the component for the given configuration of its regulators.
 
 For each sort $b \in \GRNreg{a}$, we define a context $C^b_{a,A,B}$ in \pref{eq:param_context} that contains all processes representing the influence of the regulators in the configuration $A,B$.
 The context of a cooperative sort $\upsilon$ that regulates $a$ is given in \pref{eq:param_context_coop} as the set of processes that represent the given configuration.
@@ -53,40 +53,38 @@ If $\focals(a,C^a_{a,A,B},C_{a,A,B})=[a_i;a_j]$ is a non-empty interval,
 \end{proposition}
 
 \begin{example*}
-\todo{parler uniquement de $K_b,\{a\},\emptyset$, $K_a,\{b,c\},\emptyset$ et $k_a,\{b\},\{c\}$ dans
-le cas de \pref{fig:runningPH-1}.}
-Parameters inference performed on the PH in \pref{fig:runningPH-1} gives the following partial Parametrization:
-\begin{align*}
-K_{b,\{a\},\emptyset} &= [0 ; 1] & K_{a,\{b,c\},\emptyset} &= [2 ; 2] \\
-K_{b,\emptyset,\{a\}} &= [0 ; 0] & K_{a,\emptyset,\{b,c\}} &= [0 ; 0] \\
-K_{c,\emptyset,\emptyset} &= [0 ; 1]
-\end{align*}
-No result is found for parameters $K_{a,\{b\},\{c\}}$ and $K_{a,\{c\},\{b\}}$ as the opposite influences of $b$ and $c$ on $a$ prevent any inference.
-
-When performed on the PH in \pref{fig:runningPH-2}, parameters inference returns the complete Parametrization given in \pref{fig:runningBRN}.
+Applied to the PH in \pref{fig:runningPH-1}, we obtain, for instance, 
+$K_{b,\{a\},\emptyset} = [0 ; 1]$,
+$K_{a,\{b,c\},\emptyset} = [2 ; 2]$,
+while $K_{a,\{b\},\{c\}}$ can not be inferred;
+For the PH in \pref{fig:runningPH-2}, this latter is evaluated to $[1;1]$.
 \end{example*}
 
 Given the \pref{pps:param_K}, we see that in some cases, the inference of the targeted parameter is impossible.
 This can be due to a lack of cooperation between regulators: when two regulators independently hit a component, their actions can have opposite effects, leading to either an indeterministic evolution or to oscillations.
 Such an indeterminism is not possible in a GRN as in a given configuration of regulators, a component can only have an interval attractor, and eventually reaches a steady-state.
-In order to avoid such inconclusive cases, one has to ensure that no such behavior is allowed by either removing undesired actions or using cooperative sorts to avoid opposite influences between regulators of a component.
+In order to avoid such inconclusive cases, one has to ensure that no such behavior is allowed by
+either removing undesired actions or using cooperative sorts to avoid opposite influences between
+regulators.
 
-\todo{conclure sur la correction de l'inférence d'un paramètre}
-
-\subsection{Admissible parametrizations enumeration}\label{ssec:admissible-K}
+\subsection{Admissible parametrizations}\label{ssec:admissible-K}
 
 When building a BRN, one has to find the parametrization that best describes the desired behavior of the studied system.
 Complexity is inherent to this process as the number of possible parametrizations for a given IG is exponential w.r.t. the number of components.
 However, the method of parameters inference presented in this section gives some information about necessary parameters given a certain dynamics described by a PH.
 This information thus drops the number of possible parametrizations, allowing to find the desired behavior more easily.
 
-\todo{s'assurer qu'un paramètre ne dépasse pas la dynamique imposée par le PH \pref{pro:K-valid};
-donner un argument pour la correction}
+We first delimit the validity of a parameter (\pref{pro:K-valid}) in order to ensure that any
+transition in the resulting BRN is allowed by the studied PH.
+This is verified by the existence of a hit making the concerned component bounce into the direction
+of the value of the parameter in the matching context.
+Any parameter inferred by \pref{pps:param_K} satisfies this property, which ensures the correctness
+of the inference.
 
 \begin{property}[Parameter validity]\label{pro:K-valid}
 A parameter $K_{a,A,B}$ is valid w.r.t. the PH iff the following equation is verified:
 \begin{align*}
-\forall \sigma\in \textstyle\prod_{c\in\PHdirectpredec{a} \cup \{a\}} C^c_{a,A,B},
+\forall a_i\in L_a, \forall \sigma\in \textstyle\prod_{c\in\PHdirectpredec{a} \cup \{a\}} C^c_{a,A,B},
 	\sigma[a] = a_i,  & \\
 		a_i \notin K_{a,A,B} \Longrightarrow (
   \exists \PHfrappe{c_k}{a_i}{a_j}\in\PHa, \sigma[c] = c_k, & \\
@@ -96,11 +94,8 @@ A parameter $K_{a,A,B}$ is valid w.r.t. the PH iff the following equation is ver
 \end{property}
 		
 
-%The last step of our method is to enumerate all possible parametrizations regarding the results of
-%the parameters inference and
-\todo{+ 
-some biological constraints given in \cite{BernotSemBRN}, that we sum
-up in the following three properties:}
+Then, we use some additional biological constraints on Thomas' parameters given in
+\cite{BernotSemBRN}, that we sum up in the following three properties:
 
 \begin{property}[Extreme values assumption]
 Let $\IG = (\Gamma, E_+, E_-)$ be an IG. A parametrization $K$ on $\IG$ satisfies the \emph{extreme values assumption} iff:

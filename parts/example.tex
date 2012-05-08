@@ -1,66 +1,10 @@
 \section{Examples}\label{sec:examples}
-%\resume{In this section we illustrate the functioning of this method with a simple example, and we give some figures about its execution on more substantial examples.}
-
-\begin{comment}
-In this section, we present an example of IG an Parametrization inference, and give some results about the implementation of the method described in this paper.
-
-\subsection{Running example}
-The inference of BRN using René Thomas's parameters presented in the previous sections is illustrated by an example in the following.
-Consider the PH given in \pref{fig:runningPH-1}.
-It contains no cooperative sort as all sorts behave like components; given \pref{eq:PH-components}, we have: $\Gamma = \{a, b, c\}$.
-this PH is therefore well-formed for IG inference.
-We wish to infer the influence of $b$ towards $a$, that is, infer the sign and threshold of the edge $b \rightarrow a$.
-We have: $\PHpredecgene{a} = \{b, c\}$, but as $b$ and $c$ do not cooperate, it comes: $\gamma(b \rightarrow a) = \{a, b\}$.
-In order to understand the influence of $b$ on $a$, we will study the evolutions of $a$ in the following set of configurations: $\configs{b} = \{\PHetat{a_0, b_0}, \PHetat{a_0, b_1}, \PHetat{a_1, b_0}, \PHetat{a_1, b_1}\}$.
-
-Let us consider the state: $\sigma = \PHetat{a_1, b_0}$. We thus have:
-\begin{align*}
-\f{bounces}(\PHget{\sigma}{a},\varsigma(\sigma\{b_0\})) &= \f{bounces}(a_1,\{a_1, b_0\})) = \{a_0\} \\
-\f{bounces}(\PHget{\sigma}{a},\varsigma(\sigma\{b_1\})) &= \f{bounces}(a_1,\{a_1, b_1\})) = \{a_2\}
-\end{align*}
-More generally, we can only find positive influences of $b$ on $a$, as for all $\sigma \in \configs{b}$,
-\begin{align*}
-&\f{bounces}(\PHget{\sigma}{a},\varsigma(\sigma\{b_0\})) = \{a_k\} \\
-&\wedge \f{bounces}(\PHget{\sigma}{a},\varsigma(\sigma\{b_1\})) = \{a_l\} \\
-&\wedge k < l
-\end{align*}
-Given these results, as $k < l \Rightarrow \f{sign}(l - k) = +$, we deduce that $b$ has only a positive influence on $a$:
-$b \xrightarrow{1} a \in \hat{E}_+$ and $\nexists b \xrightarrow{t'} a \in \hat{E}_-$.
-We find the same results for the influence of $c$ on $a$ as $b$ and $c$ have identical actions on $a$.
-
-Then, we can infer the influence of $a$ on $b$ --- that consists in the only action $\PHfrappe{a_2}{b_1}{b_0}$.
-Following the same kind of reasoning, and considering for example the state $\sigma' = \PHetat{a_2, b_1}$, we find that:
-\begin{align*}
-\f{bounces}(\PHget{\sigma}{b},\varsigma(\sigma\{a_1\})) &= \f{bounces}(b_1,\{a_1, b_1\})) = \{b_1\} \\
-\f{bounces}(\PHget{\sigma}{b},\varsigma(\sigma\{a_2\})) &= \f{bounces}(b_1,\{a_2, b_1\})) = \{b_0\}
-\end{align*}
-which gives: $a \xrightarrow{2} b \in \hat{E}_-$, but no influence of $a$ on $b$.
-
-In the end, we have: $\hat{E}_+ = \{b \xrightarrow{1} a, c \xrightarrow{1} a\}$ and $\hat{E}_- = \{a \xrightarrow{2} b\}$.
-In this example, the sets of influences do not contain several influences of the same gene with different thresholds. Furthermore, no influence turns out to be both positive and negative. Hence, the IG inference gives the following extended IG:
-$(\{a, b, c\}, \hat{E}_+, \hat{E}_-, \emptyset)$,
-which can also be seen as the IG in \pref{fig:runningBRN}, as its fourth component is an empty set.
-
-As a second step, we can now perform the inference of Thomas' parameters, using the previously inferred IG which is well-formed for this task.
-For example, in order to determine the parameter $K_{b,\emptyset,\{a\}}$, that is, the focal point of $b$ when $a$ has a negative action on it, we have to determine the value of: $\focals(b,C^b_{b,A,B},C_{b,A,B})$. We have:
-\begin{align*}
-C^a_{b,A,B} &= \levelsI{a}{b} = \{a_2\} \\
-C^b_{b,A,B} &= \PHl_b = \{b_0, b_1\} \\
-C^c_{b,A,B} &= \PHl_c = \{c_0, c_1\}
-\end{align*}
-Therefore: $C_{b,A,B} = \{a_2, b_0, b_1\}$.
-As there is no cycle in the bounces of $b$, and given \pref{def:param_K}, it hence comes:
-$$K_{b,\emptyset,\{a\}} = \focals(b,C^b_{b,A,B},C_{b,A,B}) = \{b_0\}.$$
-
-\subsection{Implementation}
-\end{comment}
 
 The inference method described in this paper has been implemented as part of
 \textsc{Pint}\footnote{Available at \url{http://process.hitting.free.fr}}, which gathers PH related
 tools.
 Our implementation mainly consists in ASP programs that are solved using Clingo\footnote{Available
 at \url{http://potassco.sourceforge.net}}.
-%The whole process is divided into four parts: cooperative sorts differentiation, IG inference, parameters inference and admissible Parametrizations enumeration; all of them involve an ASP part for the resolution.
 The IG and parameters inference can be performed using the command
 \texttt{ph2thomas -i model.ph -{}-dot ig.dot}
 where \texttt{model.ph} is the PH model in \textsc{Pint} format and \texttt{ig.dot} is an output of the inferred IG in DOT format.
@@ -68,31 +12,15 @@ The (possibly partial) inferred Parametrization will be returned on the standard
 The admissible Parametrizations enumeration is performed when adding the \texttt{-{}-enumerate}
 parameter to the command.
 
-Applied to the examples given in \pref{fig:runningPH-1} and \pref{fig:runningPH-2}, our method
-infers the IG given in \pref{fig:runningBRN} in both cases, and the parameters given in
-\pref{fig:examples-param}. In the case of PH in \pref{fig:runningPH-1}, the inferred Parametrization
-is partial and allows allows 36 admissible Parametrizations with respect to the inferred parameters,
-as two parameters with 3 potential values could not be inferred.
-If we constrain the parameters so that they contain exactly one element, we obtain only 9 admissible Parametrizations.
-
-\begin{figure}[t]
-\centering
-\begin{tabular}{l|c|c}
-Parameter & \pref{fig:runningPH-1} & \pref{fig:runningPH-2} \\ \hline
-$K_{a,\{b, c\},\emptyset}$ & $[2; 2]$ & $[2; 2]$ \\
-$K_{a,\{b\},\{c\}}$ & ? & $[1; 1]$ \\
-$K_{a,\{c\},\{b\}}$ & ? & $[1; 1]$ \\
-$K_{a,\emptyset,\{b, c\}}$ & $[0; 0]$ & $[0; 0]$ \\
-$K_{b,\{a\},\emptyset}$ & $[0; 1]$ & $[0; 1]$ \\
-$K_{b,\emptyset,\{a\}}$ & $[0; 0]$ & $[0; 0]$ \\
-$K_{c,\emptyset,\emptyset}$ & $[0; 1]$ & $[0; 1]$
-\end{tabular}
-\caption{\label{fig:examples-param}
-Results of the parameters inference performed on the PH models given in
-\pref{fig:runningPH-1} and \pref{fig:runningPH-2}.
-A question mark denotes a non-conclusive parameter inference.
-}
-\end{figure}
+Applied to the example in \pref{fig:runningPH-2} where cooperativities have been defined,
+our method infers the IG and parametetrization given in \pref{fig:runningBRN}.
+Regarding the example in \pref{fig:runningPH-1}, the same IG is inferred, as well as for the
+parametrization except for the parameters $K_{a,\{b\},\{c\}}$ and $K_{a,\{c\},\{b\}}$ which are
+undefined (because of the lack of cooperativity between $b$ and $c$).
+In such a case, this partial parametrization allows 36 admissible complete parametrizations, as two
+parameters with 3 potential values could not be inferred.
+If we constrain these latter parameters so that they contain exactly one element, we obtain only 9
+admissible parametrizations.
 
 The current implementation can successfully handle large PH models of BRNs found in the literature
 such as an ERBB receptor-regulated G1/S transition model from \cite{Sahin09} which contains 20

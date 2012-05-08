@@ -82,8 +82,11 @@ In the Process Hitting of \pref{fig:runningPH-1}, we obtain:
 \begin{align*}
 \focals(a,L_a,\{b_0,c_0\}) &= \{ a_0 \}
 &
-\focals(a,L_a,\{b_1,c_1\}) &= \{ a_2 \}\\
-\focals(a,L_a,\{b_1,c_0\}) &= \emptyset\enspace.
+\focals(a,L_a,\{b_1,c_1\}) &= \{ a_2 \}
+\\
+\focals(a,L_a,\{b_1,c_0\}) &= \emptyset
+&
+\focals(a,\{a_1\},\{b_1,c_0\}) &= \{ a_0, a_2 \}
 \end{align*}
 \end{example*}
 
@@ -164,68 +167,15 @@ sorts having no action hitting them belong to $\Gamma$
 \end{property}
 
 \begin{example*}
-In the model of \pref{fig:runningPH-2}, $bc$ is a well-formed cooperative sort as defined in \pref{pro:wf-cooperative-sort}, because:
+In the PH of \pref{fig:runningPH-2}, $bc$ is a well-formed cooperative sort as defined in \pref{pro:wf-cooperative-sort}, because:
 \begin{align*}
 \focals(bc, \PHl_{bc}, \{b_0, c_0\} \cup \PHl_{bc}) = \{bc_{00}\} && \focals(bc, \PHl_{bc}, \{b_0, c_1\} \cup \PHl_{bc}) = \{bc_{01}\} \\
 \focals(bc, \PHl_{bc}, \{b_1, c_0\} \cup \PHl_{bc}) = \{bc_{10}\} && \focals(bc, \PHl_{bc}, \{b_1, c_1\} \cup \PHl_{bc}) = \{bc_{11}\}
 \end{align*}
-Furthermore, $\PHs = \Gamma \cup \{bc\}$, with $\Gamma = \{a, b, c\}$ as defined in \pref{eq:PH-components}.
-Therefore, as $bc$ is the only cooperative sort and does not hit itself,
-\pref{pro:wf-ph} holds for the PH in \pref{fig:runningPH-2}, which is well-formed for IG inference.
-
-The model in \pref{fig:runningPH-1} is also well-formed for IG inference as it contains no cooperative sort, and: $\PHs = \Gamma = \{a, b, c\}$.
+Hence, both \pref{fig:runningPH-1} and \pref{fig:runningPH-2} are well-formed PH for IG inference
+with $\Gamma = \{a,b,c\}$.
 \end{example*}
 
-
-\begin{comment}
-\begin{center}
-\begin{tikzpicture}
-% Sortes
-\TSetSortLabel{a}{b}
-\TSetSortLabel{b}{c}
-\TSetSortLabel{z}{a}
-\TSetSortLabel{ab}{bc}
-\TSort{(0,3)}{a}{2}{l}
-\TSort{(0,0)}{b}{2}{l}
-\TSetTick{ab}{0}{00}
-\TSetTick{ab}{1}{01}
-\TSetTick{ab}{2}{10}
-\TSetTick{ab}{3}{11}
-\TSort{(3,0.5)}{ab}{4}{r}
-\TSort{(6,1)}{z}{3}{r}
-
-% Actions de màj de ab
-\THit{a_1}{}{ab_0}{.west}{ab_2}
-\THit{a_1}{}{ab_1}{.west}{ab_3}
-\path[bounce,bend left] \TBounce{ab_0}{}{ab_2}{.south} \TBounce{ab_1}{}{ab_3}{.south};
-
-\THit{a_0}{}{ab_2}{.west}{ab_0}
-\THit{a_0}{}{ab_3}{.west}{ab_1}
-\path[bounce,bend right] \TBounce{ab_2}{}{ab_0}{.north} \TBounce{ab_3}{}{ab_1}{.north};
-
-\THit{b_0}{}{ab_3}{.west}{ab_2}
-\THit{b_0}{}{ab_1}{.west}{ab_0}
-\THit{b_1}{}{ab_0}{.west}{ab_1}
-\THit{b_1}{}{ab_2}{.west}{ab_3}
-\path[bounce,bend right] \TBounce{ab_1}{}{ab_0}{.north} \TBounce{ab_3}{}{ab_2}{.north};
-\path[bounce,bend left] \TBounce{ab_0}{}{ab_1}{.south} \TBounce{ab_2}{}{ab_3}{.south};
-
-% Arcs sortant de ab
-\THit{ab_2}{}{z_1}{.north west}{z_2}
-\THit{ab_2}{}{z_0}{.north west}{z_1}
-\path[bounce,bend left] \TBounce{z_1}{}{z_2}{.south} \TBounce{z_0}{}{z_1}{.south};
-\THit{ab_3}{}{z_2}{.south west}{z_1}
-\THit{ab_3}{}{z_0}{.north west}{z_1}
-\path[bounce,bend left] \TBounce{z_2}{bend right}{z_1}{.north} \TBounce{z_0}{}{z_1}{.south};
-\THit{ab_1}{}{z_2}{.south west}{z_1}
-\THit{ab_1}{}{z_1}{.south west}{z_0}
-\path[bounce,bend right] \TBounce{z_2}{}{z_1}{.north} \TBounce{z_1}{}{z_0}{.north};
-\THit{ab_0}{}{z_2}{.south west}{z_1}
-\THit{ab_0}{}{z_1}{.south west}{z_0}
-\path[bounce,bend right] \TBounce{z_2}{}{z_1}{.north} \TBounce{z_1}{}{z_0}{.north};
-\end{tikzpicture}
-\end{center}
-\end{comment}
 
 \subsection{Interaction Inference}\label{ssec:infer-IG}
 
@@ -325,38 +275,6 @@ X(a) = \mathcal C\left( (\PHpredecgene{a}, \{ \{b,c\} \mid
 \label{eq:influence-groups}
 \end{equation}
 
-\begin{comment}
-a global overview of the evolution of each level
-of $a$ w.r.t. a configuration $\sigma\in\configs a$.
-The evolution of $a_i$ in the context $\ctx(\sigma\{a_i\})$ is given by the function
-$\epsilon(a_i,\sigma)$ (\pref{eq:epsilon}) which returns $\varnothing$ if there is no action
-possible, $+$ (resp. $-$) if all actions makes $a_i$ bounce to a higher (resp. lower) level,
-and $\pm$ if both evolutions are possible.
-\begin{equation}
-\epsilon(a_i, \sigma) \DEF
-\begin{cases}
-\varnothing & \text{if }\focals(a,\{a_i\},\ctx(\sigma\{a_i\}))=\{ a_i \} \\
-+ &  \text{if }\focals(a, \{a_i\},\ctx(\sigma\{a_i\})) = \{ a_{i+1} \}\\
-- &  \text{if }\focals(a, \{a_i\},\ctx(\sigma\{a_i\})) = \{ a_{i-1} \}\\
-\pm & \text{otherwise.}
-\end{cases}
-\label{eq:epsilon}
-\end{equation}
-We infer the self-influence of $a$ by checking one of the following three cases.
-First, if there exists $a_i,a_j\in L_a, i <j$ such that $\epsilon(a_i,\sigma)$ and
-$\epsilon(a_j,\sigma)$ are of opposite sign, then $a$ has a self-influence of the sign of the latter
-$\epsilon$ (with a maximum threshold $k=j$).
-Second, we look at the evolution at the limit levels of $a$:
-if $\epsilon(a_0,\sigma)=\bar s$ or $\epsilon(a_{l_a},\sigma)=s$, we infer an influence of sign $s$
-with a threshold $k=l_a$.
-We note that this case can only apply for negative interactions (as $\epsilon(a_0,\sigma)$ (resp.
-$\epsilon(a_{l_a},\sigma)$ can never be negative (resp. positive)).
-Third, if $\forall a_i\in L_a$, $\epsilon(a_i,\sigma)$ is either $\varnothing$ or of sign $s$, we
-ensure there exists $a_j\in L_a$ such that $\epsilon(a_j,\sigma)=s$ and we infer a self-influence of
-sign $s$ and threshold $k=j$.
-\end{comment}
-
-
 \pref{pps:inference-edges} details the inference of all existing influences between genes occurring
 with a threshold $l$.
 These influences are split into positive and negative ones, and represent possible edges in the final IG.
@@ -397,50 +315,6 @@ $\f{sign}(n) = - \EQDEF n < 0$,
 and $\f{sign}(0) \EQDEF 0$.
 \end{proposition}
 
-\begin{comment}
-\begin{align*}
-\begin{split}
-a \xrightarrow l a \in \hat{E}_s & \Longleftrightarrow
-\neg(\PHpredecgene{a} = \{a\} \wedge \focals(a, \PHl_a, \PHl_a) = [a_i;a_j], i\leq j) \\
-& \wedge \exists\sigma\in L_a\times\textstyle\prod_{c\in \PHpredecgene{a}} L_c, ( 
-       (\exists a_i,a_{i+1}\in \PHl_b, \\
-& \qquad\qquad
-        \exists a_{j}\in\focals(a, \{a_i\}, \ctx'(\sigma\{a_i\})), \\
-& \qquad\qquad
-        \exists a_{k}\in\focals(a, \{a_{i+1}\}, \ctx'(\sigma\{a_{i+1}\})), \\
-& \qquad\qquad\quad
-			k \neq j+1
-				\wedge s = \f{sign}(k - j) \wedge l = i+1\\
-& \qquad\vee
-	(\forall a_i\in L_a, \focals(a,\{a_i\},\ctx'(\sigma\{a_i\})) = \{a_i\} \\
-& \qquad\qquad 
-		\wedge s=+ \wedge l=1)
-)
-\end{split}
-\end{align*}
-\end{comment}
-
-\begin{comment}
-\begin{align*}
-\begin{split}
-a \xrightarrow k a \in \hat{E}_s & \Longleftrightarrow
-\neg(\PHpredecgene{a} = \{a\} \wedge \focals(a, \PHl_a, \PHl_a) = [a_i;a_j], i\leq j) \\
-& \wedge \exists\sigma\in\configs a, (
-        (\exists a_i,a_j\in L_a, i < j, \\
-& \qquad\qquad
-                \epsilon(a_i,\sigma) \in \{\bar s,\pm\}
-					\wedge \epsilon(a_j,\sigma) \in \{ s, \pm \}  \wedge k = j) \\
-& \qquad \vee
-        ((\epsilon(a_0, \sigma) = \bar s \vee \epsilon(a_{l_a}, \sigma) = s) \wedge k = l_a) \\
-& \qquad \vee
-        (\epsilon(a_0, \sigma) = \epsilon(a_{l_a}, \sigma) = \varnothing \\
-& \qquad\qquad       \wedge \forall a_i\in L_a, \epsilon(a_i, \sigma)\in \{\varnothing, s\} \\
-& \qquad\qquad       \wedge \exists a_j\in L_a, \epsilon(a_j, \sigma) = s \wedge k = j)
-                )
-\end{split}
-\end{align*}
-\end{comment}
-
 We are now able to infer the edges of the final IG by considering positive and negative influences
 (\pref{pps:inference-IG}).
 We infer a positive (resp. negative) edge if there exists a corresponding influence with the same
@@ -463,5 +337,5 @@ E_\pm &= \{a \rightarrow b \mid \exists a \xrightarrow{t} b \in \hat{E}_+ \wedge
 The IG inference from the PH of \pref{fig:runningPH-2} gives
 $\hat{E}_+ = \{b \xrightarrow{1} a, c \xrightarrow{1} a\}$ and 
 $\hat{E}_- = \{a \xrightarrow{2} b\}$, corresponding the IG of \pref{fig:runningBRN}.
-No self-influence are inferred ($X(a) = \{ \{b,c\} \}$ and $X(b)=X(c)=\emptyset$).
+No self-influence are inferred ($X(a) = \{ \{b,c\} \}$, $X(b)=\{ \{a\}\}$, and $X(c)=\emptyset$).
 \end{example*}
