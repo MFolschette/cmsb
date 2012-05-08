@@ -84,12 +84,11 @@ of the inference.
 \begin{property}[Parameter validity]\label{pro:K-valid}
 A parameter $K_{a,A,B}$ is valid w.r.t. the PH iff the following equation is verified:
 \begin{align*}
-\forall a_i\in L_a, \forall \sigma\in \textstyle\prod_{c\in\PHdirectpredec{a} \cup \{a\}} C^c_{a,A,B},
-	\sigma[a] = a_i,  & \\
+\forall a_i\in C^a_{a,A,B},
 		a_i \notin K_{a,A,B} \Longrightarrow (
-  \exists \PHfrappe{c_k}{a_i}{a_j}\in\PHa, \sigma[c] = c_k, & \\
- \qquad a_i < K_{a,A,B} & \Rightarrow j > i  \\
- \qquad \wedge a_i > K_{a,A,B} & \Rightarrow j <i )
+  \exists \PHfrappe{c_k}{a_i}{a_j}\in\PHa, & c_k \in C^c_{a,A,B} \\
+ \qquad \wedge & a_i < K_{a,A,B} \Rightarrow j > i  \\
+ \qquad \wedge & a_i > K_{a,A,B} \Rightarrow j <i )
 \end{align*}
 \end{property}
 		
