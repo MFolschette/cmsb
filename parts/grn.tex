@@ -7,7 +7,7 @@ value, and briefly discuss this addition.
 Thomas' formalism lies on two complementary descriptions of the system. First, the
 \emph{Interaction Graph} (IG) models the structure of the system by defining the components'
 mutual influences.
-The \emph{Parametrization} then specifies the levels to which tends a component when a given
+The \emph{parametrization} then specifies the levels to which tends a component when a given
 configuration of its regulators applies.
 
 The IG is composed of nodes that represent components, and edges labeled with a threshold that stand
@@ -99,7 +99,7 @@ E_+$.
 %and means that if the level of expression of $b$ is equal to (i.e. above) 1, then $b$ activates $a$,
 %otherwise, $b$ inhibits $a$.
 (right)
-Example Parametrization of the left IG.
+Example parametrization of the left IG.
 }
 \end{figure}
 
@@ -108,7 +108,7 @@ $\GRNget{s}{a}$ refers to the level of component $a$ in $s$.
 The specificity of Thomas' approach lies in the use of discrete \emph{parameters} to represent the
 focal level interval towards which the component will evolve in each configuration of its regulators
 (\pref{def:param}).
-Indeed, for each possible state of a BRN, all regulators of a component $a$ are be divided into
+Indeed, for each possible state of a BRN, all regulators of a component $a$ can be divided into
 \emph{activators} and \emph{inhibitors}, given their type of interaction and expression level,
 referred to as the \emph{resources} of $a$ in $s$ (\pref{def:resources}).
 
@@ -122,7 +122,7 @@ differentiate the three cases with the boolean definition of resources.
 \begin{definition}[Discrete parameter $K_{a,A,B}$ and Parametrization $K$]\label{def:param}
 For a given component $a \in \Gamma$ and $A$ (resp. $B$) $\subset \GRNreg{a}$ a set of activators (resp. inhibitors) of $a$ such that
 $A \cup B = \GRNreg{a}$ and $A \cap B = \emptyset$,
-we define the discrete \emph{parameter} $K_{a,A,B} = [i_1; i_2]$ as a non-empty interval towards which the component $a$ will tend
+we define the discrete \emph{parameter} $K_{a,A,B} = [i; j]$ as a non-empty interval towards which the component $a$ will tend
 in the states where its activators (resp. inhibitors) are the regulators in set $A$ (resp. $B$).
 A complete map $K$ of discrete parameters on an IG $\IG$ is called a \emph{parametrization} of $\IG$.
 \end{definition}
@@ -130,7 +130,7 @@ A complete map $K$ of discrete parameters on an IG $\IG$ is called a \emph{param
 %We also denote: $j < K_{a,A,B} \Leftrightarrow j < i_1$ and $j > K_{a,A,B} \Leftrightarrow j> i_2$.
 
 \begin{definition}[Resources $\GRNres{a}{s}$]\label{def:resources}
-For a given state $s$ of a BRN, we define the \emph{activators} and \emph{inhibitors} of $a$ in $s$ as $\GRNres{a}{s} = A,B$, where:
+For a given state $s$ of a BRN, we define the \emph{activators} $A$ and \emph{inhibitors} $B$ of $a$ in $s$ as $\GRNres{a}{s} = A,B$, where:
 \begin{align*}
   A &= \{b \in \Gamma \mid \GRNget{s}{b} \in \levelsA{b}{a}\} \\
   B &= \{b \in \Gamma \mid \GRNget{s}{b} \in \levelsI{b}{a}\}
@@ -165,7 +165,8 @@ where $A,B=\GRNres{a}{s}$.
 \end{definition}
 
 \begin{example*}
-In the BRN that consists of the IG and Parametrization of \pref{fig:runningBRN}, the following transitions are possible given the dynamics defined in \pref{def:dynamics}:
+In the BRN that consists of the IG and parametrization of \pref{fig:runningBRN}, the following
+transitions are possible given the semantics defined in \pref{def:dynamics}:
 $\GRNetat{a_0, b_1, c_1} \rightarrow \GRNetat{a_1, b_1, c_1} \rightarrow \GRNetat{a_2, b_1, c_1} \rightarrow
 \GRNetat{a_2, b_0, c_1} \rightarrow \GRNetat{a_1, b_0, c_1}$,
 where $a_i$ is the component $a$ at level $i$.

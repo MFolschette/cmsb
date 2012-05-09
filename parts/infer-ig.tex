@@ -1,7 +1,7 @@
 \section{Interaction Graph Inference}\label{sec:infer-IG}
 
 In order to infer a complete BRN, one has to find the Interaction Graph (IG) first, as some
-constraints on the Parametrization rely on it.
+constraints on the parametrization rely on it.
 Inferring the IG is an abstraction step which consists in determining the global influence of
 components on each of its successors.
 
@@ -23,7 +23,7 @@ actions.
 For $S_a\subseteq L_a$ and a context (set of processes) $\sigma$, let us define as $\PHa(S_a,\ctx)$
 the set of actions on the sort $a$ having their hitter in $\ctx$ and target in $S_a$
 (\pref{eq:PHa-ctx});
-and the the digraph $(V, E)$ where arcs are the bounces within the sort $a$ triggered by actions
+and the digraph $(V, E)$ where arcs are the bounces within the sort $a$ triggered by actions
 in $\PHa(S_a,\ctx)$ (\pref{eq:bounce-graph}).
 $\focals(a,S_a,\ctx)$ denotes the set of focal processes of sort $a$ in the scope of
 $\PHa(S_a,\ctx)$ (\pref{def:focals}).
@@ -81,7 +81,7 @@ In the general case, the playability of those bounce-wise sequence, referred to 
 reachability} may be hard to prove.
 However, in the scope of this paper, the particular contexts used with $\focals$ ensure this property.
 Notably, the rest of this section uses only \emph{strict} contexts (\pref{def:strict-ctx}) which
-allow at most one hitter per sort in the bounce-wise sequences (thus are present in $s$).
+allow at most one hitter per sort in the bounce-wise sequences (and thus are present in $s$).
 
 \begin{comment}
 \begin{property}[$\focals$ reachability]\label{pro:focals-reach}
@@ -98,18 +98,18 @@ where $\PHa(\ctx) \DEF \{ \PHfrappe{b_i}{c_j}{c_k}\in\PHa \mid c\neq a \wedge
 \end{comment}
 
 \begin{definition}[Strict context for $S_a$]\label{def:strict-ctx}
-A context (set of processes) $\sigma$ is strict for $S_a\subseteq L_a$ if and only if
+A context (set of processes) $\ctx$ is strict for $S_a\subseteq L_a$ if and only if
 $\{b_i,b_j\} \subset \ctx \wedge b\neq a \Rightarrow i=j$.
 \end{definition}
 
 In other words, assuming focals reachability, if $\focals(a,S_a,\ctx)$ is empty, there exists a
-sequence of actions in that may be played an unbound number of times (cycle);
+sequence of actions that may be played an unbound number of times (cycle);
 if it is non-empty, it is ensured that any state in $\PHl(\ctx\cup S_a)$ converges, in a bounded
 number of steps, either to a process in $S_a$ that is not hit by processes in $\ctx$, or to a process in
 $L_a\setminus S_a$.
 
 \begin{example*}
-In the Process Hitting of \pref{fig:runningPH-1}, we obtain:
+In the PH of \pref{fig:runningPH-1}, we obtain:
 \begin{align*}
 \focals(a,L_a,\{b_0,c_0\}) &= \{ a_0 \}
 &
@@ -123,14 +123,13 @@ In the Process Hitting of \pref{fig:runningPH-1}, we obtain:
 
 \subsection{Well-formed Process Hitting for Interaction Graph Inference}\label{ssec:wf}
 
-The inference of an IG from a Process Hitting assumes that the Process Hitting defines two types of
-sorts:
+The inference of an IG from a PH assumes that the PH defines two types of sorts:
 the sorts corresponding to BRN components, and the cooperative sorts.
-This leads to the characterization of a \emph{well-formed} Process Hitting for IG inference.
+This leads to the characterization of a \emph{well-formed} PH for IG inference.
 
 The identification of sorts modelling components rely on the observation that their processes
 represent (ordered) qualitative levels.
-Hence an action on such a sort cannot make it bounce to process at a distance more than one.
+Hence an action on such a sort cannot make it bounce to a process at a distance more than one.
 The set of sorts satisfying such a condition is referred to as $\Gamma$
 (\pref{eq:PH-components}).
 Therefore, in the rest of this paper, $\Gamma$ denotes the set of components of the BRN to infer.
@@ -178,11 +177,10 @@ Finally, \pref{pro:wf-ph} sums up the conditions for a Process Hitting to be sui
 inference.
 In addition of having either component sorts or well-formed cooperative sorts, we also require that
 there is no cycle between cooperative sorts, and that
-sorts being not hit (\ie{}, serving as an invariant environment) are components.
+sorts being never hit (\ie{} serving as an invariant environment) are components.
 
 \begin{property}[Well-formed Process Hitting for IG inference]\label{pro:wf-ph}
-A Process Hitting is well-formed for IG inference if and only if the following conditions are
-verified:
+A PH is well-formed for IG inference if and only if the following conditions are verified:
 \begin{itemize}
 \item 
 each sort $a\in\PHs$ either belongs to $\Gamma$, or is a well-formed cooperative sort;
@@ -233,7 +231,7 @@ The predecessors of $a$ that are components are the regulators of $a$, denoted $
 Given a set $g$ of components and a configuration (\ie a sub-state) $\sigma$, $\ctx_g(\sigma)$
 refers to the set of focal processes hitting $a$ regulated by any sort in $g$ (\pref{eq:ctx-sigma}).
 If $g=\{b\}$, we simple note $\ctx_b(\sigma)$.
-This set is composed of the active processes of sort $g$, and the focal process (assumed
+This set is composed of the active processes of sort in $g$, and the focal process (assumed
 unique) of the cooperative sorts $\upsilon$ hitting $a$ that have a predecessor in $g$.
 The evaluation of the focal process of $\upsilon$ in context $\sigma$, denoted $\upsilon(\sigma)$,
 relies on \pref{pro:wf-cooperative-sort}, which gives its value when all the direct predecessors of
@@ -282,11 +280,11 @@ $b$ as positive (resp. negative) influence on $a$ with a maximum threshold $l=j$
 
 
 Then, we infer that $a$ has a self-influence if its current level can have an impact on its own
-evolution at given configuration $\sigma$.
+evolution at a given configuration $\sigma$.
 We consider here a configuration $\sigma$ of a group $g$ of sorts having a cooperation on $a$.
 This set of sort groups is given by $X(a)$ (\pref{eq:influence-groups}) which returns the set of
 connected components (noted $\mathcal C$) of the graph linking two regulators $b,c$ of $a$ if there
-is a cooperative sort hitting $a$ regulated by them.
+is a cooperative sort hitting $a$ regulated by both of them.
 Given $a_i,a_{i+1}\in L_a$, we pick $a_j\in\focals(a,\{a_i\},\ctx_g(\sigma\{a_i\}))$ and
 $a_k\in\focals(a,\{a_{i+1}\},\ctx_g(\sigma\{a_{i+1}\}))$.
 If $k=j+1$, we can not conclude as there is no difference in the evolution of both levels.
@@ -367,6 +365,6 @@ E_\pm &= \{a \rightarrow b \mid \exists a \xrightarrow{t} b \in \hat{E}_+ \wedge
 \begin{example*}
 The IG inference from the PH of \pref{fig:runningPH-2} gives
 $\hat{E}_+ = \{b \xrightarrow{1} a, c \xrightarrow{1} a\}$ and 
-$\hat{E}_- = \{a \xrightarrow{2} b\}$, corresponding the IG of \pref{fig:runningBRN}.
+$\hat{E}_- = \{a \xrightarrow{2} b\}$, corresponding to the IG of \pref{fig:runningBRN}.
 No self-influence are inferred ($X(a) = \{ \{b,c\} \}$, $X(b)=\{ \{a\}\}$, and $X(c)=\emptyset$).
 \end{example*}

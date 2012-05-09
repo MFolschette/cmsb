@@ -8,8 +8,8 @@ at \url{http://potassco.sourceforge.net}}.
 The IG and parameters inference can be performed using the command
 \texttt{ph2thomas -i model.ph -{}-dot ig.dot}
 where \texttt{model.ph} is the PH model in \textsc{Pint} format and \texttt{ig.dot} is an output of the inferred IG in DOT format.
-The (possibly partial) inferred Parametrization will be returned on the standard output.
-The admissible Parametrizations enumeration is performed when adding the \texttt{-{}-enumerate}
+The (possibly partial) inferred parametrization will be returned on the standard output.
+The admissible parametrizations enumeration is performed when adding the \texttt{-{}-enumerate}
 parameter to the command.
 
 Applied to the example in \pref{fig:runningPH-2} where cooperativities have been defined,
@@ -25,14 +25,14 @@ admissible parametrizations.
 The current implementation can successfully handle large PH models of BRNs found in the literature
 such as an ERBB receptor-regulated G1/S transition model from \cite{Sahin09} which contains 20
 components, and a T-cells receptor model from \cite{Klamt06} which contains 40
-components\footnote{Both models are available as examples along with the \textsc{Pint} library.}.
+components\footnote{Both models are available as examples distributed with \textsc{Pint}.}.
 For each models, IG and parameters inferences are performed together in less than a second on a
 standard desktop computer%
 %\footnote{Using a Dell Inspiron 1720 laptop, with an Intel Core 2 Duo CPU T5550 ($2 \times 1.83\text{GHz}$)
 %and 3.9 Gib memory, on an Ubuntu 11.10 64-bits OS}
 , and the same models without cooperations
 (all cooperative sorts removed, leaving only raw actions) lead to
-respectively xxx??? and yyy??? admissible Parametrization with regard to the inferred parameters,
+respectively xxx??? and yyy??? admissible parametrization with regard to the inferred parameters,
 which are found in xxx??? and yyy??? seconds.
 \todo{Fill!}
 We note that the complexity of the method is exponential in the number of regulators of one

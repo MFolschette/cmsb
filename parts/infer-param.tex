@@ -1,8 +1,8 @@
 \section{Parametrization inference}\label{sec:infer-K}
 
-Given the IG inference results from a PH, as presented in the previous section, one can find the discrete parameters that model the behavior of the studied PH using the method presented in the following.
-It relies on an exhaustive enumeration of all predecessors of each component in order to find attractor processes and returns a possibly incomplete Parametrization, given the exhaustiveness of the cooperations.
-The last step consists of the enumeration of all compatible complete Parametrizations, given this
+Given the IG inferred from a PH as presented in the previous section, one can find the discrete parameters that model the behavior of the studied PH using the method presented in the following.
+It relies on an exhaustive enumeration of all predecessors of each component in order to find attractor processes and returns a possibly incomplete parametrization, given the exhaustiveness of the cooperations.
+The last step consists of the enumeration of all compatible complete parametrizations, given this
 set of inferred parameters, the PH dynamics, and some biological constraints on parameters.
 
 \subsection{Parameters inference}
@@ -30,13 +30,14 @@ verifies $E_\pm=\emptyset$ and if the following property holds:
 \end{align}
 \end{property}
 
-Let $K_{a,A,B}$ be the parameter we want to infer, for a given component $a \in \Gamma$,
+Let $K_{a,A,B}$ be the parameter we want to infer for a given component $a \in \Gamma$
 %and $A,B \in \GRNallres{a}$ a configuration of resources of $a$ (activators and inhibitors).
-and $A \subset \GRNreg{a}$ (resp. $B \subset \GRNreg{a}$) a set of activators (resp. inhibitors) in the regulators of $a$.
+and $A \subset \GRNreg{a}$ (resp. $B \subset \GRNreg{a}$) a set of its activators (resp. inhibitors).
 This inference, as for the IG inference, relies on the search of focal processes of the component for the given configuration of its regulators.
 
 For each sort $b \in \GRNreg{a}$, we define a context $C^b_{a,A,B}$ in \pref{eq:param_context} that contains all processes representing the influence of the regulators in the configuration $A,B$.
-The context of a cooperative sort $\upsilon$ that regulates $a$ is given in \pref{eq:param_context_coop} as the set of processes that represent the given configuration.
+The context of a cooperative sort $\upsilon$ that regulates $a$ is given in
+\pref{eq:param_context_coop} as the set of focal processes matching the current configuration.
 $C_{a,A,B}$ refers to the union of all these contexts (\pref{eq:K-ctx}).
 \begin{align}
 \label{eq:param_context}
@@ -59,7 +60,7 @@ C_{a,A,B} & \DEF \textstyle\bigcup_{b\in\PHpredec{a}} C^b_{a,A,B}
 The parameter $K_{a,A,B}$ specifies to which values $a$ eventually evolves as long as the context
 $C_{a,A,B}$ holds, which is precisely the definition of the $\focals$ function
 (\pref{def:focals} in \pref{ssec:focal}),
-where the focals reachability property can by derived from \pref{pro:wf-ph-K} and
+ggere the focals reachability property can by derived from \pref{pro:wf-ph-K} and
 \pref{eq:param_context_coop}.
 Hence $K_{a,A,B} = \focals(a,C^a_{a,A,B},C_{a,A,B})$ if this latter is a non-empty interval
 (\pref{pps:param_K}).

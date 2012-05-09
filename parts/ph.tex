@@ -125,7 +125,7 @@ $s = \state{b_1,a_1,c_0}$; and $s\play h=\state{b_1,a_2,c_0}$.
 \end{tikzpicture}
 }
 \caption{\label{fig:runningPH-1}
-A Process Hitting example.
+A Process Hitting (PH) example.
 Sorts are represented by labeled boxes, and processes by circles (ticks are
 the identifiers of the processes within the sort, for instance, $a_0$ is the
 process ticked $0$ in the box $a$).
@@ -214,7 +214,7 @@ independent hit from $b_1$ or $c_1$.
 }
 
 \caption{\label{fig:PH-cooperativity}
-A Process Hitting modeling a cooperativity between $b_1$ and $c_1$ to make
+A PH modeling a cooperativity between $b_1$ and $c_1$ to make
 $a_1$ bounce to $a_2$.
 Actions involving $b_1$ or $c_1$ are in thick lines.
 }
@@ -271,25 +271,25 @@ Actions involving $b_1$ or $c_1$ are in thick lines.
 }
 
 \caption{\label{fig:runningPH-2}
-Process Hitting resulting from the refinement of the one in \pref{fig:runningPH-1} by the
+PH resulting from the refinement of the one in \pref{fig:runningPH-1} by the
 specification of several cooperations.
 The actions from $b$ and $c$ to the cooperative sort $bc$ are identical to those defined in
 \pref{fig:PH-cooperativity} and are represented here by a single dashed arc.
 }
 \end{figure}
 
-We note that cooperative sorts are standard Process Hitting sorts and do not involve any
+We note that cooperative sorts are standard PH sorts and do not involve any
 special treatment regarding the semantics of related actions.
 
-When the number of cooperating process is large, it is possible to chain several cooperative sorts
+When the number of cooperating processes is large, it is possible to chain several cooperative sorts
 to prevent the combinatoric explosion of the number of processes created within cooperative sorts.
 For instance, if $b_1$, $c_1$, and $d_1$ cooperate, one can create a cooperative sort $bc$ with 4
 processes reflecting the presence of $b_1$ and $c_1$, and a cooperative sort $bcd$ with 4 processes
-reflecting the presence of $bc_{11}$ and $d_1$.  Such constructions are helpful in Process Hitting
+reflecting the presence of $bc_{11}$ and $d_1$.  Such constructions are helpful in PH
 as the static analysis of dynamics developed in \cite{PMR12-MSCS} does not suffer from the number of
 sorts, but on the number of processes within a single sort.
 
-While the construction of cooperation in Process Hitting allows to encode any boolean functions
+While the construction of cooperation in PH allows to encode any boolean functions
 between cooperating processes \cite{PMR10-TCSB}, it is worth noticing they introduce a temporal
 shift in their application.
 This allows the existence of interleaving of actions leading to a cooperative sort representing a
@@ -298,11 +298,11 @@ The resulting behaviour is then an over-approximation of the realisation of an i
 cooperation.
 
 \begin{example*}
-The Process Hitting in \pref{fig:runningPH-2} results from the refinement of the Process Hitting in 
-\pref{fig:runningPH-1} where several cooperations have been specified.
+The PH in \pref{fig:runningPH-2} results from the refinement of the PH in \pref{fig:runningPH-1}
+where several cooperations have been specified.
 In particular, the bounce to $a_2$ is the result of a cooperation between $b_1$ and $c_1$; and the
 bounce to $a_0$ of a cooperation between $b_0$ and $c_0$.
-Hence, this Process Hitting expresses a BRN where $a$ requires both $b$ and $c$ active to reach its
+Hence, this PH expresses a BRN where $a$ requires both $b$ and $c$ active to reach its
 highest level, and $a$ does not become inactive unless both $b$ and $c$ are inactive.
 \end{example*}
 
