@@ -8,7 +8,28 @@ set of inferred parameters, the PH dynamics, and some biological constraints on 
 \subsection{Parameters inference}
 
 This subsection presents some results related to the inference of independent discrete parameters from a given PH. These results are equivalent to those presented in \cite{PMR10-TCSB}, with notation adapted to be shared with the previous section.
-We consider here a global PH $(\PHs,\PHl,\PHa)$ well-formed for IG inference. We suppose that the extended IG $(\Gamma, E_+, E_-, E_\pm)$ inferred from this PH contains no unsigned edge, that is: $E_\pm = \emptyset$, and thus can be seen as the regular IG $(\Gamma, E_+, E_-)$.
+In addition, we introduce the well-formed PH for parameter inference property (\pref{pro:wf-ph-K}),
+which imposes that the inferred IG contains no unsigned interactions, and thus can be seen as the
+regular IG $(\Gamma, E_+, E_-)$,
+and that any processes in $\levelsA{b}{a}$ (resp. $\levelsI{b}{a}$) share the same behaviour
+regarding $a$.
+\begin{property}[Well-formed PH for parameter inference]\label{pro:wf-ph-K}
+A PH is well-formed for parameter inference if and only if
+the IG $(\Gamma, E_+, E_-, E_\pm)$ inferred by \pref{pps:inference-IG}
+verifies $E_\pm=\emptyset$ and if the following property holds:
+\begin{align}
+\begin{split}
+\forall b\in \PHpredecgene{a} &,
+	\forall (i,j\in\levelsA{b}{a} \vee i,j\in\levelsI{b}{a}), \\
+& \qquad	\forall c, ( (b\neq a\wedge c=a) \vee (c\in\PHpredec{a} \wedge b\in\PHpredec{c})), \\
+& \qquad \qquad
+			\PHfrappe{b_i}{c_k}{c_l}\in\PHa \Leftrightarrow
+				\PHfrappe{b_j}{c_k}{c_l}\in\PHa
+\end{split}
+\label{eq:wf-levels}
+\end{align}
+\end{property}
+
 Let $K_{a,A,B}$ be the parameter we want to infer, for a given component $a \in \Gamma$,
 %and $A,B \in \GRNallres{a}$ a configuration of resources of $a$ (activators and inhibitors).
 and $A \subset \GRNreg{a}$ (resp. $B \subset \GRNreg{a}$) a set of activators (resp. inhibitors) in the regulators of $a$.
@@ -23,7 +44,7 @@ $C_{a,A,B}$ refers to the union of all these contexts (\pref{eq:K-ctx}).
 C_{a,A,B}^b & \DEF \begin{cases}
 \levelsA{b}{a} & \text{if $b \in A$,}\\
 \levelsI{b}{a} & \text{if $b \in B$,}\\
-L_a		& \text{otherwise;}\\
+L_b		& \text{otherwise;}\\
 \end{cases}
 \\
 \label{eq:param_context_coop}
@@ -37,7 +58,9 @@ C_{a,A,B} & \DEF \textstyle\bigcup_{b\in\PHpredec{a}} C^b_{a,A,B}
 
 The parameter $K_{a,A,B}$ specifies to which values $a$ eventually evolves as long as the context
 $C_{a,A,B}$ holds, which is precisely the definition of the $\focals$ function
-(\pref{def:focals} in \pref{ssec:focal}).
+(\pref{def:focals} in \pref{ssec:focal}),
+where the focals reachability property can by derived from \pref{pro:wf-ph-K} and
+\pref{eq:param_context_coop}.
 Hence $K_{a,A,B} = \focals(a,C^a_{a,A,B},C_{a,A,B})$ if this latter is a non-empty interval
 (\pref{pps:param_K}).
 
@@ -78,8 +101,9 @@ We first delimit the validity of a parameter (\pref{pro:K-valid}) in order to en
 transition in the resulting BRN is allowed by the studied PH.
 This is verified by the existence of a hit making the concerned component bounce into the direction
 of the value of the parameter in the matching context.
-Any parameter inferred by \pref{pps:param_K} satisfies this property, which ensures the correctness
-of the inference.
+Thus, assuming \pref{pro:wf-ph-K} holds, any transition in the inferred BRN corresponds to at least
+one transition in the PH, proving the correctness of our inference.
+We remark that any parameter inferred by \pref{pps:param_K} satisfies this property.
 
 \begin{property}[Parameter validity]\label{pro:K-valid}
 A parameter $K_{a,A,B}$ is valid w.r.t. the PH iff the following equation is verified:
@@ -87,8 +111,8 @@ A parameter $K_{a,A,B}$ is valid w.r.t. the PH iff the following equation is ver
 \forall a_i\in C^a_{a,A,B},
 		a_i \notin K_{a,A,B} \Longrightarrow (
   \exists \PHfrappe{c_k}{a_i}{a_j}\in\PHa, & c_k \in C^c_{a,A,B} \\
- \qquad \wedge & a_i < K_{a,A,B} \Rightarrow j > i  \\
- \qquad \wedge & a_i > K_{a,A,B} \Rightarrow j <i )
+ \wedge a_i < K_{a,A,B} \Rightarrow j > i 
+ & \wedge  a_i > K_{a,A,B} \Rightarrow j <i )
 \end{align*}
 \end{property}
 		
