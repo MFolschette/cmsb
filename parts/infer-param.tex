@@ -19,9 +19,9 @@ the IG $(\Gamma, E_+, E_-, E_\pm)$ inferred by \pref{pps:inference-IG}
 verifies $E_\pm=\emptyset$ and if the following property holds:
 \begin{align}
 \begin{split}
-\forall b\in \PHpredecgene{a} &,
+\forall b\in \GRNreg{a} &,
 	\forall (i,j\in\levelsA{b}{a} \vee i,j\in\levelsI{b}{a}), \\
-& \qquad	\forall c, ( (b\neq a\wedge c=a) \vee (c\in\PHpredec{a} \wedge b\in\PHpredec{c})), \\
+& \qquad	\forall c, ( (b\neq a\wedge c=a) \vee (c\in\PHpredec{a} \wedge b\in\PHdirectpredec{c})), \\
 & \qquad \qquad
 			\PHfrappe{b_i}{c_k}{c_l}\in\PHa \Leftrightarrow
 				\PHfrappe{b_j}{c_k}{c_l}\in\PHa

@@ -23,7 +23,7 @@ $l_a$ denotes the maximum level of $a$.
 \begin{definition}[Interaction Graph]
 \label{def:ig}
 An \emph{Interaction Graph} (IG) is a triple $(\Gamma, E_+, E_-)$ where $\Gamma$ is a finite number of \emph{components},
-and $E_+$ (resp. $E_-$) $\subset \{a \xrightarrow{t} b \mid a, b \in \Gamma \wedge t \in \mathbb{N}\}$
+and $E_+$ (resp. $E_-$) $\subset \{a \xrightarrow{t} b \mid a, b \in \Gamma \wedge t \in [0; l_a]\}$
 is the set of positive (resp. negative) \emph{regulations} between two nodes, labeled with a \emph{threshold}.
 
 A regulation from $a$ to $b$ is uniquely referenced:
@@ -46,6 +46,7 @@ Let $(\Gamma,E_+,E_-)$ be an IG and $a, b \in \Gamma$ two of its components:
 For all component $a \in \Gamma$, we denote
 $\GRNreg{a} = \{ b\in\Gamma\mid \exists b\xrightarrow t a\in E_+\cup E_- \}$
 the set of its regulators.
+We allow any number of expression levels for the components, without considering the number of outgoing edges, in order to be as general as possible.
 %$E_+(a) = \{b \in \Gamma \mid \exists b \xrightarrow{t} a \in
 %E_+\}$ (resp. $E_-(a) = \{b \in \Gamma \mid \exists b \xrightarrow{t} a \in E_-\}$) denotes the set
 %of its positive (resp. negative) regulators; and
