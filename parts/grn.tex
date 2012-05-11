@@ -23,7 +23,7 @@ $l_a$ denotes the maximum level of $a$.
 \begin{definition}[Interaction Graph]
 \label{def:ig}
 An \emph{Interaction Graph} (IG) is a triple $(\Gamma, E_+, E_-)$ where $\Gamma$ is a finite number of \emph{components},
-and $E_+$ (resp. $E_-$) $\subset \{a \xrightarrow{t} b \mid a, b \in \Gamma \wedge t \in [0; l_a]\}$
+and $E_+$ (resp. $E_-$) $\subset \{a \xrightarrow{t} b \mid a, b \in \Gamma \wedge t \in [1; l_a]\}$
 is the set of positive (resp. negative) \emph{regulations} between two nodes, labeled with a \emph{threshold}.
 
 A regulation from $a$ to $b$ is uniquely referenced:
@@ -35,16 +35,16 @@ and $\nexists t', a \xrightarrow{t'} b \in E_-$ (resp. $E_+$).
 \begin{definition}[Effective levels ($\levels$)]\label{def:levels}
 Let $(\Gamma,E_+,E_-)$ be an IG and $a, b \in \Gamma$ two of its components:
 \begin{itemize}
-  \item if $a \xrightarrow{t} b \in E_+$, $\levelsA{a}{b} = [t; l_a]$ and
-    $\levelsI{a}{b} = [0; t-1]$;
-  \item if $a \xrightarrow{t} b \in E_-$, $\levelsA{a}{b} = [0; t-1]$ and
-    $\levelsI{a}{b} = [t; l_a]$;
-  \item otherwise, $\levelsA{a}{b} = \levelsI{a}{b} = \emptyset$.
+  \item if $a \xrightarrow{t} b \in E_+$, $\levelsA{a}{b} \DEF [t; l_a]$ and
+    $\levelsI{a}{b} \DEF [0; t-1]$;
+  \item if $a \xrightarrow{t} b \in E_-$, $\levelsA{a}{b} \DEF [0; t-1]$ and
+    $\levelsI{a}{b} \DEF [t; l_a]$;
+  \item otherwise, $\levelsA{a}{b} \DEF \levelsI{a}{b} \DEF \emptyset$.
 \end{itemize}
 \end{definition}
 
 For all component $a \in \Gamma$, we denote
-$\GRNreg{a} = \{ b\in\Gamma\mid \exists b\xrightarrow t a\in E_+\cup E_- \}$
+$\GRNreg{a} \DEF \{ b\in\Gamma\mid \exists b\xrightarrow t a\in E_+\cup E_- \}$
 the set of its regulators.
 We allow any number of expression levels for the components, without considering the number of outgoing edges, in order to be as general as possible.
 %$E_+(a) = \{b \in \Gamma \mid \exists b \xrightarrow{t} a \in
@@ -111,7 +111,7 @@ focal level interval towards which the component will evolve in each configurati
 (\pref{def:param}).
 Indeed, for each possible state of a BRN, all regulators of a component $a$ can be divided into
 \emph{activators} and \emph{inhibitors}, given their type of interaction and expression level,
-referred to as the \emph{resources} of $a$ in $s$ (\pref{def:resources}).
+referred to as the \emph{resources} of $a$ in this state (\pref{def:resources}).
 
 While the extension of parameters to interval of values does not add expressivity for boolean
 networks, it allows to specify a larger range of dynamics in the general case (w.r.t. to a fixed
