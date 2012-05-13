@@ -61,7 +61,7 @@
 
 \title{Concretizing the Process Hitting into Biological Regulatory Networks}
 
-\author{Maxime Folschette\inst{1,2}, Lo\"ic Paulev\'e\inst{3}, Katsumi Inoue\inst{2}, Morgan Magnin\inst{1}, Olivier Roux\inst{1}}
+\author{Maxime Folschette\inst{1,2,}\thanks{Acknowledgment: this work has been partially supported by the Fondation Centrale Initiatives.}, Lo\"ic Paulev\'e\inst{3}, Katsumi Inoue\inst{2}, Morgan Magnin\inst{1}, Olivier Roux\inst{1}}
 
 \institute{
 LUNAM Universit\'e, \'Ecole Centrale de Nantes, IRCCyN UMR CNRS 6597\\
@@ -81,7 +81,7 @@ LIX, \'Ecole Polytechnique, 91128 Palaiseau Cedex, France.
 \maketitle
 
 \begin{abstract}
-\parindent 0.7cm
+\parindent 0.5cm
 The Process Hitting (PH) is a recently introduced framework to model concurrent processes.
 Its major originality lies in a specific restriction on the causality of actions, which
 makes the formal analysis of very large systems tractable.
@@ -90,7 +90,7 @@ knowledge of cooperations between regulators by defining the most permissive dyn
 with respect to these constraints.
 
 On the other hand, the qualitative modeling of BRNs has been widely addressed using Ren\'e Thomas'
-formalism, leading to numerous theoretical work and practical tools to understand emerging behaviours.
+formalism, leading to numerous theoretical work and practical tools to understand emerging behaviors.
 
 Given a PH model of a BRN, we first tackle the inference of the underlying Interaction Graph
 between components.
@@ -98,9 +98,10 @@ Then the inference of corresponding Thomas' models is provided using Answer Set 
 which allows notably an efficient enumeration of (possibly numerous) compatible parametrizations.
 
 In addition to giving a formal link between different approaches for qualitative BRNs modeling, 
-this work emphasises the ability of PH to deal with large BRNs with incomplete knowledge on
+this work emphasizes the ability of PH to deal with large BRNs with incomplete knowledge on
 cooperations, where Thomas' approach fails because of the combinatorics of parameters.
 \end{abstract}
+
 
 
 \input{parts/intro}
@@ -116,5 +117,7 @@ cooperations, where Thomas' approach fails because of the combinatorics of param
 
 \bibliographystyle{splncs}
 \bibliography{biblio}
+
+\input{parts/contributions}
 
 \end{document}

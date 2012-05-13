@@ -8,17 +8,17 @@ differential equations, a discrete modeling approach was initiated by René Thom
 
 In this approach, the different levels of a component, such as concentration or expression levels, are abstractly represented by (positive) integer values and transitions between these levels may be considered as instantaneous.
 Hence, qualitative state graphs may be derived from which we are able to formally find out all the possible behaviors expressed as sequences of transitions between these states.
-Nevertheless, these dynamics can be precisely established only with regard to some discrete parameters which stand for a kind of "focal points", i.e. the evolutionary tendency from each state and depending of the set of resources in this very state, that is, the set of the other currently interacting components.
+Nevertheless, these dynamics can be precisely established only with regard to some discrete parameters which stand for a kind of ``focal points'', i.e. the evolutionary tendency from each state and depending of the set of resources in this very state, that is, the set of the other currently interacting components.
 Hereafter, we refer to these discrete parameters as Thomas' parameters.
 
-Thomas' modeling has motivated numerous work around the link between the Interaction Graph (IG)
+Thomas' modeling has motivated numerous works around the link between the Interaction Graph (IG)
 (summarizing the global influences between components) and the possible dynamics (e.g.,
 \cite{RiCo07,RRT08}),
 model reduction (e.g., \cite{Naldi09}), formal checking of dynamics (e.g., \cite{Richard06,Naldi07}), 
 and the incorporation of time (e.g., \cite{Siebert06,Ahmad08}) and probability
 (e.g., \cite{Twardziok10-CMSB}) dimensions, to name but a few.
 While the formal checking of dynamical properties is often limited to small networks because of the
-state graph explosion, the main drawback of this framework is the difficulty to specify the Thomas'
+state graph explosion, the main drawback of this framework is the difficulty to specify Thomas'
 parameters, especially for large networks.
 
 In order to address the formal checking of dynamical properties within very large BRNs, we recently
@@ -35,10 +35,10 @@ the formal analysis of BRNs with hundreds of components \cite{PMR12-MSCS}.
 The PH is suitable to model BRNs with different levels of abstraction in the specification of
 cooperations (associated influences) between components.
 This allows to model BRNs with a partial knowledge on precise evolution functions for components
-by capturing the largest (the more general) dynamics.
+by capturing the largest (the most general) dynamics.
 
-As a matter of fact, the objectives of the work presented in this paper are the following.
-First, we show that starting from one PH model, it is possible to find back the underlying IG.
+The objectives of the work presented in this paper are the following.
+Firstly, we show that starting from one PH model, it is possible to find back the underlying IG.
 We perform an exhaustive search for the possible interactions on one component from all the
 others, consistently with the knowledge of the dynamics that these interactions lead to and that are
 expressed in PH.
