@@ -9,7 +9,7 @@ set of inferred parameters, the PH dynamics, and some biological constraints on 
 
 This subsection presents some results related to the inference of independent discrete parameters from a given PH. These results are equivalent to those presented in \cite{PMR10-TCSB}, with notation adapted to be shared with the previous section.
 In addition, we introduce the well-formed PH for parameter inference property (\pref{pro:wf-ph-K}),
-which imposes that the inferred IG contains no unsigned interactions, and thus can be seen as the
+which implies that the inferred IG contains no unsigned interactions, and thus can be seen as the
 regular IG $(\Gamma, E_+, E_-)$,
 and that any processes in $\levelsA{b}{a}$ (resp. $\levelsI{b}{a}$) share the same behaviour
 regarding $a$.
@@ -60,7 +60,7 @@ C_{a,A,B} & \DEF \textstyle\bigcup_{b\in\PHpredec{a}} C^b_{a,A,B}
 The parameter $K_{a,A,B}$ specifies to which values $a$ eventually evolves as long as the context
 $C_{a,A,B}$ holds, which is precisely the definition of the $\focals$ function
 (\pref{def:focals} in \pref{ssec:focal}),
-ggere the focals reachability property can by derived from \pref{pro:wf-ph-K} and
+where the focals reachability property can be derived from \pref{pro:wf-ph-K} and
 \pref{eq:param_context_coop}.
 Hence $K_{a,A,B} = \focals(a,C^a_{a,A,B},C_{a,A,B})$ if this latter is a non-empty interval
 (\pref{pps:param_K}).
@@ -88,7 +88,7 @@ Given the \pref{pps:param_K}, we see that in some cases, the inference of the ta
 This can be due to a lack of cooperation between regulators: when two regulators independently hit a component, their actions can have opposite effects, leading to either an indeterministic evolution or to oscillations.
 Such an indeterminism is not possible in a GRN as in a given configuration of regulators, a component can only have an interval attractor, and eventually reaches a steady-state.
 In order to avoid such inconclusive cases, one has to ensure that no such behavior is allowed by
-either removing undesired actions or using cooperative sorts to avoid opposite influences between
+either removing undesired actions or using cooperative sorts to prevent opposite influences between
 regulators.
 
 \subsection{Admissible parametrizations}\label{ssec:admissible-K}
