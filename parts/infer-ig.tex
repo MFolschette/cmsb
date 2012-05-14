@@ -77,7 +77,7 @@ Moreover $n\leq|\PHa(S_a,\ctx)|$ (i.e. no cycle of actions possible).
 It is worth noticing that those bounce-wise sequences of actions may not be successively playable in
 a state $s\in L(\ctx\cup S_a)$.
 Indeed, nothing impose that the hitters of actions are present in $s$.
-In the general case, the playability of those bounce-wise sequence, referred to as \emph{focals
+In the general case, the playability of those bounce-wise sequences, referred to as \emph{focals
 reachability} may be hard to prove.
 However, in the scope of this paper, the particular contexts used with $\focals$ ensure this property.
 Notably, the rest of this section uses only \emph{strict} contexts (\pref{def:strict-ctx}) which
@@ -169,7 +169,7 @@ Such a property allows a large variety of definitions of a cooperative sort, but
 for the sake of simplicity, does not allow the existence of multiple focal processes.
 While this may be easily extended to (the condition becomes 
 $\focals(\upsilon,\PHl_\upsilon, \PHproc(\sigma)\cup \PHl_\upsilon)\neq\emptyset$), it makes some
-hereafter equations a bit more complex to read as they should handle set of focal processes instead
+hereafter equations a bit more complex to read as they should handle a set of focal processes instead
 of a unique focal process.
 
 
@@ -208,7 +208,7 @@ with $\Gamma = \{a,b,c\}$.
 
 \subsection{Interaction Inference}\label{ssec:infer-IG}
 
-At this point we can divide the set of sorts $\PHs$ into components ($\Gamma$) and cooperative sorts
+At this point we can divide the set of sorts $\PHs$ into components ($\Gamma$, see \pref{eq:PH-components}) and cooperative sorts
 ($\PHs \setminus \Gamma$) that will not appear in the IG. 
 We define in \pref{eq:ph_predec} the set of predecessors of a sort $a$, that is, the sorts influencing $a$
 by considering direct actions and possible intermediate cooperative sorts.
@@ -306,6 +306,7 @@ X(a) = \mathcal C\left( (\PHpredecgene{a}, \{ \{b,c\} \mid
 \pref{pps:inference-edges} details the inference of all existing influences between components occurring
 with a threshold $l$.
 These influences are split into positive and negative ones, and represent possible edges in the final IG.
+We do not consider the cases where a component has no visible influence on another.
 \begin{proposition}[Edges inference]\label{pps:inference-edges}
 We define the set of positive (resp. negative) influences $\hat{E}_+$ (resp. $\hat{E}_-$) for any
 $a\in\Gamma$ by:

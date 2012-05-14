@@ -9,7 +9,7 @@ set of inferred parameters, the PH dynamics and some biological constraints on p
 
 This subsection presents some results related to the inference of independent discrete parameters from a given PH. These results are equivalent to those presented in \cite{PMR10-TCSB}, with notation adapted to be shared with the previous section.
 In addition, we introduce the well-formed PH for parameter inference property (\pref{pro:wf-ph-K}),
-which implies that the inferred IG contains no unsigned interactions, and thus can be seen as the
+which implies that the inferred IG does not contain any unsigned interactions, and thus can be seen as the
 regular IG $(\Gamma, E_+, E_-)$,
 and that any processes in $\levelsA{b}{a}$ (resp. $\levelsI{b}{a}$) share the same behavior
 regarding $a$.
@@ -68,7 +68,7 @@ Hence $K_{a,A,B} = \focals(a,C^a_{a,A,B},C_{a,A,B})$ if this latter is a non-emp
 
 \begin{proposition}[Parameter inference]
 \label{pps:param_K}
-Let $(\PHs, \PHl, \PHh)$ be a Process Hitting well-defined for parameter inference, and $\IG = (\Gamma,
+Let $(\PHs, \PHl, \PHh)$ be a Process Hitting well-formed for parameter inference, and $\IG = (\Gamma,
 E_+, E_-)$ the inferred IG.
 Let $A$ (resp. $B$) $\subseteq \Gamma$ be the set of regulators that activate (resp. inhibit) a sort
 $a$.
@@ -81,8 +81,8 @@ If $\focals(a,C^a_{a,A,B},C_{a,A,B})=[a_i;a_j]$ is a non-empty interval,
 Applied to the PH in \pref{fig:runningPH-1}, we obtain, for instance, 
 $K_{b,\{a\},\emptyset} = [0 ; 1]$ and
 $K_{a,\{b,c\},\emptyset} = [2 ; 2]$,
-while $K_{a,\{b\},\{c\}}$ can not be inferred;
-for the PH in \pref{fig:runningPH-2}, this latter is evaluated to $[1;1]$.
+while $K_{a,\{b\},\{c\}}$ can not be inferred.
+For the PH in \pref{fig:runningPH-2}, this latter is evaluated to $[1;1]$.
 \end{example*}
 
 Given the \pref{pps:param_K}, we see that in some cases, the inference of the targeted parameter is impossible.
@@ -225,4 +225,4 @@ Of course, other assumptions can be formulated in the same way.
 
 This subsection succinctly described how we write ASP programs to represent a model and solve all steps of Thomas' modeling inference.
 It finds a particularly interesting application in the enumeration of parameters: all possible parametrizations are generated in separate answer sets, and integrity constraints are formulated to remove those that do not fit the assumptions of admissible parametrizations,
-thus reducing the number of interesting parametrizations to consider in the end.
+thus reducing the number of interesting parametrizations to be considered in the end.
