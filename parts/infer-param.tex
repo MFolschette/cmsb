@@ -2,8 +2,8 @@
 
 Given the IG inferred from a PH as presented in the previous section, one can find the discrete parameters that model the behavior of the studied PH using the method presented in the following.
 It relies on an exhaustive enumeration of all predecessors of each component in order to find attractor processes and returns a possibly incomplete parametrization, given the exhaustiveness of the cooperations.
-The last step consists of the enumeration of all compatible complete parametrizations, given this
-set of inferred parameters, the PH dynamics, and some biological constraints on parameters.
+The last step consists of the enumeration of all compatible complete parametrizations given this
+set of inferred parameters, the PH dynamics and some biological constraints on parameters.
 
 \subsection{Parameters inference}
 
@@ -11,10 +11,11 @@ This subsection presents some results related to the inference of independent di
 In addition, we introduce the well-formed PH for parameter inference property (\pref{pro:wf-ph-K}),
 which implies that the inferred IG contains no unsigned interactions, and thus can be seen as the
 regular IG $(\Gamma, E_+, E_-)$,
-and that any processes in $\levelsA{b}{a}$ (resp. $\levelsI{b}{a}$) share the same behaviour
+and that any processes in $\levelsA{b}{a}$ (resp. $\levelsI{b}{a}$) share the same behavior
 regarding $a$.
 \begin{property}[Well-formed PH for parameter inference]\label{pro:wf-ph-K}
 A PH is well-formed for parameter inference if and only if
+it is well-formed for IG inference, and
 the IG $(\Gamma, E_+, E_-, E_\pm)$ inferred by \pref{pps:inference-IG}
 verifies $E_\pm=\emptyset$ and if the following property holds:
 \begin{align}
@@ -67,7 +68,7 @@ Hence $K_{a,A,B} = \focals(a,C^a_{a,A,B},C_{a,A,B})$ if this latter is a non-emp
 
 \begin{proposition}[Parameter inference]
 \label{pps:param_K}
-Let $(\PHs, \PHl, \PHh)$ be a Process Hitting well-defined for IG inference, and $\IG = (\Gamma,
+Let $(\PHs, \PHl, \PHh)$ be a Process Hitting well-defined for parameter inference, and $\IG = (\Gamma,
 E_+, E_-)$ the inferred IG.
 Let $A$ (resp. $B$) $\subseteq \Gamma$ be the set of regulators that activate (resp. inhibit) a sort
 $a$.
@@ -78,15 +79,15 @@ If $\focals(a,C^a_{a,A,B},C_{a,A,B})=[a_i;a_j]$ is a non-empty interval,
 
 \begin{example*}
 Applied to the PH in \pref{fig:runningPH-1}, we obtain, for instance, 
-$K_{b,\{a\},\emptyset} = [0 ; 1]$,
+$K_{b,\{a\},\emptyset} = [0 ; 1]$ and
 $K_{a,\{b,c\},\emptyset} = [2 ; 2]$,
 while $K_{a,\{b\},\{c\}}$ can not be inferred;
-For the PH in \pref{fig:runningPH-2}, this latter is evaluated to $[1;1]$.
+for the PH in \pref{fig:runningPH-2}, this latter is evaluated to $[1;1]$.
 \end{example*}
 
 Given the \pref{pps:param_K}, we see that in some cases, the inference of the targeted parameter is impossible.
 This can be due to a lack of cooperation between regulators: when two regulators independently hit a component, their actions can have opposite effects, leading to either an indeterministic evolution or to oscillations.
-Such an indeterminism is not possible in a GRN as in a given configuration of regulators, a component can only have an interval attractor, and eventually reaches a steady-state.
+Such an indeterminism is not possible in a BRN as in a given configuration of regulators, a component can only have an interval attractor, and eventually reaches a steady-state.
 In order to avoid such inconclusive cases, one has to ensure that no such behavior is allowed by
 either removing undesired actions or using cooperative sorts to prevent opposite influences between
 regulators.
@@ -133,9 +134,9 @@ Let $\IG = (\Gamma, E_+, E_-)$ be an IG. A parametrization $K$ on $\IG$ satisfie
 \label{prop:param_enum_activity}
 Let $\IG = (\Gamma, E_+, E_-)$ be an IG. A parametrization $K$ on $\IG$ satisfies the \emph{activity assumption} iff:
 \begin{align*}
-  \forall b \in \Gamma, \forall a \in \GRNreg{b}, \exists A,B \in \GRNallres{a}, K_{b,A,B} <_{[]} K_{b,A \cup \{b\},B \setminus \{b\}}
+  \forall b \in \Gamma, \forall a \in \GRNreg{b}, \exists (A;B) \in \GRNallres{a}, K_{b,A,B} <_{[]} K_{b,A \cup \{b\},B \setminus \{b\}}
 \\
-  \forall b \in \Gamma, \forall a \in \GRNreg{b}, \exists A,B \in \GRNallres{a}, K_{b,A \setminus \{b\},B \cup \{b\}} <_{[]} K_{b,A,B}
+  \forall b \in \Gamma, \forall a \in \GRNreg{b}, \exists (A;B) \in \GRNallres{a}, K_{b,A \setminus \{b\},B \cup \{b\}} <_{[]} K_{b,A,B}
 \end{align*}
 \end{property}
 
@@ -143,7 +144,7 @@ Let $\IG = (\Gamma, E_+, E_-)$ be an IG. A parametrization $K$ on $\IG$ satisfie
 \label{prop:param_enum_monotonicity}
 Let $\IG = (\Gamma, E_+, E_-)$ be an IG. A parametrization $K$ on $\IG$ satisfies the \emph{monotonicity assumption} iff:
 \[
-  \forall b \in \Gamma, \forall A,B \in \GRNallres{b}, \forall A',B' \in \GRNallres{b},
+  \forall b \in \Gamma, \forall (A;B), (A';B') \in \GRNallres{b},
   A \subset A' \wedge B' \subset B \Rightarrow K_{b,A,B} \leq_{[]} K_{b,A',B'}
 \]
 \end{property}
@@ -170,14 +171,15 @@ inferred parameters} iff it is admissible and that all parameters that can be in
 \newcommand{\aspil}[1]{\texttt{#1}}
 \newcommand{\asp}[1]{\begin{itemize} \item[] \aspil{#1} \end{itemize}}
 
-It is essential to get an efficient method to enumerate all the admissible parametrizations and
-we focus on Answer Set Programming (ASP) \cite{Baral03} to address this issue. The motivations are following:
+It is essential to get an efficient method to enumerate all the admissible parametrizations.
+we focus on Answer Set Programming (ASP) \cite{Baral03} to address this issue.
+The motivations are following:
 \begin{itemize}
   \item ASP efficiently tackles the inherent complexity of the models we use, thus allowing an efficient execution of the formal tools defined in this paper,
   \item it is convenient to enumerate a large set of possible answers,
   \item it allows us to easily constrain the answers according to some properties.
 \end{itemize}
-We now synthesize some key points to make the reader better understand our ASP implementation with the enumeration example.
+We now synthesize some key points to better make the reader understand our ASP implementation with the enumeration example.
 
 All information describing the studied model (PH and inferred IG \& parameters) can be expressed in ASP using facts.
 For functional purposes, we assign a unique label to each couple $A,B$ of activators and inhibitors of a given component, which allows to refer to the related parameter (in the following, we note $K^p_{a,A,B}$ the parameter of component $a$ whose regulators $A,B$ are assigned to the label $p$).
@@ -218,7 +220,7 @@ Hence, supposing that:
 \end{itemize}
 then the monotonicity assumption can be formulated as the following integrity constraint:
 \asp{:- less\_active(X, P, Q), not param\_inf(X, P, Q).}
-which removes all parametrization results where parameters $K^\aspil{P}_{\aspil{X},A,B}$ and $K^\aspil{Q}_{\aspil{X},A',B'}$ exist such that $A \subset A'$ and $K^\aspil{P}_{\aspil{X},A',B'} <_{[]} K^\aspil{Q}_{\aspil{X},A,B}$, thus violating the monotonicity assumption.
+which removes all parametrization results where parameters $K^\aspil{P}_{\aspil{X},A,B}$ and $K^\aspil{Q}_{\aspil{X},A',B'}$ exist such that $A \subset A'$ and $K^\aspil{Q}_{\aspil{X},A',B'} <_{[]} K^\aspil{P}_{\aspil{X},A,B}$, thus violating the monotonicity assumption.
 Of course, other assumptions can be formulated in the same way.
 
 This subsection succinctly described how we write ASP programs to represent a model and solve all steps of Thomas' modeling inference.

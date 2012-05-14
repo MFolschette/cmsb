@@ -28,8 +28,8 @@ is the set of positive (resp. negative) \emph{regulations} between two nodes, la
 
 A regulation from $a$ to $b$ is uniquely referenced:
 if $a \xrightarrow{t} b \in E_+$ (resp. $E_-$),
-$\nexists a \xrightarrow{t'} b \in E_+ \text{ (resp. $E_-$)}, t \neq t'$
-and $\nexists t', a \xrightarrow{t'} b \in E_-$ (resp. $E_+$).
+$\nexists a \xrightarrow{t'} b \in E_+ \text{ (resp. $E_-$)}, t' \neq t$
+and $\nexists a \xrightarrow{t'} b \in E_-\text{ (resp. $E_+$)}, t' \in \mathbb{N}$.
 \end{definition}
 
 \begin{definition}[Effective levels ($\levels$)]\label{def:levels}
@@ -136,8 +136,7 @@ For a given state $s$ of a BRN, we define the \emph{activators} $A$ and \emph{in
   A &= \{b \in \Gamma \mid \GRNget{s}{b} \in \levelsA{b}{a}\} \\
   B &= \{b \in \Gamma \mid \GRNget{s}{b} \in \levelsI{b}{a}\}
 \end{align*}
-We also denote $\GRNallres{a}$ the set of all possible configurations of resources of $a$:
-\[\GRNallres{a} = \{A,B \mid \exists s \in \textstyle\prod_{a \in \Gamma} [0;l_a], \GRNres{a}{s} = A,B\}\]
+We also denote: $\GRNallres{a} = \{(A;B) \mid \exists s \in \textstyle\prod_{a \in \Gamma} [0;l_a], \GRNres{a}{s} = A,B\}$
 \end{definition}
 
 %\begin{example*}

@@ -5,7 +5,7 @@ constraints on the parametrization rely on it.
 Inferring the IG is an abstraction step which consists in determining the global influence of
 components on each of its successors.
 
-This section introduces first the notion of focal processes within a PH
+This section first introduces the notion of focal processes within a PH
 (\pref{ssec:focal}) which is used to characterize well-formed PH for IG inference
 in \pref{ssec:wf}, and as well used by the parametrization inference presented in \pref{sec:infer-K}.
 Finally, the rules for inferring the interactions between components from a PH are
@@ -20,7 +20,7 @@ processes} w.r.t. a given context (a set of processes that are potentially prese
 When such a context applies, we expect to (always) reach one focal process in a bounded number of
 actions.
 
-For $S_a\subseteq L_a$ and a context (set of processes) $\sigma$, let us define as $\PHa(S_a,\ctx)$
+For $S_a\subseteq L_a$ and a context (set of processes) $\ctx$, let us define as $\PHa(S_a,\ctx)$
 the set of actions on the sort $a$ having their hitter in $\ctx$ and target in $S_a$
 (\pref{eq:PHa-ctx});
 and the digraph $(V, E)$ where arcs are the bounces within the sort $a$ triggered by actions
@@ -127,7 +127,7 @@ The inference of an IG from a PH assumes that the PH defines two types of sorts:
 the sorts corresponding to BRN components, and the cooperative sorts.
 This leads to the characterization of a \emph{well-formed} PH for IG inference.
 
-The identification of sorts modelling components rely on the observation that their processes
+The identification of sorts modeling components relies on the observation that their processes
 represent (ordered) qualitative levels.
 Hence an action on such a sort cannot make it bounce to a process at a distance more than one.
 The set of sorts satisfying such a condition is referred to as $\Gamma$
@@ -165,7 +165,7 @@ a\in\PHdirectpredec{\upsilon} \wedge a\neq \upsilon}}
 \focals(\upsilon,\PHl_\upsilon,\PHproc(\sigma)\cup \PHl_\upsilon) = \{ \upsilon(\sigma) \}\]
 \end{property}
 
-Such a property allows a large variety of definition of a cooperative sort, but
+Such a property allows a large variety of definitions of a cooperative sort, but
 for the sake of simplicity, does not allow the existence of multiple focal processes.
 While this may be easily extended to (the condition becomes 
 $\focals(\upsilon,\PHl_\upsilon, \PHproc(\sigma)\cup \PHl_\upsilon)\neq\emptyset$), it makes some
@@ -229,9 +229,9 @@ The predecessors of $a$ that are components are the regulators of $a$, denoted $
 \end{align}
 
 Given a set $g$ of components and a configuration (\ie a sub-state) $\sigma$, $\ctx_g(\sigma)$
-refers to the set of focal processes hitting $a$ regulated by any sort in $g$ (\pref{eq:ctx-sigma}).
+refers to the set of processes hitting $a$ regulated by any sort in $g$ (\pref{eq:ctx-sigma}).
 If $g=\{b\}$, we simple note $\ctx_b(\sigma)$.
-This set is composed of the active processes of sort in $g$, and the focal process (assumed
+This set is composed of the active processes of sorts in $g$, and the focal process (assumed
 unique) of the cooperative sorts $\upsilon$ hitting $a$ that have a predecessor in $g$.
 The evaluation of the focal process of $\upsilon$ in context $\sigma$, denoted $\upsilon(\sigma)$,
 relies on \pref{pro:wf-cooperative-sort}, which gives its value when all the direct predecessors of
@@ -257,7 +257,7 @@ We aim at inferring that $b$ activates (inhibits) $a$ if there exists a configur
 the level of $b$ makes possible the increase (decrease) of the level of $a$.
 This is analogous to standard IG inferences from discrete maps \cite{RiCo07}.
 
-This reasoning can be straightforwardly applied to PH when inferring the influence of $b$ for $a$
+This reasoning can be straightforwardly applied to a PH when inferring the influence of $b$ on $a$
 when $b\neq a$ (\pref{eq:edges-inference-b}).
 Let us define $\gamma(b\rightarrow a)$ as the set of components cooperating with $b$ to hit $a$,
 including $b$ and $a$ (\pref{eq:cooperating-with-b}).
@@ -270,7 +270,7 @@ If there exists $b_i,b_{i+1}\in L_b$ such that one bounce in
 $\focals(a, \{\sigma[a]\}, \ctx_b(\sigma\{b_i\}))$
 has a lower (resp. higher) level that one bounce in
 $\focals(a, \{\sigma[a]\}, \ctx_b(\sigma\{b_{i+1}\}))$, then
-$b$ as positive (resp. negative) influence on $a$ with a maximum threshold $l=j$.
+$b$ as positive (resp. negative) influence on $a$ with a maximum threshold $l=i+1$.
 \begin{equation}
 \gamma(b\rightarrow a)  \DEF \{ a, b \} \cup \{ c \in \Gamma \mid 
 			\exists \upsilon\in\PHs\setminus\Gamma,
@@ -296,7 +296,6 @@ In particular, in some cases, the use of intervals for Thomas' parameters drops 
 inferring a self-activation.
 %Future work may propose alternative definitions of self-influences inference in order to range over
 %different parametrization configurations.
-
 \begin{equation}
 X(a) = \mathcal C\left( (\PHpredecgene{a}, \{ \{b,c\} \mid
 				\exists \upsilon\in \PHdirectpredec{a} \setminus \Gamma,
