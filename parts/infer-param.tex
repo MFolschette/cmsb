@@ -186,7 +186,7 @@ For functional purposes, we assign a unique label to each couple $A,B$ of activa
 Consequently, to express that it exists a parameter of component \ti{a} with the label \ti{p}, we use an atom named \aspil{param\_label} in the following fact:
 \asp{param\_label(\ti{a}, \ti{p}).}
 
-Defining a set in ASP is equivalent to defining the rule for belonging to this set. For example, we can define an atom \aspil{param\_act} that describes the set of all active regulators for a parameter of gene \ti{a} and label \ti{p} (\ie the set $A$ of a parameter $K^\ti{p}_{\ti{a},A,B}$). For example, describing the activators of $K^\ti{p}_{\ti{a},\{\ti{b},\ti{c}\},\{\ti{d}\}}$ gives:
+Defining a set in ASP is equivalent to defining the rule for belonging to this set. For example, we can define an atom \aspil{param\_act} that describes the set of all active regulators for a parameter of component \ti{a} and label \ti{p} (\ie the set $A$ of a parameter $K^\ti{p}_{\ti{a},A,B}$). For example, describing the activators of $K^\ti{p}_{\ti{a},\{\ti{b},\ti{c}\},\{\ti{d}\}}$ gives:
 \asp{param\_act(\ti{a}, \ti{p}, \ti{b}).
 \item[] param\_act(\ti{a}, \ti{p}, \ti{c}).}
 The absence of such a fact involving \ti{d} with label \ti{p} indicates that \ti{d} is an inhibitor in the configuration of regulators related to this parameter.
