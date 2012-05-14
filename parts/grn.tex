@@ -43,10 +43,10 @@ Let $(\Gamma,E_+,E_-)$ be an IG and $a, b \in \Gamma$ two of its components:
 \end{itemize}
 \end{definition}
 
-For all component $a \in \Gamma$, we denote
+For all component $a \in \Gamma$, 
 $\GRNreg{a} \DEF \{ b\in\Gamma\mid \exists b\xrightarrow t a\in E_+\cup E_- \}$
-the set of its regulators.
-We allow any number of expression levels for the components, without considering the number of outgoing edges, in order to be as general as possible.
+is the set of its regulators.
+We allow any number of levels for the components, without considering the number of outgoing edges, in order to be as general as possible.
 %$E_+(a) = \{b \in \Gamma \mid \exists b \xrightarrow{t} a \in
 %E_+\}$ (resp. $E_-(a) = \{b \in \Gamma \mid \exists b \xrightarrow{t} a \in E_-\}$) denotes the set
 %of its positive (resp. negative) regulators; and
@@ -113,19 +113,18 @@ Indeed, for each possible state of a BRN, all regulators of a component $a$ can 
 \emph{activators} and \emph{inhibitors}, given their type of interaction and expression level,
 referred to as the \emph{resources} of $a$ in this state (\pref{def:resources}).
 
-While the extension of parameters to interval of values does not add expressivity for boolean
+While the use of intervals as parameters values does not add expressivity in boolean
 networks, it allows to specify a larger range of dynamics in the general case (w.r.t. to a fixed
 IG).
-Indeed, assuming a parameter assigned to an interval of three values, it is impossible to
-differentiate the three cases with the boolean definition of resources.
+Indeed, if a parameter is an interval of three values, it is impossible to
+split the three cases with the boolean definition of resources.
 
 
 \begin{definition}[Discrete parameter $K_{a,A,B}$ and Parametrization $K$]\label{def:param}
-For a given component $a \in \Gamma$ and $A$ (resp. $B$) $\subset \GRNreg{a}$ a set of activators (resp. inhibitors) of $a$ such that
-$A \cup B = \GRNreg{a}$ and $A \cap B = \emptyset$,
-we define the discrete \emph{parameter} $K_{a,A,B} = [i; j]$ as a non-empty interval towards which the component $a$ will tend
+For a given component $a \in \Gamma$ and $A$ (resp. $B$) $\subset \GRNreg{a}$ a set of its activators (resp. inhibitors) such that $A \cup B = \GRNreg{a}$ and $A \cap B = \emptyset$,
+the discrete \emph{parameter} $K_{a,A,B} = [i; j]$ is a non-empty interval towards which $a$ will tend
 in the states where its activators (resp. inhibitors) are the regulators in set $A$ (resp. $B$).
-A complete map $K$ of discrete parameters on an IG $\IG$ is called a \emph{parametrization} of $\IG$.
+The complete map $K$ of discrete parameters for $\IG$ is called a \emph{parametrization} of $\IG$.
 \end{definition}
 %A consequence of this definition is that $0 \leq i_1 \leq i_2 \leq l_a$.
 %We also denote: $j < K_{a,A,B} \Leftrightarrow j < i_1$ and $j > K_{a,A,B} \Leftrightarrow j> i_2$.
@@ -151,18 +150,18 @@ From a given state $s$, a transition to another state $s'$ is possible provided 
 Let $s$ be a state of a BRN using Thomas' parameters $(\IG, K)$ where $\IG = (\Gamma, E_+, E_-)$.
 The state that succeeds to $s$ is given by the indeterministic function $f(s)$:
 \begin{align*}
-  & f(s) = s' \Leftrightarrow \exists a \in \Gamma,
+  f(s)  & = s' \Leftrightarrow \exists a \in \Gamma,
     \GRNget{s'}{a} = f^a(s) \wedge
     \forall b \in \Gamma, b \neq a, \GRNget{s}{b} = \GRNget{s'}{b}
     \quad\text{, with}\\
-  & f^a(s) =
+  f^a(s) & =
   \begin{cases}
     \GRNget{s}{a} + 1 & \text{if } \GRNget{s}{a} < K_{a,A,B} \\% \GRNres{a}{s}} \\
     \GRNget{s}{a} & \text{if } \GRNget{s}{a} \in K_{a,A,B} \\ %\GRNres{a}{s}}\\
     \GRNget{s}{a} - 1 & \text{if } \GRNget{s}{a} > K_{a,A,B} % \GRNres{a}{s}}
   \end{cases}
+\text{, where $A,B=\GRNres{a}{s}$.}
 \end{align*}
-where $A,B=\GRNres{a}{s}$.
 \end{definition}
 
 \begin{example*}
