@@ -46,7 +46,8 @@ Let $(\Gamma,E_+,E_-)$ be an IG and $a, b \in \Gamma$ two of its components:
 For all component $a \in \Gamma$, 
 $\GRNreg{a} \DEF \{ b\in\Gamma\mid \exists b\xrightarrow t a\in E_+\cup E_- \}$
 is the set of its regulators.
-We allow any number of levels for the components, without considering the number of outgoing edges, in order to be as general as possible.
+We allow any number of levels for the components, without considering the number of outgoing edges,
+as the number of processes in a PH sort is not constrained in any way.
 %$E_+(a) = \{b \in \Gamma \mid \exists b \xrightarrow{t} a \in
 %E_+\}$ (resp. $E_-(a) = \{b \in \Gamma \mid \exists b \xrightarrow{t} a \in E_-\}$) denotes the set
 %of its positive (resp. negative) regulators; and
@@ -159,7 +160,7 @@ The state that succeeds to $s$ is given by the indeterministic function $f(s)$:
     \GRNget{s}{a} & \text{if } \GRNget{s}{a} \in K_{a,A,B} \\ %\GRNres{a}{s}}\\
     \GRNget{s}{a} - 1 & \text{if } \GRNget{s}{a} > K_{a,A,B} % \GRNres{a}{s}}
   \end{cases}
-\text{, where $A,B=\GRNres{a}{s}$.}
+\quad\text{, where $A,B=\GRNres{a}{s}$.}
 \end{align*}
 \end{definition}
 
