@@ -11,8 +11,9 @@ The \emph{parametrization} then specifies the levels to which tends a component 
 configuration of its regulators applies.
 
 The IG is composed of nodes that represent components, and edges labeled with a threshold that stand
-for either positive or negative interactions (\pref{def:ig}).
-For such an interaction to take place, the expression level of its head component has to be higher than its threshold; otherwise, the opposite influence is expressed.
+for either positive or negative regulations (\pref{def:ig}).
+For such a regulation to take place, the expression level of its head component has to be higher than its threshold; otherwise, the opposite influence is expressed.
+The uniqueness of these regulations makes the following sections simpler.
 %Therefore, for any component $b$, a predecessor $a$ of $b$ such that we have $a \xrightarrow{t} b$
 %can be either an activator or an inhibitor of $a$, according to the sign of the interaction and if the expression level of $b$ if above or below the threshold $t$.
 We call $\levelsA{a}{b}$ (resp. $\levelsI{a}{b}$) the levels of $a$ where it is an
@@ -169,6 +170,8 @@ In the BRN that consists of the IG and parametrization of \pref{fig:runningBRN},
 transitions are possible given the semantics defined in \pref{def:dynamics}:
 $\GRNetat{a_0, b_1, c_1} \rightarrow \GRNetat{a_1, b_1, c_1} \rightarrow \GRNetat{a_2, b_1, c_1} \rightarrow
 \GRNetat{a_2, b_0, c_1} \rightarrow \GRNetat{a_1, b_0, c_1}$,
+ending in a steady state,
 where $a_i$ is the component $a$ at level $i$.
+As $K_{b,\{a\},\emptyset} = [0 ; 1]$, no auto-regulation on $b$ is needed to prevent its evolution when $a$ is not at level $2$.
 \end{example*}
 
