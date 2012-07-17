@@ -1,7 +1,8 @@
 \subsection{Thomas' modeling}
 We concisely present the Thomas' modeling of BRNs dynamics, merely inspired by
 \cite{Richard06,BernotSemBRN}.
-We extend the classical formalism by setting parameters to interval of values instead of a single
+In order to enlarge the class of Thomas' models compatible with PH dynamics (w.r.t. the presented
+inference), we extend the classical formalism by setting parameters to interval of values instead of a single
 value, and briefly discuss this addition.
 
 Thomas' formalism lies on two complementary descriptions of the system. First, the
@@ -114,12 +115,6 @@ Indeed, for each possible state of a BRN, all regulators of a component $a$ can 
 \emph{activators} and \emph{inhibitors}, given their type of interaction and expression level,
 referred to as the \emph{resources} of $a$ in this state (\pref{def:resources}).
 
-While the use of intervals as parameters values does not add expressivity in boolean
-networks, it allows to specify a larger range of dynamics in the general case (w.r.t. to a fixed
-IG).
-Indeed, if a parameter is an interval of three values, it is impossible to
-split the three cases with the boolean definition of resources.
-
 
 \begin{definition}[Discrete parameter $K_{a,A,B}$ and Parametrization $K$]\label{def:param}
 For a given component $a \in \Gamma$ and $A$ (resp. $B$) $\subset \GRNreg{a}$ a set of its activators (resp. inhibitors) such that $A \cup B = \GRNreg{a}$ and $A \cap B = \emptyset$,
@@ -163,6 +158,18 @@ The state that succeeds to $s$ is given by the indeterministic function $f(s)$:
 \quad\text{, where $A,B=\GRNres{a}{s}$.}
 \end{align*}
 \end{definition}
+
+While the use of intervals as parameter values does not add expressivity in boolean
+networks, it allows to specify a larger range of dynamics in the general case (w.r.t. the above
+definitions).
+Indeed, assume that $K_{a,A,B} = \{i_1,i_2,i_3\}$ (where $i_1,i_2,i_3$ are consecutive values);
+we look for obtaining three different parameters $K_{a,A_1,B_1} = i_1$,  $K_{a,A_2,B_2} = i_2$, 
+$K_{a,A_3,B_3} = i_3$.
+The only possible modification in resources is to add $a$ as a self-regulator.
+However, because resources have a boolean definition (a component is either an activator or an inhibitor of
+$a$), it is not possible to differentiate the 3 values.
+We also remark that the use of intervals makes optional the some explicit auto-activations in the IG
+(as for $b$ in \pref{fig:runningBRN}, for instance).
 
 \begin{example*}
 In the BRN that consists of the IG and parametrization of \pref{fig:runningBRN}, the following
