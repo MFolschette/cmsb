@@ -2,8 +2,8 @@
 We concisely present the Thomas' modeling of BRNs dynamics, merely inspired by
 \cite{Richard06,BernotSemBRN}.
 In order to enlarge the class of Thomas' models compatible with PH dynamics (w.r.t. the presented
-inference), we extend the classical formalism by setting parameters to interval of values instead of a single
-value, and briefly discuss this addition.
+inference), we extend the classical formalism by setting parameters to intervals of values instead of single
+values, and briefly discuss this addition.
 
 Thomas' formalism lies on two complementary descriptions of the system. First, the
 \emph{Interaction Graph} (IG) models the structure of the system by defining the components'
@@ -164,12 +164,12 @@ While the use of intervals as parameter values does not add expressivity in bool
 networks, it allows to specify a larger range of dynamics in the general case (w.r.t. the above
 definitions).
 Indeed, assume that $K_{a,A,B} = \{i_1,i_2,i_3\}$ (where $i_1,i_2,i_3$ are consecutive values);
-we look for obtaining three different parameters $K_{a,A_1,B_1} = i_1$,  $K_{a,A_2,B_2} = i_2$, 
+we aim at obtaining three different parameters $K_{a,A_1,B_1} = i_1$,  $K_{a,A_2,B_2} = i_2$,
 $K_{a,A_3,B_3} = i_3$.
 The only possible modification in resources is to add $a$ as a self-regulator.
 However, because resources have a boolean definition (a component is either an activator or an inhibitor of
 $a$), it is not possible to differentiate the 3 values.
-We also remark that the use of intervals makes optional the some explicit auto-activations in the IG
+We also remark that the use of intervals makes optional some explicit auto-activations in the IG
 (as for $b$ in \pref{fig:runningBRN}, for instance).
 
 \begin{example*}
