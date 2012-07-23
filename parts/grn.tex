@@ -163,9 +163,9 @@ The state that succeeds to $s$ is given by the indeterministic function $f(s)$:
 While the use of intervals as parameter values does not add expressivity in boolean
 networks, it allows to specify a larger range of dynamics in the general case (w.r.t. the above
 definitions).
-Indeed, assume that $K_{a,A,B} = \{i_1,i_2,i_3\}$ (where $i_1,i_2,i_3$ are consecutive values);
-we aim at obtaining three different parameters $K_{a,A_1,B_1} = i_1$,  $K_{a,A_2,B_2} = i_2$,
-$K_{a,A_3,B_3} = i_3$.
+Indeed, assume that $K_{a,A,B} = [i ; i+2]$;
+we aim at obtaining three different parameters $K_{a,A_1,B_1} = i$,  $K_{a,A_2,B_2} = i+1$,
+$K_{a,A_3,B_3} = i+2$.
 The only possible modification in resources is to add $a$ as a self-regulator.
 However, because resources have a boolean definition (a component is either an activator or an inhibitor of
 $a$), it is not possible to differentiate the 3 values.
